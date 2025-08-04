@@ -1,0 +1,654 @@
+# Semantic String Resource
+# 2025.04.08
+
+stCircleMarker:
+  ch: "圆环标记"
+  en: "Circle Marker"
+stCursorColor:
+  ch: "光标颜色"
+  en: "Cursor Color"
+stCurveColor:
+  ch: "曲线颜色"
+  en: "Curve Color"
+stCurveStyle:
+  ch: "曲线样式"
+  en: "Curve Style"
+stLine:
+  ch: "线"
+  en: "Line"
+stPinner:
+  ch: "点"
+  en: "Point"
+stPrintPreview:
+  ch: "打印预览"
+  en: "Print Preview"
+stExportAs:
+  ch: "导出为"
+  en: "Export As"
+stBasicInfoForReport:
+  ch: "基本信息确认"
+  en: "Verify Basic Details"
+stConfirmInputInfos:
+  ch: "是否确认提交信息？"
+  en: "Confirm to submit the information?"
+stPageDirection:
+  ch: "纸张方向"
+  en: "Direction"
+stLandscape:
+  ch: "横向"
+  en: "Landscape"
+stPortrait:
+  ch: "纵向"
+  en: "Portrait"
+stNotAscendingTimeSeq:
+  ch: "检测到表数据未按时间升序排序，是否继续？"
+  en: "Data is not time-ascending. Proceed regardless?"
+stReturn:
+  en: "Back"
+  ch: "返回"
+stContinue:
+  en: "Continue"
+  ch: "继续"
+stAnalyzeTabularsInSpace:
+  en: "Tabular Data Analysis"
+  ch: "表数据分析"
+stSureToAnalyze:
+  en: "Confirm statistical analysis on the selected data?"
+  ch: "是否确认对所选数据进行统计分析？"
+stStatisticalAnalysis:
+  en: "Statistical Analysis"
+  ch: "统计分析"
+stAutoTightCanvas:
+  en: "Tight Canvas"
+  ch: "调整画布"
+stIndividualValues:
+  en: "Individual Values"
+  ch: "单值"
+stMovingRanges:
+  en: "Moving Ranges"
+  ch: "移动极差"
+stMovingRangesChart:
+  en: "Rm Chart"
+  ch: "Rm图"
+stXControlChart:
+  en: "X Chart"
+  ch: "X图"
+stRControlChart:
+  en: "R Chart"
+  ch: "R图"
+stSubgroupRanges:
+  ch: "子组极差"
+  en: "Subgroup Ranges"
+stXBarControlChart:
+  en: "X-bar Chart"
+  ch: "X-bar图"
+stSubgroupMeans:
+  ch: "子组均值"
+  en: "Subgroup Means"
+stNormQQPlot:
+  ch: "Q-Q图"
+  en: "Normal Q-Q Plot"
+stDistributionHistogram:
+  ch: "直方分布图"
+  en: "Distribution Hist."
+stOptManageSpecimens:
+  ch: "样品管理"
+  en: "Manage Specimens"
+stManageSpecimens:
+  ch: "样品管理"
+  en: "Specimens"
+stSpecimenAlreadyExist:
+  ch: "该样品已被注册"
+  en: "This specimen has been registered"
+stSpecimenNameNotValid:
+  ch: "样品名不可为空"
+  en: "Specimen name must be valid"
+stSpecimenTestMethod:
+  ch: "试验方案"
+  en: "Test Config"
+stTestHistory:
+  ch: "试验历史"
+  en: "Testing History"
+stSpecimenClassify:
+  ch: "样品类别"
+  en: "Classification"
+stNotMatchExRtData:
+  ch: "数据不符合Edx文件要求"
+  en: "Data invalid for Edx file."
+stTabsAllEmpty:
+  ch: "所选数据表均为空表！"
+  en: "All selected tabulars are empty!"
+stPlotTabSpaceCurves:
+  ch: "绘制表数据曲线"
+  en: "Plot Tabular As Curves"
+stPlotCurves:
+  ch: "绘制曲线"
+  en: "Plot Curves"
+stSureToPlot:
+  ch: "是否绘制所选列数据？"
+  en: "Confirm to plot?"
+stSortTabular:
+  ch: "表数据排序"
+  en: "Sorting Tabular"
+stTabHasBeenSorted:
+  ch: "已完成排序"
+  en: "has been sorted"
+stSortingSucceed:
+  ch: "表数据排序成功"
+  en: "Tabular sorting succeed"
+stSureToSortTabular:
+  ch: "是否按照所选列进行排序？"
+  en: "Confirm the sorting?"
+stConvertUnit:
+  ch: "切换单位"
+  en: "Unit Conversion"
+stUnitHasBeenConverted:
+  ch: "单位已换算"
+  en: "has converted units"
+stConversionSucceed:
+  ch: "表数据单位换算成功"
+  en: "Unit conversion succeed"
+stIsComfirmToConvert:
+  ch: "是否确认换算单位？"
+  en: "Confirm the unit conversion?"
+stOptManageAccounts:
+  ch: "人员管理"
+  en: "Manage Accounts"
+stManageAccounts:
+  ch: "人员管理"
+  en: "Accounts"
+stTabular:
+  ch: "表数据"
+  en: "Tabular"
+stRequire:
+  ch: "询问"
+  en: "Require"
+stError:
+  ch: "错误"
+  en: "Error"
+stClose:
+  ch: "关闭"
+  en: "Close"
+stCancel:
+  ch: "取消"
+  en: "Cancel"
+stExportFigToReport:
+  ch: "导出图像为报告"
+  en: "Export As Report"
+stMergeTabulars:
+  ch: "合并表数据"
+  en: "Merge Tabulars"
+stViewTabularSpace:
+  ch: "浏览表数据空间"
+  en: "View Tabulars"
+stViewFigureSpace:
+  ch: "浏览图像空间"
+  en: "View Figures"
+stDataQuery:
+  ch: "数据查询"
+  en: "Data Query"
+stTabularSpace:
+  ch: "表数据空间"
+  en: "Tabular Space"
+stFigureSpace:
+  ch: "图像空间"
+  en: "Figure Space"
+stGlobalUnitSetting:
+  ch: "单位设置"
+  en: "Measurement Units"
+stGlobalLanguageSetting:
+  ch: "语言设置"
+  en: "System Language"
+stWorkspace:
+  ch: "工作区管理"
+  en: "Workspace"
+stGlobalSettings:
+  ch: "全局设置"
+  en: "Settings"
+stQueryConditionSetup:
+  ch: "查询条件设定"
+  en: "Query Condition Setup"
+stEmptyTabular:
+  ch: "数据表无内容"
+  en: "This is an empty table."
+stFindDataInTotal:
+  ch: "共找到数据"
+  en: "Found data rows"
+stUnexpectedFileType:
+  ch: "未知的文件导出类型"
+  en: "Unexpected file type."
+stExportFailed:
+  ch: "导出失败！"
+  en: "Failed to export!"
+stTooManyDatas:
+  ch: "数据量过多！建议通过Excel或EDX文件格式导出"
+  en: "Data volume too large! Please export via Excel (.xlsx) or EDX file format."
+stSucceed:
+  ch: "成功"
+  en: "Succeed"
+stAlreadyExportToFile:
+  ch: "已导出至文件"
+  en: "Exported to file:"
+stCopyToWorkspace:
+  ch: "存至工作区"
+  en: "To Workspace"
+stExportToFile:
+  ch: "导出到文件"
+  en: "To File"
+stFetchAll:
+  ch: "查询全部"
+  en: "Fetch All"
+stFilterQuery:
+  ch: "条件查询"
+  en: "Filter Query"
+stAbbrFrequency:
+  ch: "频率"
+  en: "Freq."
+stAbbrStrainDegree:
+  ch: "应变角"
+  en: "S.D."
+stAbbrCondition:
+  ch: "条件"
+  en: "Cond."
+stAboveMold:
+  ch: "上模"
+  en: "Above"
+stBelowMold:
+  ch: "下模"
+  en: "Below"
+stBaseInfo:
+  ch: "信息"
+  en: "Info."
+stTimeCondition:
+  ch: "时间条件"
+  en: "Time Condition"
+stAtDate:
+  ch: "选定日期"
+  en: "At Date"
+stTimeRange:
+  ch: "时间范围"
+  en: "Time Range"
+stDateRange:
+  ch: "日期范围"
+  en: "Date Range"
+stAt:
+  ch: "于"
+  en: "at"
+stFrom:
+  ch: "从"
+  en: "from"
+stTo:
+  ch: "至"
+  en: "to"
+stEnd:
+  ch: "终止"
+  en: "End"
+stStart:
+  ch: "起始"
+  en: "Start"
+stDate:
+  ch: "日期"
+  en: "Date"
+stYear:
+  ch: "年"
+  en: "Year"
+stMonth:
+  ch: "月"
+  en: "Month"
+stDay:
+  ch: "日"
+  en: "Day"
+stHour:
+  ch: "时"
+  en: "Hour"
+stMinute:
+  ch: "分"
+  en: "Minute"
+stSecond:
+  ch: "秒"
+  en: "Second"
+stCombine:
+  ch: "合并"
+  en: "Merge"
+stConfirmCombineTabular:
+  ch: "是否确认合并？"
+  en: "Are you sure to merge these tables?"
+stCombineTabulars:
+  ch: "合并工作区数据"
+  en: "Merge Workspace Tables"
+stClearTabularSpace:
+  ch: "清理数据工作区"
+  en: "Clear Tabular Space"
+stFetchTabularFromSpace:
+  ch: "加载工作区数据"
+  en: "Load Workspace Tables"
+stTabularSpaceViewer:
+  ch: "工作区数据"
+  en: "Workspace Tables"
+stCacheTabularToWorkspace:
+  ch: "缓存数据到工作区"
+  en: "Cache Table To Workspace"
+stRowsMulColumns:
+  ch: "行×列"
+  en: "R×C"
+stTabularSize:
+  ch: "数据尺寸"
+  en: "Table size"
+stHasBeenRestored:
+  ch: "已被恢复"
+  en: "has been restored"
+stIsSureToDelete:
+  ch: "是否确认删除？"
+  en: "Are you sure to delete?"
+stLabelIsEmpty:
+  ch: "输入为空！"
+  en: "Empty input!"
+stLabelAlreadyExist:
+  ch: "该名称已被占用"
+  en: "This name has been used."
+stOkConfirm:
+  ch: "确认"
+  en: "OK"
+stItemsCount:
+  ch: "总计"
+  en: "Total"
+stFigureSpaceViewer:
+  ch: "工作区图像"
+  en: "Workspace Figures"
+stHasBeenRenamed:
+  ch: "已被变更命名"
+  en: "has been renamed."
+stHasBeenRenamedToNew:
+  ch: "已被变更命名为"
+  en: "has been renamed to"
+stHasBeenDeleted:
+  ch: "已被删除"
+  en: "has been deleted."
+stAlreadySelected:
+  ch: "已选择"
+  en: "Already Selected"
+stUnselected:
+  ch: "未作出选择！"
+  en: "No item has been selected!"
+stConfirm:
+  ch: "确认"
+  en: "Confirm"
+stCacheFigureToWorkspace:
+  ch: "缓存图像到工作区"
+  en: "Cache Figure To Workspace"
+stNaming:
+  ch: "命名"
+  en: "Naming"
+stConfirmFetch:
+  ch: "是否确认加载所选项？"
+  en: "Load these items?"
+stRemind:
+  ch: "提示"
+  en: "Remind"
+stFetch:
+  ch: "加载"
+  en: "Load"
+stFetchFigureFromSpace:
+  ch: "加载工作区图像"
+  en: "Load Workspace Figures"
+stClearFigureSpace:
+  ch: "清理图像工作区"
+  en: "Clear Figure Space"
+stWarning:
+  ch: "警告"
+  en: "Warning"
+stConfirmRemove:
+  ch: "是否确认清理？该操作无法撤回"
+  en: "Remove these items? This action cannot be undone."
+stRemove:
+  ch: "清理"
+  en: "Remove"
+stRate:
+  ch: "速率"
+  en: "Rate"
+stTorque:
+  ch: "扭矩"
+  en: "Torque"
+stLength:
+  ch: "长度"
+  en: "Length"
+stUnitless:
+  ch: "无量纲"
+  en: "Unitless"
+stCureTestCondition:
+  ch: "试验条件"
+  en: "Test Condition"
+stCureTestNumber:
+  ch: "车次"
+  en: "Test No."
+stElasticTorque:
+  ch: "弹性扭矩"
+  en: "Elastic Torque"
+stViscousTorque:
+  ch: "粘性扭矩"
+  en: "Viscous Torque"
+stComplexTorque:
+  ch: "复合扭矩"
+  en: "Complex Torque"
+stCureRate:
+  ch: "硫化速率"
+  en: "Cure Rate"
+stElasticModulus:
+  ch: "弹性模量"
+  en: "Elastic Modulus"
+stViscousModulus:
+  ch: "粘性模量"
+  en: "Viscous Modulus"
+stComplexModulus:
+  ch: "复合模量"
+  en: "Complex Modulus"
+stLossTangent:
+  ch: "损耗角正切"
+  en: "Loss Tangent"
+stLeftBracket:
+  ch: "（"
+  en: "("
+stRightBracket:
+  ch: "）"
+  en: ")"
+stChinese:
+  ch: "中文"
+  en: "Chinese"
+stEnglish:
+  ch: "英文"
+  en: "English"
+stInfomation:
+  ch: "提示"
+  en: "Infomation"
+stFigure:
+  ch: "图像"
+  en: "Figure"
+stExportFigure:
+  ch: "导出图像"
+  en: "Export Figure"
+stSelectAll:
+  ch: "全选"
+  en: "Select-All"
+stCureTestDate:
+  ch: "试验日期"
+  en: "Date"
+stCureTestTime:
+  ch: "试验时间"
+  en: "Time"
+stCureTestStandard:
+  ch: "试验标准"
+  en: "Standard"
+stCureTestSpecimen:
+  ch: "送检样品"
+  en: "Specimen"
+stSubmittingClient:
+  ch: "送检单位"
+  en: "Client"
+stCureTestOperator:
+  ch: "试验人员"
+  en: "Operator"
+stIsQualified:
+  ch: "是否合格"
+  en: "Qualification"
+stCureTestReport:
+  ch: "试验报告"
+  en: "Report"
+stCureTestProcess:
+  ch: "试验过程"
+  en: "Cure Test Process"
+stLanguageSetting:
+  ch: "语言设置"
+  en: "System Language Setting"
+stExportReport:
+  ch: "导出报告"
+  en: "Export Report"
+stLanguage:
+  ch: "语言"
+  en: "Language"
+stYes:
+  ch: "是"
+  en: "Yes"
+stNo:
+  ch: "否"
+  en: "No"
+stLogin:
+  ch: "登录"
+  en: "Login"
+stSignUp:
+  ch: "新用户注册"
+  en: "Sign Up"
+stTemperaturePreparation:
+  ch: "温度准备"
+  en: "Ready Temperature"
+stFrequencySweep:
+  ch: "频率扫描"
+  en: "Frequency Sweep"
+stStrainSweep:
+  ch: "应力扫描"
+  en: "Strain Sweep"
+stTemperatureSweep:
+  ch: "温度扫描"
+  en: "Temperature Sweep"
+stSulfurizationTest:
+  ch: "硫化测试"
+  en: "Cure"
+stStressRelaxation:
+  ch: "应力松弛"
+  en: "Stress Relaxation"
+stTemperatureAnalysis:
+  ch: "变温分析"
+  en: "Variable Temp. Analysis"
+stTimed:
+  ch: "定时"
+  en: "Timed"
+stPreheating:
+  ch: "预热"
+  en: "Preheating"
+stDelay:
+  ch: "延时"
+  en: "Delay"
+stCombinedSweep:
+  ch: "组合扫描"
+  en: "Matrix"
+stSubtestType:
+  ch: "子测试类型"
+  en: "Type"
+stDuration:
+  ch: "时间"
+  en: "Duration"
+stFrequency:
+  ch: "频率"
+  en: "Frequency"
+stPressure:
+  ch: "压强"
+  en: "Pressure"
+stStrain:
+  ch: "应变"
+  en: "Strain"
+stBasicUnitsSetting:
+  ch: "单位设置"
+  en: "Basic Units Setting"
+stAboveTemperature:
+  ch: "上模温度"
+  en: "Above Temp."
+stBelowTemperature:
+  ch: "下模温度"
+  en: "Below Temp."
+stStrainDegree:
+  ch: "应变角度"
+  en: "Strain Degree"
+stUser:
+  ch: "用户"
+  en: "User"
+stUserName:
+  ch: "用户名"
+  en: "Name"
+stUserId:
+  ch: "用户ID"
+  en: "UID"
+stPassword:
+  ch: "密码"
+  en: "Password"
+stTime:
+  ch: "时间"
+  en: "Time"
+stDegree:
+  ch: "角度"
+  en: "Degree"
+stForce:
+  ch: "力"
+  en: "Force"
+stTemperature:
+  ch: "温度"
+  en: "Temperature"
+stAbbrTemperature:
+  ch: "温度"
+  en: "Temp."
+stRole:
+  ch: "角色"
+  en: "Role"
+stCreateFile:
+  ch: "新建"
+  en: "New"
+stOpenFile:
+  ch: "打开"
+  en: "Open"
+stLabelMessageBoxTitle:
+  ch: "消息"
+  en: "Label Messagebox"
+stImageInsertFailed:
+  ch: "图像加载失败!"
+  en: "Error: image-loading failed!"
+stErrorInfo:
+  ch: "发生错误...原因: "
+  en: "An error occurred...Caused by: "
+stPasswordNotMacth:
+  ch: "密码错误！"
+  en: "Password error!"
+stUidEmptyError:
+  ch: "用户ID不可为空！"
+  en: "User ID should be not empty!"
+stUidAlreadyExist:
+  ch: "该用户ID已存在！"
+  en: "The user ID is already exist!"
+stNameEmptyError:
+  ch: "用户名不可为空！"
+  en: "Name should be not empty!"
+stRoleValidError:
+  ch: "需选择有效的角色！"
+  en: "Role should be valid!"
+stUidNotExist:
+  ch: "用户ID不存在！"
+  en: "User ID does not exist!"
+stSubtestTypeError:
+  ch: "子测试类型无效！"
+  en: "Subtest type is invalid!"
+stPasswordCharError:
+  ch: "密码仅允许大小写字母、数字和特殊字符！"
+  en: "Password must contain only letters, numbers, and special characters."
+stPasswordL8Error:
+  ch: "密码应不少于-8-位！"
+  en: "Password must be at least 8 characters!"
+stFileOccupied:
+  ch: "目标文件被其他程序占用"
+  en: "The target file is in use by another process."
