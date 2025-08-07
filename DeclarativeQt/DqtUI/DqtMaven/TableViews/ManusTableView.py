@@ -4,7 +4,7 @@ from typing import Callable, Union, Dict, List, Optional, Iterable
 from PyQt5.QtCore import QSize, Qt, QPoint
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, Trigger, Run, InputRequest, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, Trigger, Run, InputRequest, ReferState, RState
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import SeqToRemember, ValToRemember, Execute
 from DeclarativeQt.DqtUI.DqtLayouts.Layout import Column, Row
@@ -21,7 +21,7 @@ from DeclarativeQt.DqtUI.DqtMaven.TextFields.BorderedTextField import TextFieldS
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.DataEditor.DataEditor import DataEditor
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
 from DeclarativeQt.Resource.Colors.RColor import RColor
-from DeclarativeQt.Resource.Grammars.RGrammar import GList, Validate, LambdaList, FixListLength, SumNestedList, \
+from DeclarativeQt.Resource.Grammars.RGrammar import GList, Validate, ReferList, FixListLength, SumNestedList, \
     Key, DictData, Equal, GTuple, inRange, KeywordArgs, AnyArgs, EnumList, isEmpty, ConditionList, LimitVal
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutPixel
@@ -72,7 +72,7 @@ class ManusTableView(Column):
         size = Validate(size, QSize(self.DefaultSize))
         dataModel = SeqToRemember(dataModel)
         if fields is None:
-            fields = LambdaRemember(dataModel, lambdaExp=lambda a0: ColoredTableView.deriveMockFields(a0))
+            fields = ReferState(dataModel, lambdaExp=lambda a0: ColoredTableView.deriveMockFields(a0))
         fields = ValToRemember(fields)
         buttonSize = Validate(buttonSize, QSize(30, 30))
         adjustTableTrig = Trigger()
@@ -86,13 +86,13 @@ class ManusTableView(Column):
         areaSelection = ValToRemember(areaSelection)
         validateRow = lambda row: LimitVal(row, int(0), finalRow())
         currentRow = lambda: cellSelection.value().x()
-        currentRows = lambda: list(set(LambdaList(areaSelection.value(), lambda a0: a0.x())))
-        aboveRows = lambda: LambdaList(currentRows(), lambda a0: a0 - int(1))
+        currentRows = lambda: list(set(ReferList(areaSelection.value(), lambda a0: a0.x())))
+        aboveRows = lambda: ReferList(currentRows(), lambda a0: a0 - int(1))
         nextRow = lambda: cellSelection.value().x() + int(1)
-        nextRows = lambda: LambdaList(currentRows(), lambda a0: a0 + int(1))
+        nextRows = lambda: ReferList(currentRows(), lambda a0: a0 + int(1))
         finalRow = lambda: len(dataModel.value()) - int(1)
         anchorAtRow = lambda row: cellSelection.setValue(QPoint(validateRow(row), int(0)))
-        anchorAtRows = lambda rows: areaSelection.setValue(LambdaList(rows, lambda a0: QPoint(a0, int(0))))
+        anchorAtRows = lambda rows: areaSelection.setValue(ReferList(rows, lambda a0: QPoint(a0, int(0))))
         tooManyRows = lambda: not isEmpty(areaSelection.value()) and len(currentRows()) > self.MaxLocateRows
         locateRows = lambda: locateRowTrig.trig() if tooManyRows() else locateRowsTrig.trig()
         super().__init__(
@@ -154,7 +154,7 @@ class ManusTableView(Column):
                         IconButton(
                             icon=RIcon().loadIconPixmap(RIcon.Src.add_circle),
                             size=buttonSize,
-                            enable=LambdaRemember(
+                            enable=ReferState(
                                 fields, lambdaExp=lambda a0: False if isEmpty(a0) else True
                             ),
                             fixedRadiusRatio=buttonRadiusRatio,
@@ -491,7 +491,7 @@ class ManusTableView(Column):
                             spacing=int(10),
                             arrangement=Column.Align.Top,
                             content=SumNestedList(
-                                LambdaList(
+                                ReferList(
                                     range(count), lambda i: GList(
                                         Row(
                                             autoContentResize=True,
@@ -540,5 +540,5 @@ class ManusTableView(Column):
         )
         if Equal(result, Dialog.Accepted):
             dataWash = lambda x: x.strip() if isinstance(x, str) else x
-            return LambdaList(Remember.getListValue(datas), dataWash)
+            return ReferList(Remember.getListValue(datas), dataWash)
         return None

@@ -12,7 +12,7 @@ from DeclarativeQt.DqtCore.DqtStyle.DqtStyleEditor import DqtStyleEditor
 from DeclarativeQt.DqtUI.DqtTools.Scroller import ScrollerStyle
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
-from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, Validate, LambdaList, Equal, ExecMethod
+from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, Validate, ReferList, Equal, ExecMethod
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 
 
@@ -128,7 +128,7 @@ class MatchSubstrDelegate(QStyledItemDelegate):
         match_end = match_start + len(input_text)
         font = self.font
         charWidth = lambda it: int(QFontMetrics(font).horizontalAdvance(it) * self.TextDrawRectRemainRatio)
-        char_widths = LambdaList(text, charWidth)
+        char_widths = ReferList(text, charWidth)
         matched_x = option.rect.x() + sum(char_widths[:match_start])
         matched_width = sum(char_widths[match_start:match_end])
         matched_area = QRect(matched_x, option.rect.y(), matched_width, option.rect.height())

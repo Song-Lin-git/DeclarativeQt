@@ -5,7 +5,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
 
 from DeclarativeQt.DqtCore.DqtCanvas.DqtAlign import DqtAlign
-from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, LambdaList, DataBox, JoinLists, GList, \
+from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, ReferList, DataBox, JoinLists, GList, \
     SumNestedList, Validate, LimitVal
 from DeclarativeQt.Resource.Images.RImage import RImage
 
@@ -124,14 +124,14 @@ def linearContentLayout(
         return None
     if isHorizontal:
         canvas_line: int = canvas.width()
-        content_lines: list = LambdaList(contents, lambda x: x.width())
+        content_lines: list = ReferList(contents, lambda x: x.width())
         canvas_cross: int = canvas.height()
-        content_crosses: list = LambdaList(contents, lambda x: x.height())
+        content_crosses: list = ReferList(contents, lambda x: x.height())
     else:
         canvas_line: int = canvas.height()
-        content_lines: list = LambdaList(contents, lambda x: x.height())
+        content_lines: list = ReferList(contents, lambda x: x.height())
         canvas_cross: int = canvas.width()
-        content_crosses: list = LambdaList(contents, lambda x: x.width())
+        content_crosses: list = ReferList(contents, lambda x: x.width())
     contentPosition = DataBox(calcLinearLayoutContentPosition(
         canvas_line, content_lines, canvas_cross, content_crosses,
         spacing=spacing, linePadding=linePadding, crossPadding=crossPadding,
@@ -159,7 +159,7 @@ def calcUniformDistribute(space: int, items: int):
     group_count = r_count + 1
     bt = l_count // group_count
     pt = l_count % group_count
-    return SumNestedList(LambdaList(range(group_count), lambda i: JoinLists(
+    return SumNestedList(ReferList(range(group_count), lambda i: JoinLists(
         RepeatList(l_value, bt + 1 if i < pt else bt), GList(r_value)
     )))[:-1]
 
@@ -190,4 +190,4 @@ def calcLinearLayoutContentPosition(
             front_padding: int = int(line_blank / 2)
     linePosition: Callable = lambda idx: int(front_padding + sum(contentLines[:idx]) + sum(content_spacings[:idx]))
     contentPosition: Callable = lambda idx: QPoint(linePosition(idx), crossPosition(idx))
-    return LambdaList(range(content_count), contentPosition)
+    return ReferList(range(content_count), contentPosition)

@@ -4,7 +4,7 @@ from typing import Dict, Any, Callable
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import RState, Remember, LambdaRemember
+from DeclarativeQt.DqtCore.DqtBase import RState, Remember, ReferState
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyleEditor import DqtStyleEditor
 from DeclarativeQt.DqtUI.DqtMaven.Sliders.BaseSlider.Slider import Slider
@@ -71,7 +71,7 @@ class SliderStyle(DqtStyleEditor):
         themeColor = Validate(themeHexColor, RColor.hexMistyHarborBlue)
         hoverDarkerFactor = int(self.HoverColorDarkerRatio * self.ColorDarkerFactor)
         pressedDarkerFactor = int(self.PressedColorDarkerRatio * self.ColorDarkerFactor)
-        darkerColorState = lambda factor: DataBox(LambdaRemember(
+        darkerColorState = lambda factor: DataBox(ReferState(
             themeColor, lambdaExp=lambda a0:
             RColor.qColorToHexCode(RColor.hexCodeToQColor(a0).darker(factor))
         )).data

@@ -5,7 +5,7 @@ from typing import List, Callable, Dict, Any
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BaseTextField.TextField import CompleterMethod
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BorderedTextField import BorderedTextField, \
@@ -104,7 +104,7 @@ class DataEditor(BorderedTextField):
         unfocusedBorderExp = lambda a0: warningBorder if not a0 else RColor.hexDarkGrey
         focusedBackgroundExp = lambda a0: warningBackground if not a0 else DataEditor.FocusedBackgroundColor
         unfocusedBackgroundExp = lambda a0: warningBackground if not a0 else RColor.hexWhite
-        status = LambdaRemember
+        status = ReferState
         for key, val in DictData(
                 Key(styleEditor.focusedBorder).Val(status(checkMark, lambdaExp=focusedBorderExp)),
                 Key(styleEditor.unfocusedBorder).Val(status(checkMark, lambdaExp=unfocusedBorderExp)),

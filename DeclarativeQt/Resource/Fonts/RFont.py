@@ -10,7 +10,7 @@ from DeclarativeQt.Resource.FileTypes.RFileType import RFileType, FileType, File
 from DeclarativeQt.Resource.Fonts.FontBase import FontBase
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import GIters, ConditionList, \
-    SumNestedList, LambdaList, isEmpty, DictData, Key, Validate
+    SumNestedList, ReferList, isEmpty, DictData, Key, Validate
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmBase import DataBox
 from DeclarativeQt.Resource.Strings.RString import Symbol, RString
 from DeclarativeQt.Storage.RStorage import RStorage
@@ -79,7 +79,7 @@ class RFont:
 
     def cacheTTFont(self, fontName: FontName) -> Union[FilePath, None]:
         font_file = self.getFontFileName(fontName)
-        font_paths = DataBox(LambdaList(GIters(self._ttf, self._ttc), lambda font_ext: ConditionList(
+        font_paths = DataBox(ReferList(GIters(self._ttf, self._ttc), lambda font_ext: ConditionList(
             fm.findSystemFonts(fontpaths=None, fontext=font_ext), lambda file: font_file in file.lower()
         ))).data
         font_paths = SumNestedList(font_paths)

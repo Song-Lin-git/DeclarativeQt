@@ -9,7 +9,7 @@ from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import StringSTox, BoolSTox, SeqT
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.CheckBoxes.IconCheckBox import IconCheckBox, CheckBoxStyle
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, FixListLength, LambdaList, inRange
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, FixListLength, ReferList, inRange
 
 
 class OneHotCheckBoxGroup(LinearLayout):
@@ -49,7 +49,7 @@ class OneHotCheckBoxGroup(LinearLayout):
             linePadding=linePadding,
             crossPadding=crossPadding,
             style=style,
-            content=LambdaList(
+            content=ReferList(
                 range(count), lambda i:
                 IconCheckBox(
                     size=checkBoxSize,

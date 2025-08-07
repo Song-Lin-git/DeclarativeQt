@@ -10,7 +10,7 @@ from DeclarativeQt.DqtCore.DqtCanvas.DqtAlign import DqtAlign
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, LambdaList, Equal, Validate, PureList, isValid, GTuple
+from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, ReferList, Equal, Validate, PureList, isValid, GTuple
 from DeclarativeQt.Resource.Images.RImage import LutPixel
 from DeclarativeQt.Resource.Strings.RString import RString
 
@@ -80,10 +80,10 @@ class LinearLayout(QWidget):
         return self._direction
 
     def contentWidths(self) -> List[int]:
-        return LambdaList(self._content, lambda ct: ct.width())
+        return ReferList(self._content, lambda ct: ct.width())
 
     def contentHeights(self) -> List[int]:
-        return LambdaList(self._content, lambda ct: ct.height())
+        return ReferList(self._content, lambda ct: ct.height())
 
     @private
     def initCanvasSize(self, size: QSize = None):
@@ -143,7 +143,7 @@ class LinearLayout(QWidget):
     def resizeContent(self):
         if self._contentSizeRatio is None:
             ratioSize = lambda ct: QSizeF(ct.width() / self.width(), ct.height() / self.height())
-            self._contentSizeRatio: list = LambdaList(self._content, ratioSize)
+            self._contentSizeRatio: list = ReferList(self._content, ratioSize)
             return None
         itemCount = len(self._content)
         itemTotalWidth, itemTotalHeight = int(0), int(0)

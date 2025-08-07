@@ -5,8 +5,8 @@ from typing import Iterable, Dict, Union, Callable
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QDialog, QMainWindow, QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, LambdaRemember, RState
-from DeclarativeQt.Resource.Grammars.RGrammar import LambdaList, isValid
+from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
+from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, isValid
 from DeclarativeQt.Resource.Strings.RString import Semantics, NLIndex
 
 
@@ -22,7 +22,7 @@ class BaseDqtGrammars:
     @staticmethod
     def SemanticRemember(language: RState[NLIndex], semantic: Semantics):
         exp = lambda a0: semantic[a0] if isValid(semantic) and isValid(a0) else None
-        return LambdaRemember(language, lambdaExp=exp)
+        return ReferState(language, lambdaExp=exp)
 
     @staticmethod
     def ValToRemember(value: object):
@@ -36,7 +36,7 @@ class BaseDqtGrammars:
         if isinstance(sequence, Remember):
             sequence.setSpread(True)
             return sequence
-        lt = LambdaList(sequence, lambda item: BaseDqtGrammars.ValToRemember(item))
+        lt = ReferList(sequence, lambda item: BaseDqtGrammars.ValToRemember(item))
         return Remember(lt, spread=True)
 
     @staticmethod

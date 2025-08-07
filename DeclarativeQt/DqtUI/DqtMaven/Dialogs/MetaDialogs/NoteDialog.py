@@ -18,7 +18,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, I
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
 from DeclarativeQt.Resource.Colors.RColor import RColor, HexColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, DictData, Key, LambdaList, GStr, EnumList, isEmpty
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, DictData, Key, ReferList, GStr, EnumList, isEmpty
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import GList, Run, DataBox
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutRatio
@@ -135,7 +135,7 @@ class NoteDialog(Dialog):
                                         horizontalPadding=int(0),
                                         options=GList(Column.AutoSizeNoRemain),
                                         content=GList(
-                                            *LambdaList(
+                                            *ReferList(
                                                 GStr(text.value()).split(RString.pLinefeed), lambda a0:
                                                 IndicatorLabel(
                                                     text=a0,
@@ -203,7 +203,7 @@ class NoteDialog(Dialog):
                 lines.append(line)
         if isEmpty(lines):
             return QSize(int(1), height)
-        maxWidth = max(LambdaList(lines, lambda a0: metrics.horizontalAdvance(a0)))
+        maxWidth = max(ReferList(lines, lambda a0: metrics.horizontalAdvance(a0)))
         if isinstance(text, Remember):
             text.setValue(RString.pLinefeed.join(lines))
         return QSize(maxWidth, height)

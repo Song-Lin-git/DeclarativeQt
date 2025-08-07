@@ -4,7 +4,7 @@ from typing import Callable, Dict
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, InputRequest, LambdaRemember, Trigger, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, InputRequest, ReferState, Trigger, RState
 from DeclarativeQt.DqtUI.DqtMaven.TableViews.BaseTableView.TableView import CellArea, CellAt, \
     TableFields
 from DeclarativeQt.DqtUI.DqtMaven.TableViews.ColoredTableView import TableViewStyle
@@ -64,9 +64,9 @@ class ManusDbViewer(ManusTableView):
         reloadTrig = Validate(reloadTrig, Trigger())
         super().__init__(
             size=size,
-            dataModel=LambdaRemember(sqlDb, reloadTrig, lambdaExp=tableData),
-            fieldMap=LambdaRemember(sqlDb, language, reloadTrig, lambdaExp=dbFieldMap),
-            fields=LambdaRemember(sqlDb, reloadTrig, lambdaExp=fields),
+            dataModel=ReferState(sqlDb, reloadTrig, lambdaExp=tableData),
+            fieldMap=ReferState(sqlDb, language, reloadTrig, lambdaExp=dbFieldMap),
+            fields=ReferState(sqlDb, reloadTrig, lambdaExp=fields),
             hiddenFields=hiddenFields,
             fixedWidth=fixedWidth,
             fixedHeight=fixedHeight,

@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSizeF, QPoint, QSize
 from PyQt5.QtWidgets import QWidget, QDialog
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, Trigger, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, Trigger, ReferState, RState
 from DeclarativeQt.DqtCore.DqtDevice.DqtKeyboard import DqtKeyboard
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
@@ -125,7 +125,7 @@ def DateTimeEditDialog(
                             size=QSize(infoLabelWidth, infoLabelHeight),
                             fixedHeight=infoLabelHeight,
                             indicatorStyle=IndicatorLabelStyle(fontSize=labelFontSize),
-                            text=LambdaRemember(timeVal, lambdaExp=lambda a0: GStr(
+                            text=ReferState(timeVal, lambdaExp=lambda a0: GStr(
                                 RString.pAt + RString.blankRepeat(int(3)) + GStr(a0)
                             )),
                         ),
@@ -136,7 +136,7 @@ def DateTimeEditDialog(
                     fixedHeight=checkButtonHeight,
                     size=QSize(checkButtonWidth, checkButtonHeight),
                     icon=RIcon.loadIconPixmap(RIcon.Src.check),
-                    text=LambdaRemember(language, lambdaExp=lambda a0: RString.stOkConfirm[a0]),
+                    text=ReferState(language, lambdaExp=lambda a0: RString.stOkConfirm[a0]),
                     styleEditor=ButtonStyle(
                         borderRadius=borderRadius,
                         fontSize=RFont.fzTinySize,

@@ -5,14 +5,14 @@ from typing import Callable
 
 from PyQt5.QtCore import QSize
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, LambdaRemember, Run, Trigger, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, Run, Trigger, RState
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
 from DeclarativeQt.DqtUI.DqtLayouts.Layout import Row, Column
 from DeclarativeQt.DqtUI.DqtMaven.ComboBoxes.BorderedComboBox import BorderedComboBox, ComboBoxStyle
 from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, IndicatorLabelStyle
 from DeclarativeQt.DqtUI.DqtMaven.Spacers.LinearSpacer import HorizontalSpacer
 from DeclarativeQt.Resource.Colors.RColor import RColor
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key, LambdaList, GList, isAllValid, \
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key, ReferList, GList, isAllValid, \
     GInt, Equal, Countable, isValid
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import DataBox, GTuple
 from DeclarativeQt.Resource.Images.RIcon import RIcon
@@ -106,19 +106,19 @@ class TimeEditor(Row):
         dtime = Remember(dtime)
         dtimeVal = lambda: RString.toDatetime(dtime.value())
         fixItem = lambda a0: str(0) + a0 if len(a0) < 2 else a0
-        boxItems = lambda a0, a1: LambdaList(range(a0, int(a1 + 1)), lambda b0: fixItem(str(b0)))
+        boxItems = lambda a0, a1: ReferList(range(a0, int(a1 + 1)), lambda b0: fixItem(str(b0)))
         maxDays = lambda a0, a1: calendar.monthrange(a0, a1)[1] if isAllValid(a0, a1) else self.Base.MaxDay
         divideDateTime = lambda a0: GTuple(a0.year, a0.month, a0.day, a0.hour, a0.minute, a0.second)
         dtimeParts = list()
         dtimePartValue = lambda idx: fixItem(str(divideDateTime(dtimeVal())[idx]))
         syncParts = Trigger()
         for i in range(self.DateTimeParts):
-            dtimePart = LambdaRemember(dtime, syncParts, lambdaExp=lambda *az, idx=i: dtimePartValue(idx))
+            dtimePart = ReferState(dtime, syncParts, lambdaExp=lambda *az, idx=i: dtimePartValue(idx))
             dtimeParts.append(dtimePart)
         yearVal, monthVal, dayVal, hourVal, minuteVal, secondVal = dtimeParts
-        combineParts = lambda *az: datetime(*LambdaList(az, lambda b0: GInt(Remember.getValue(b0))))
+        combineParts = lambda *az: datetime(*ReferList(az, lambda b0: GInt(Remember.getValue(b0))))
         updateDTime = lambda *az: dtime.setValue(RString.datetimeToStandard(combineParts(*az)))
-        isPartsValid = lambda: isAllValid(*LambdaList(dtimeParts, lambda b0: Remember.getValue(b0)))
+        isPartsValid = lambda: isAllValid(*ReferList(dtimeParts, lambda b0: Remember.getValue(b0)))
         onPartActivated = lambda: Run(
             updateDTime(*dtimeParts) if isPartsValid() else None,
             allValidCheck.setValue(isPartsValid()), onAnyActivated()
@@ -138,13 +138,13 @@ class TimeEditor(Row):
                     options=GList(Column.AutoSizeNoRemain),
                     content=GList(
                         IndicatorLabel(
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stYear[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stYear[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             size=QSize(canvasModifier.yearEditorWidth, canvasModifier.editorHeight),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     yearVal, lambdaExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
@@ -172,11 +172,11 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stMonth[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stMonth[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     monthVal, lambdaExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
@@ -202,12 +202,12 @@ class TimeEditor(Row):
                     content=GList(
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stDay[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stDay[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     dayVal, lambdaExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
@@ -221,7 +221,7 @@ class TimeEditor(Row):
                             wheelEnable=True,
                             onSelected=lambda: onPartActivated(),
                             scrollStep=int(20),
-                            dataModel=LambdaRemember(
+                            dataModel=ReferState(
                                 yearVal, monthVal, lambdaExp=lambda a0, a1:
                                 boxItems(self.Base.MinDay, maxDays(GInt(a0), GInt(a1)))
                             ),
@@ -240,11 +240,11 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stHour[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stHour[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     hourVal, lambdaExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 )
@@ -271,11 +271,11 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stMinute[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stMinute[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     minuteVal, lambdaExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 )
@@ -302,11 +302,11 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=LambdaRemember(language, lambdaExp=lambda a0: RString.stSecond[a0]),
+                            text=ReferState(language, lambdaExp=lambda a0: RString.stSecond[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
-                                normalBackground=LambdaRemember(
+                                normalBackground=ReferState(
                                     secondVal, lambdaExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 ),

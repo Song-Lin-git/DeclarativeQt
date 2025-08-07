@@ -19,7 +19,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Spacers.LinearSpacer import VerticalSpacer
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Column, Row
 from DeclarativeQt.Resource.Colors.RColor import HexColor, RColor
 from DeclarativeQt.Resource.FileTypes.RFileType import RFileType
-from DeclarativeQt.Resource.Grammars.RGrammar import GList, DataBox, isValid, isEmpty, Validate, LambdaList, \
+from DeclarativeQt.Resource.Grammars.RGrammar import GList, DataBox, isValid, isEmpty, Validate, ReferList, \
     Equal, ExpValue
 from DeclarativeQt.Resource.Graphics.GtrTools.GtrPillow import PilGraphic
 from DeclarativeQt.Resource.Images.RIcon import RIcon
@@ -91,7 +91,7 @@ class ExportFigureDialog(PlotterDialog):
                                 text=RString.stExportFigure[self._lng],
                                 onClick=lambda: self.actExportFigure(self._lng),
                             ),
-                            *LambdaList(
+                            *ReferList(
                                 options.values(), lambda a0:
                                 IconButton(
                                     fixedWidth=buttonWidth,

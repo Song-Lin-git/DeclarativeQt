@@ -4,7 +4,7 @@ from PyQt5.QtCore import QSize, QSizeF, Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyleEditor import DqtStyleEditor
 from DeclarativeQt.DqtUI.DqtMaven.Labels.BaseLabel.Label import Label
@@ -80,7 +80,7 @@ class IconLabel(Label):
             size=size,
             fixedHeight=fixedHeight,
             fixedWidth=fixedWidth,
-            style=Validate(style, LambdaRemember(
+            style=Validate(style, ReferState(
                 *styleEditor.styles.values(), lambdaExp=lambda *az: styleEditor.getStyleSheet()
             )),
             parent=parent,

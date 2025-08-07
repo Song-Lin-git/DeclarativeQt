@@ -1,6 +1,6 @@
 from typing import Dict, Callable
 
-from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, DictToDefault, LambdaList, Equal
+from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, DictToDefault, ReferList, Equal
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase import PhyMtrBase
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase.PhyMtrBase import MeasureUnit, PhyMeasure, MsrSymbol
 from DeclarativeQt.Resource.Strings.RString import Symbol
@@ -69,16 +69,16 @@ class Measurements:
         return units[int(idx + 1) % len(units)]
 
     UnitPhyMeasureMap: Dict[MeasureUnit, PhyMeasure] = DictData(
-        *LambdaList(Force.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Force)),
-        *LambdaList(Pressure.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Pressure)),
-        *LambdaList(Time.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Time)),
-        *LambdaList(Frequency.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Frequency)),
-        *LambdaList(Temperature.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Temperature)),
-        *LambdaList(Degree.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Degree)),
-        *LambdaList(Length.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Length)),
-        *LambdaList(Torque.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Torque)),
-        *LambdaList(Rate.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Rate)),
-        *LambdaList(Unitless.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Unitless)),
+        *ReferList(Force.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Force)),
+        *ReferList(Pressure.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Pressure)),
+        *ReferList(Time.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Time)),
+        *ReferList(Frequency.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Frequency)),
+        *ReferList(Temperature.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Temperature)),
+        *ReferList(Degree.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Degree)),
+        *ReferList(Length.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Length)),
+        *ReferList(Torque.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Torque)),
+        *ReferList(Rate.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Rate)),
+        *ReferList(Unitless.QuantityUnits, lambda a0: Key(a0).Val(PhyQuantity.Unitless)),
     ).data
     MeasureSymbolUnitMap: Dict[MsrSymbol, MeasureUnit] = DictData(
         Key(Force.N.symbol).Val(Force.N),

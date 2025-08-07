@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Dict, List, Self, Optional, Any
 
 from DeclarativeQt.Resource.FileTypes.RFileType import FilePath
-from DeclarativeQt.Resource.Grammars.RGrammar import GList, Validate, isEmpty, LimitVal, Key, DtLambdaDict, \
-    DictData, LambdaList, DictToDefault
+from DeclarativeQt.Resource.Grammars.RGrammar import GList, Validate, isEmpty, LimitVal, Key, DtReferDict, \
+    DictData, ReferList, DictToDefault
 from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
 from DeclarativeQt.Storage.SqliteDb.SqlComposer.SqlComposer import SqlComposer
 
@@ -76,9 +76,9 @@ class SqlDatabase(ABC):
         if not sql.isConnected():
             return kwargs
         dataWash = lambda a0: sql.pNull if a0 is None else a0
-        kwargs = DtLambdaDict(kwargs, keyExp=lambda k, v: k, valExp=lambda k, v: dataWash(v))
+        kwargs = DtReferDict(kwargs, keyExp=lambda k, v: k, valExp=lambda k, v: dataWash(v))
         dataFrame = lambda k, v: sql.stringFrame(v) if k in self.dbStringFields else v
-        kwargs = DtLambdaDict(kwargs, keyExp=lambda k, v: k, valExp=lambda k, v: dataFrame(k, v))
+        kwargs = DtReferDict(kwargs, keyExp=lambda k, v: k, valExp=lambda k, v: dataFrame(k, v))
         kwargs = DictToDefault(kwargs, defaultVal=sql.pNull)
         return kwargs
 
@@ -95,7 +95,7 @@ class SqlDatabase(ABC):
         kwargs = self.standardSqlRowData(sql, **kwargs)
         kvPair = lambda k: Key(k).Val(kwargs[k])
         if not sql.insert(self.dbTableName, values=DictData(
-                *LambdaList(self.dbFields, lambda a0: kvPair(a0)), Key(self.fdSort).Val(order)
+                *ReferList(self.dbFields, lambda a0: kvPair(a0)), Key(self.fdSort).Val(order)
         ).data).commit():
             return self
         last_id = row_key if not isAutoKey else sql.cmdAppend(sql.opLastInsertRowid).fetchall()[0][0]

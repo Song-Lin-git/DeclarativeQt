@@ -3,7 +3,7 @@ from typing import List, Iterable
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QWidget
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
 from DeclarativeQt.DqtUI.DqtMaven.Layouts.LazyLayout import ScrollAreaStyle, LazyRow, LazyColumn
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Box, Row, Column
 
@@ -27,7 +27,7 @@ class AdaptiveColumn(Box):
         super().__init__(
             parent=parent,
             contentPaddingRatio=float(0),
-            content=LambdaRemember(
+            content=ReferState(
                 *content, lambdaExp=lambda *args: Column(
                     size=size,
                     options=options,
@@ -64,7 +64,7 @@ class AdaptiveRow(Box):
         super().__init__(
             parent=parent,
             contentPaddingRatio=float(0),
-            content=LambdaRemember(
+            content=ReferState(
                 *content, lambdaExp=lambda *args: Row(
                     size=size,
                     options=options,
@@ -104,7 +104,7 @@ class AdaptiveLazyColumn(Box):
         super().__init__(
             parent=parent,
             contentPaddingRatio=float(0),
-            content=LambdaRemember(
+            content=ReferState(
                 *content, lambdaExp=lambda *args: LazyColumn(
                     size=size,
                     options=options,
@@ -147,7 +147,7 @@ class AdaptiveLazyRow(Box):
         super().__init__(
             parent=parent,
             contentPaddingRatio=float(0),
-            content=LambdaRemember(
+            content=ReferState(
                 *content, lambdaExp=lambda *args: LazyRow(
                     size=size,
                     options=options,

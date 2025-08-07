@@ -1,6 +1,6 @@
 from typing import List, Dict, Iterable, Optional
 
-from DeclarativeQt.Resource.Grammars.RGrammar import GList, LambdaList, Validate, isEmpty, LimitVal, DictData, Equal, \
+from DeclarativeQt.Resource.Grammars.RGrammar import GList, ReferList, Validate, isEmpty, LimitVal, DictData, Equal, \
     Key
 from DeclarativeQt.Storage.SqliteDb.SqlComposer.SqlComposer import SqlComposer
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase, DataField
@@ -16,7 +16,7 @@ class BaseSqlDbMethod:
         if not sql.isConnected():
             return None
         cursor = sql.select(GList(sql.pAllFields), tableName).cmdAppend(sql.limitFrame(0)).execute()
-        return LambdaList(cursor.description, lambda x: x[0])
+        return ReferList(cursor.description, lambda x: x[0])
 
     @staticmethod
     def getTableDatas(dbFile: str, tableName: str, fields: List[str] = None):
@@ -47,7 +47,7 @@ class SqlDbMethod:
         datas = sql.cmdEnd().fetchall()
         if translator is None or isEmpty(datas):
             return datas
-        datas = LambdaList(datas, lambda a0: list(a0))
+        datas = ReferList(datas, lambda a0: list(a0))
         for field, mapping in translator.items():
             if field not in fields:
                 continue
@@ -55,7 +55,7 @@ class SqlDbMethod:
             translate = lambda a0: a0 if a0 not in mapping else mapping[a0]
             for row in datas:
                 row[idx] = translate(row[idx])
-        datas = LambdaList(datas, lambda a0: tuple(a0))
+        datas = ReferList(datas, lambda a0: tuple(a0))
         return datas
 
     @staticmethod

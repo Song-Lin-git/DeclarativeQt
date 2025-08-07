@@ -11,7 +11,7 @@ from DeclarativeQt.DqtUI.DqtMaven.CheckBoxes.IconCheckBox import IconCheckBox, C
 from DeclarativeQt.DqtUI.DqtMaven.Dividers.LinearDivider import VerticalDivider, HorizontalDivider
 from DeclarativeQt.DqtUI.DqtMaven.Spacers.LinearSpacer import HorizontalSpacer, VerticalSpacer
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import FixListLength, Validate, LambdaList, inRange, JoinLists, GList, \
+from DeclarativeQt.Resource.Grammars.RGrammar import FixListLength, Validate, ReferList, inRange, JoinLists, GList, \
     Equal, DataBox
 from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
 
@@ -74,7 +74,7 @@ class MultiCheckBoxGroup(LinearLayout):
                         description=SemanticRemember(language, RString.stSelectAll),
                         checked=selectAllState,
                         onClick=lambda: Run(
-                            LambdaList(range(count), lambda i: Run(
+                            ReferList(range(count), lambda i: Run(
                                 checkBoxStates[i].setValue(selectAllState)
                             )),
                             self.updateSelection()
@@ -88,7 +88,7 @@ class MultiCheckBoxGroup(LinearLayout):
                     if Equal(direction, LinearLayout.Horizontal) else
                     VerticalSpacer(height=spaceBox.height(), fixed=True)
                 ) if selectAll else list(),
-                LambdaList(
+                ReferList(
                     range(count), lambda i:
                     IconCheckBox(
                         size=checkBoxSize,
@@ -116,7 +116,7 @@ class MultiCheckBoxGroup(LinearLayout):
         return inRange(idx, 0, self._itemsCount)
 
     def isAllSelected(self):
-        selected = sum(LambdaList(Remember.getListValue(self._checkBoxStates), lambda checked: 1 if checked else 0))
+        selected = sum(ReferList(Remember.getListValue(self._checkBoxStates), lambda checked: 1 if checked else 0))
         return selected >= self._itemsCount
 
     def updateSelection(self):

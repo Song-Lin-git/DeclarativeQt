@@ -61,7 +61,7 @@ class BaseMethods(ABC):
             return isinstance(obj, origin)
 
     @staticmethod
-    def DtLambdaDict(dt: dict, keyExp: Callable = None, valExp: Callable = None):
+    def DtReferDict(dt: dict, keyExp: Callable = None, valExp: Callable = None):
         keyExp = BaseMethods.Validate(keyExp, lambda k, v: k)
         valExp = BaseMethods.Validate(valExp, lambda k, v: v)
         return GExpDict(dt, keyExp, valExp)

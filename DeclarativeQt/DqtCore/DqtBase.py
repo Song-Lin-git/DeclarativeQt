@@ -5,7 +5,7 @@ from typing import Generic, TypeVar, Union, Callable, Iterable, Optional, Any, T
 from PyQt5.QtCore import pyqtSignal, QObject
 
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import LambdaList, DtLambdaDict, isValid, Validate, GTuple, Equal, \
+from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, DtReferDict, isValid, Validate, GTuple, Equal, \
     GetDictItem
 from DeclarativeQt.Resource.Grammars.RGrmBase import RGrmObject
 from DeclarativeQt.Resource.Strings.RString import RString
@@ -141,11 +141,11 @@ class Remember(Generic[_MT], QObject):
 
     @staticmethod
     def rememberDictItems(dt: dict):
-        return DtLambdaDict(dt, lambda k, v: Remember.rememberItem(k), lambda k, v: Remember.rememberItem(v))
+        return DtReferDict(dt, lambda k, v: Remember.rememberItem(k), lambda k, v: Remember.rememberItem(v))
 
     @staticmethod
     def rememberListItems(lt: list):
-        return LambdaList(lt, lambda a0: Remember.rememberItem(a0))
+        return ReferList(lt, lambda a0: Remember.rememberItem(a0))
 
     @staticmethod
     def obtainListItem(lt: object, idx: int):
@@ -177,36 +177,36 @@ class Remember(Generic[_MT], QObject):
         items = Remember.getValue(items)
         if not isValid(items):
             return None
-        return LambdaList(items, lambda item: Remember.getValue(item))
+        return ReferList(items, lambda item: Remember.getValue(item))
 
     @staticmethod
     def getDictValue(items: object):
         items = Remember.getValue(items)
         if not isValid(items):
             return None
-        return DtLambdaDict(items, lambda k, v: Remember.getValue(k), lambda k, v: Remember.getValue(v))
+        return DtReferDict(items, lambda k, v: Remember.getValue(k), lambda k, v: Remember.getValue(v))
 
 
-class LambdaRemember(Generic[_MT], Remember[_MT]):
+class ReferState(Generic[_MT], Remember[_MT]):
     def __init__(self, *states: RState[Any], lambdaExp: Formula = None, value: _MT = None):
         super().__init__(value)
         self._states = states
         self._lambdaExp = lambdaExp if lambdaExp else lambda *x: x
-        self.updateLambdaValue()
+        self.updateRefValue()
         for state in self._states:
             if isinstance(state, Remember):
                 # noinspection PyUnresolvedReferences
-                state.changed.connect(partial(self.updateLambdaValue))
+                state.changed.connect(partial(self.updateRefValue))
 
     @private
-    def updateLambdaValue(self):
+    def updateRefValue(self):
         result: Callable = partial(self._lambdaExp)
         for state in self._states:
             result = partial(result, Remember.getValue(state))
         try:
             result = result()
         except Exception as e:
-            RString.log(str(type(self)) + RString.pBlank + str(e), RString.pLogError)
+            RString.log(str(e), RString.pLogError)
             return None
         self.setValue(result)
         return None

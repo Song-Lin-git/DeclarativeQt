@@ -2,7 +2,7 @@ from typing import Callable
 
 from PyQt5.QtCore import QSize, QSizeF
 
-from DeclarativeQt.DqtCore.DqtBase import Remember, Run, LambdaRemember, RState
+from DeclarativeQt.DqtCore.DqtBase import Remember, Run, ReferState, RState
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtUI.DqtMaven.Labels.IconLabel import IconLabel
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BorderedTextField import BorderedTextField, \
@@ -64,7 +64,7 @@ class PasswordTextField(Row):
                         fontFamily=fontFamily,
                         fontSize=fontSize,
                         borderRadius=self._borderRadius,
-                        focusedBorder=LambdaRemember(
+                        focusedBorder=ReferState(
                             *GList(validity, text, correction),
                             lambdaExp=lambda a0, a1, a2: HexColor(
                                 RColor.hexRed if not a2 or bool(
@@ -72,7 +72,7 @@ class PasswordTextField(Row):
                                 ) else RColor.hexBlack
                             )
                         ),
-                        unfocusedBorder=LambdaRemember(
+                        unfocusedBorder=ReferState(
                             *GList(validity, text, correction),
                             lambdaExp=lambda a0, a1, a2: HexColor(
                                 RColor.hexRed if not a2 or bool(
@@ -83,7 +83,7 @@ class PasswordTextField(Row):
                     ),
                     enable=enable,
                     placehold=placehold,
-                    passwordMode=LambdaRemember(visible, lambdaExp=lambda a0: not visible.value()),
+                    passwordMode=ReferState(visible, lambdaExp=lambda a0: not visible.value()),
                     onValueChange=lambda: Run(
                         onValueChange(), text.setValue(RString.eraseBlank(text.value())),
                         validity.setValue(validityCheckMethod(text)) if validityCheck else None,
@@ -94,7 +94,7 @@ class PasswordTextField(Row):
                     fixedWidth=self._fixedLabelWidth,
                     alignment=IconLabel.Align.Center,
                     enable=enable,
-                    style=LambdaRemember(
+                    style=ReferState(
                         visible, lambdaExp=lambda a0: DqtStyle(
                             selector=DqtStyle.QLabel,
                             appendix=DictData(
@@ -116,7 +116,7 @@ class PasswordTextField(Row):
                         ).style
                     ),
                     iconSizeRatio=QSizeF(0.7, 0.7),
-                    iconPixmap=LambdaRemember(
+                    iconPixmap=ReferState(
                         visible, lambdaExp=lambda a0: DataBox(
                             RIcon().loadIconPixmap(RIcon.Src.visibility_dark) if a0 else
                             RIcon().loadIconPixmap(RIcon.Src.visibility_off_light)

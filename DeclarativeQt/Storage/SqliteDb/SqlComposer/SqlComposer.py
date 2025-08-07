@@ -3,8 +3,8 @@ from sqlite3 import Cursor
 from typing import List, Union, Optional
 
 from DeclarativeQt.Resource.FileTypes.RFileType import FilePath
-from DeclarativeQt.Resource.Grammars.RGrammar import CommandFrame, LambdaList, isEmpty, Grammar, ConditionList, \
-    DtLambdaList, GIters, Equal, StrCommand
+from DeclarativeQt.Resource.Grammars.RGrammar import CommandFrame, ReferList, isEmpty, Grammar, ConditionList, \
+    DtReferList, GIters, Equal, StrCommand
 from DeclarativeQt.Resource.Strings.RString import Symbol, RString
 
 DataType = str
@@ -64,7 +64,7 @@ class SqlComposer:
         self.defaultMark: FieldMark = lambda value: f"default {value}"
         self.autoIncrementMark: FieldMark = "autoincrement"
         self.primaryKeyAutoIncrementMark: FieldMark = "primary key autoincrement"
-        self._toStrList: Grammar = lambda items: LambdaList(items, lambda x: str(x))
+        self._toStrList: Grammar = lambda items: ReferList(items, lambda x: str(x))
         self._itemsFrame: CommandFrame = lambda items: self.pItemGap.join(self._toStrList(items))
         self._bktItemsFrame: CommandFrame = lambda items: self.bracketFrame(self._itemsFrame(items))
         self._marksFrame: CommandFrame = lambda marks: self.pCommandGap.join(marks).strip()
@@ -80,7 +80,7 @@ class SqlComposer:
 
     def linkConditions(self, *conditions, opt: str):
         opt = self.pCommandGap + opt + self.pCommandGap
-        return opt.join(LambdaList(conditions, lambda x: self.bracketFrame(x)))
+        return opt.join(ReferList(conditions, lambda x: self.bracketFrame(x)))
 
     def cmdEnd(self):
         if isEmpty(self._cmd) or Equal(self._cmd[-1], self.pEnding):
@@ -123,7 +123,7 @@ class SqlComposer:
         if isEmpty(table):
             return self
         lt_fields = ConditionList(fields, lambda x: len(x) > 1)
-        lt_fields = LambdaList(lt_fields, lambda x: self._fieldFrame(x[0], x[1], x[2:]))
+        lt_fields = ReferList(lt_fields, lambda x: self._fieldFrame(x[0], x[1], x[2:]))
         self._cmd += self._createFrame(table, self._bktItemsFrame(lt_fields)) + self.pEnding
         return self
 
@@ -136,7 +136,7 @@ class SqlComposer:
     def update(self, table: str, values: dict):
         if isEmpty(values) or isEmpty(table):
             return self
-        equations = self._itemsFrame(DtLambdaList(values, lambda k, v: self.equalFrame(k, v)))
+        equations = self._itemsFrame(DtReferList(values, lambda k, v: self.equalFrame(k, v)))
         self._cmd += self._updateFrame(table, equations)
         return self
 

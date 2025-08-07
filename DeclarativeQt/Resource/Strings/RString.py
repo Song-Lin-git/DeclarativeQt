@@ -10,7 +10,7 @@ from typing import Dict, Callable, Union, Optional, List, Any
 import yaml
 from dateutil import parser
 
-from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, Equal, isEmpty, DictToDefault, LambdaList, Validate, \
+from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, Equal, isEmpty, DictToDefault, ReferList, Validate, \
     StrFrame, GList, PureList
 
 _ThisFilePath = __file__
@@ -160,7 +160,7 @@ class RString(ABC):
             results = RString.matchFloats(source)
         elif Equal(tp, Decimal):
             results = RString.matchFloats(source)
-            results = LambdaList(results, lambda a0: Decimal(str(a0)))
+            results = ReferList(results, lambda a0: Decimal(str(a0)))
         else:
             return str(source)
         return results[0] if not isEmpty(results) else None
@@ -265,9 +265,11 @@ class RString(ABC):
         return RString.pEmpty.join(result).rstrip(RString.pLinefeed)
 
     @staticmethod
-    def log(info: str, port: str = None):
-        port = Validate(port, RString.pLogNormal)
-        print(port + info + RString.pLogNormal)
+    def log(info: Any, port: str = None):
+        norm = RString.pLogNormal
+        port = Validate(port, norm)
+        print(port, info, norm, sep=RString.pEmpty)
+        return None
 
     pLogNormal: Symbol = "\033[0m"
     pLogInfo: Symbol = "\033[34m"

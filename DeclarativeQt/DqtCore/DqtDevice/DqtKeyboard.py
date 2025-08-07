@@ -3,7 +3,7 @@ from typing import List, Union
 
 from PyQt5.QtGui import QKeySequence
 
-from DeclarativeQt.Resource.Grammars.RGrammar import LambdaList, isEmpty
+from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, isEmpty
 
 KeyCode = str
 KeyOperator = str
@@ -19,7 +19,7 @@ class DqtKeyboard:
     @staticmethod
     def multiShortCuts(*keys: Union[str, int, QKeySequence]) -> List[QKeySequence]:
         toSequence = lambda a0: QKeySequence(a0)
-        return LambdaList(keys, partial(toSequence))
+        return ReferList(keys, partial(toSequence))
 
     @property
     def keyEnterReturn(self) -> List[QKeySequence]:

@@ -1,7 +1,7 @@
 from typing import Optional, Union, Any
 
 from DeclarativeQt.Resource.Colors.RColor import RColor
-from DeclarativeQt.Resource.Grammars.RGrammar import StrFrame, DtLambdaList, GList, DictData, Key, isEmpty, \
+from DeclarativeQt.Resource.Grammars.RGrammar import StrFrame, DtReferList, GList, DictData, Key, isEmpty, \
     Validate, GIters
 from DeclarativeQt.Resource.Images.RImage import RImage
 from DeclarativeQt.Resource.Strings.RString import RString
@@ -118,7 +118,7 @@ class DqtStyle:
         self._pDivider = " "
         self._pEnding = ";"
         self._styleMatch: StrFrame = lambda k, v: ": ".join(GList(k, v))
-        self._styleCat: StrFrame = lambda styles: "; ".join(DtLambdaList(styles, self._styleMatch))
+        self._styleCat: StrFrame = lambda styles: "; ".join(DtReferList(styles, self._styleMatch))
         self._styleBlock: StrFrame = lambda styles: "{ " + f"{styles}" + " }"
         self._styleFrame: StrFrame = lambda apply, styles: f"{apply} " + self._styleBlock(styles)
         self._styleDivide = lambda style: style + self._pDivider if len(style) > 0 else style

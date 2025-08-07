@@ -12,7 +12,7 @@ from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtUI.DqtTools.Scroller import ScrollRate
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, LambdaList, Equal, isEmpty, IndexSubSeq, isValid, \
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, ReferList, Equal, isEmpty, IndexSubSeq, isValid, \
     ConditionList, DictData, Key, GStr, GList
 from DeclarativeQt.Resource.Images.RImage import LutPixel
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase.PhyMtrBase import PhyMeasure
@@ -154,7 +154,7 @@ class TableView(QTableView):
         if area is None:
             return None
         toIndex = lambda a0: self.model().index(a0.x(), a0.y())
-        area = LambdaList(area, toIndex)
+        area = ReferList(area, toIndex)
         return area
 
     def clearSelection(self):
@@ -233,7 +233,7 @@ class TableView(QTableView):
         indexes = self.currentAreaIndexes()
         if not indexes:
             return None
-        rows = list(set(LambdaList(indexes, lambda a0: a0.row())))
+        rows = list(set(ReferList(indexes, lambda a0: a0.row())))
         self.setSelectionMode(QTableView.MultiSelection)
         self.clearSelection()
         self.selectRows(rows)
@@ -277,7 +277,7 @@ class TableView(QTableView):
         if isEmpty(indexes):
             self._areaSelection.setValue(None)
             return None
-        indexes = LambdaList(indexes, lambda a0: QPoint(a0.row(), a0.column()))
+        indexes = ReferList(indexes, lambda a0: QPoint(a0.row(), a0.column()))
         self._areaSelection.setValue(indexes)
         return None
 
@@ -323,7 +323,7 @@ class TableView(QTableView):
         if col_count <= 0:
             return None
         table_width = self.viewportWidth()
-        col_widths = LambdaList(contentWidths, lambda w: int(w * table_width / sum(contentWidths)))
+        col_widths = ReferList(contentWidths, lambda w: int(w * table_width / sum(contentWidths)))
         col_widths[-1] = table_width - sum(col_widths[:-1])
         for col in range(col_count):
             self.setColumnWidth(col, col_widths[col])
@@ -357,7 +357,7 @@ class TableView(QTableView):
         fieldMap = Remember.getValue(fieldMap)
         if fieldMap is None:
             return fields
-        names = LambdaList(fields, lambda a0: a0 if a0 not in fieldMap else fieldMap[a0])
+        names = ReferList(fields, lambda a0: a0 if a0 not in fieldMap else fieldMap[a0])
         return names
 
     @staticmethod
@@ -365,8 +365,8 @@ class TableView(QTableView):
         rows = Remember.getListValue(dataModel)
         if isEmpty(rows):
             return list()
-        colCount = max(LambdaList(rows, lambda a0: len(a0) if a0 else int(0)))
-        return LambdaList(range(colCount), lambda a0: str(a0))
+        colCount = max(ReferList(rows, lambda a0: len(a0) if a0 else int(0)))
+        return ReferList(range(colCount), lambda a0: str(a0))
 
     @staticmethod
     def fieldAtCols(fields: TableFields, hiddenFields: TableFields):
@@ -391,7 +391,7 @@ class TableView(QTableView):
     def setColumnLabels(self, fields: TableFields, fieldMap: TableFieldMap = None):
         labels = Remember.getValue(fields)
         if labels:
-            labels = LambdaList(labels, lambda x: GStr(x).strip())
+            labels = ReferList(labels, lambda x: GStr(x).strip())
             labels = self.fieldsName(labels, fieldMap)
             self._tableModel.setHorizontalHeaderLabels(labels)
         self.autoAdjustColumnSize()
@@ -410,7 +410,7 @@ class TableView(QTableView):
         self._tableModel = QStandardItemModel(0, 0)
         if isValid(tableData):
             for row in tableData:
-                self._tableModel.appendRow(LambdaList(row, lambda item: self.tableStandardItem(item)))
+                self._tableModel.appendRow(ReferList(row, lambda item: self.tableStandardItem(item)))
             for i, row in enumerate(Remember.getValue(dataModel)):
                 if isinstance(row, Remember):
                     row.uniqueConnect(self.updateRowData, i, host=self)

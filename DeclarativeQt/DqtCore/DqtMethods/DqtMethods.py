@@ -8,7 +8,7 @@ from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.BoxLayout import BoxLayout
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BaseButton.Button import Button
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BaseTextField.TextField import TextField
-from DeclarativeQt.Resource.Grammars.RGrammar import LambdaList, isValid, CheckType, NxLimitVal, ConditionList, GList, \
+from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, isValid, CheckType, NxLimitVal, ConditionList, GList, \
     Equal
 
 
@@ -108,7 +108,7 @@ class DqtMethods:
         buttons = DqtMethods.findChildButtons(widget)
         textFields = DqtMethods.findChildTextFields(widget)
         enableShortCuts = lambda a0, a1: a0.disableShortCuts() if bool(a1) else a0.restoreShortCuts()
-        completerMethod = lambda a0: LambdaList(buttons, lambda b0: enableShortCuts(b0, a0))
+        completerMethod = lambda a0: ReferList(buttons, lambda b0: enableShortCuts(b0, a0))
         for editor in textFields:
             editor.setCompleterMethod(partial(completerMethod))
         return None

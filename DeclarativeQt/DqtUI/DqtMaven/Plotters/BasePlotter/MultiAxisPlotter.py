@@ -20,7 +20,7 @@ from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, LambdaDict, LambdaList, RepeatList, DtLambdaDict, \
+from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, ReferDict, ReferList, RepeatList, DtReferDict, \
     Validate, GList, GIters, Equal, isEmpty, inRange, StrFrame, GTuple, Inf, ConditionList, EnumList, PureList, isValid
 from DeclarativeQt.Resource.Images.RImage import LutRatio
 from DeclarativeQt.Resource.Strings.RString import RString
@@ -146,9 +146,9 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
             self.adjustFigLayout()
         if style is not None:
             self.setStyleSheet(style)
-        datas = DtLambdaDict(Validate(datas, dict()), valExp=lambda k, v: self.cleanLineData(v))
-        self._xAxis: List = LambdaList(datas.values(), lambda v: LambdaList(v, lambda p: p[0]))
-        self._yDatas: Dict = DtLambdaDict(datas, lambda k, v: k, lambda k, v: LambdaList(v, lambda p: p[1]))
+        datas = DtReferDict(Validate(datas, dict()), valExp=lambda k, v: self.cleanLineData(v))
+        self._xAxis: List = ReferList(datas.values(), lambda v: ReferList(v, lambda p: p[0]))
+        self._yDatas: Dict = DtReferDict(datas, lambda k, v: k, lambda k, v: ReferList(v, lambda p: p[1]))
         self._lines = list()
         self._lineCount = len(datas)
         self._dataRanges = list()
@@ -173,7 +173,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._gridOn = gridOn
         self.setCanvasGrid(gridOn)
         self._circleFixRatio = Validate(circleFixRatio, self.circleMarkFixRatio)
-        self._annotationMarks: Dict = LambdaDict(range(self._lineCount), lambda it: it, lambda it: list())
+        self._annotationMarks: Dict = ReferDict(range(self._lineCount), lambda it: it, lambda it: list())
         self._markRecord = list()
         for i in range(self._lineCount):
             self.drawCurve(i)
@@ -562,8 +562,8 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     ) -> None:
         pre_count = self._lineCount
         datas = self.cleanLineData(datas)
-        yAxisData = LambdaList(datas, lambda p: p[1])
-        xAxisData = LambdaList(datas, lambda p: p[0])
+        yAxisData = ReferList(datas, lambda p: p[1])
+        xAxisData = ReferList(datas, lambda p: p[0])
         if key in self._yDatas:
             self._yDatas[key] = yAxisData
             idx = list(self._yDatas.keys()).index(key)
@@ -1099,7 +1099,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     @private
     def fixMaterials(self):
         dif = self._lineCount - len(self._lineColors)
-        self._lineColors += LambdaList(range(max(dif, 0)), lambda i: RColor().randomColor())
+        self._lineColors += ReferList(range(max(dif, 0)), lambda i: RColor().randomColor())
         fixLength = lambda a0: max(self._lineCount - len(a0), 0)
         self._lineWidths += RepeatList(self.defaultLineWidth, fixLength(self._lineWidths))
         self._lineStyles += RepeatList(self.defaultCurveStyle, fixLength(self._lineStyles))
