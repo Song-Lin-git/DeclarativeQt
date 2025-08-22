@@ -7,7 +7,7 @@ Leveraging Qt's powerful signal & slot mechanism, it implements a state-driven m
 Combined with an improved Python lambda syntax, it allows embedding small logic blocks and derived states directly in
 the UI code, further strengthening decoupling and modularity.
 
-#### 1. ***State-Driven UI Mechanism***
+#### ***1.1 State-Driven UI Mechanism***
 
 Native Qt provides a highly regarded **signal & slot** mechanism,
 valued for its strong decoupling, thread safety, and powerful communication capabilities.
@@ -23,7 +23,7 @@ For example, when a `Button` is bound to a string state for its text,
 its slot function reacts to the state change by calling Qt’s native `QPushButton.setText` method.
 This updates only the button’s text, achieving automatic updates with minimal re-rendering.
 
-#### 2. ***Tree-Like Indented Code Style***
+#### ***1.2 Tree-Like Indented Code Style***
 
 Like other mainstream declarative UI frameworks,
 *Declarative-Qt* allows developers to visually understand the structure of the UI component tree directly from the UI
@@ -32,7 +32,7 @@ including the hierarchical relationships and relative positioning of components.
 Also, developers can conveniently adjust the UI layout by changing the positions of components in the code,
 without worrying about their exact coordinates.
 
-#### 3. ***Chainable Style-Modifier***
+#### ***1.3 Chainable Style-Modifier***
 
 Native Qt uses QSS
 <span style="color:grey">(Qt Style Sheets, a `CSS-like` system with similar syntax and behavior)</span>
@@ -43,7 +43,7 @@ Combined with the state-driven mechanism,
 this approach provides greater flexibility for dynamic style parameters,
 enabling them to adapt dynamically to more complex and interactive UI requirements.
 
-#### 4. ***Component Tree Building and Rendering Logic***
+#### ***1.4 Component Tree Building and Rendering Logic***
 
 In *Declarative-Qt*, UI components exist as class objects.
 Inner components are passed as parameters to their parent components, which store them as member variables and complete
@@ -67,7 +67,7 @@ their own initialization.
 
 ## How to Use Declarative-Qt?
 
-- ***Dependencies***
+#### ***2.1 Dependencies***
 
 ```text
 python          3.12+
@@ -78,7 +78,7 @@ sqlite          3.45.3
 beautifulsoup4  4.12.3
 ```
 
-- ***Start with Declarative-Qt***
+#### ***2.2 Start with Declarative-Qt***
 
 Use `git clone` to obtain this repository, and you can start your development tasks directly within the *Declarative-Qt*
 project.
