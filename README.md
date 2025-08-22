@@ -1,6 +1,6 @@
 ## What is Declarative-Qt？
 
-*Declarative-Qt* is a lightweight declarative UI framework for Windows client development using Python.
+*Declarative-Qt* is a lightweight declarative UI framework for Windows software development using Python.
 Built on the traditional imperative PyQt5, it enhances and adapts native Qt components following declarative design
 principles.
 Leveraging Qt's powerful signal & slot mechanism, it implements a state-driven mechanism.
