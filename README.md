@@ -80,3 +80,11 @@ beautifulsoup4  4.12.3
 
 - ***Start with Declarative-Qt***
 
+Use `git clone` to obtain this repository, and you can start your development tasks directly within the *Declarative-Qt*
+project.
+
+```commandline
+git clone https://github.com/Song-Lin-git/DeclarativeQt.git
+```
+
+In the near future, a fully usable package will be prepared and uploaded to `PyPI`.
