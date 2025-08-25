@@ -26,10 +26,9 @@ This updates only the button’s text, achieving automatic updates with minimal 
 #### ***1.2 Tree-Like Indented Code Style***
 
 Like other mainstream declarative UI frameworks,
-*Declarative-Qt* allows developers to visually understand the structure of the UI component tree directly from the UI
-code,
+*Declarative-Qt* makes it easy to visualize the component tree directly from the UI code,
 including the hierarchical relationships and relative positioning of components.
-Also, developers can conveniently adjust the UI layout by changing the positions of components in the code,
+The layout can be conveniently adjusted by changing the positions of components in the code,
 without worrying about their exact coordinates.
 
 #### ***1.3 Chainable Style-Modifier***
@@ -39,7 +38,7 @@ Native Qt uses QSS
 as its primary and most powerful styling mechanism.
 To improve the efficiency and accuracy of writing QSS strings,
 *Declarative-Qt* encapsulates QSS syntax and rules into the chainable style-modifier module called `DqtStyle`.
-Combined with the state-driven mechanism,
+Integrated with the state-driven mechanism,
 this approach provides greater flexibility for dynamic style parameters,
 enabling them to adapt dynamically to more complex and interactive UI requirements.
 
@@ -88,3 +87,70 @@ git clone https://github.com/Song-Lin-git/DeclarativeQt.git
 ```
 
 In the near future, a fully usable package will be prepared and uploaded to `PyPI`.
+
+#### ***2.3 Code with Declarative-Qt***
+
+- ***Linear Layout***: `Row` & `Column`
+
+Horizontal and vertical linear layouts can create a wide variety of forms through
+different content alignment, arrangement, spacing, padding, and nested combinations.
+
+```text
+def SampleLayout() -> QWidget:
+    return Row(
+        size=QSize(180, 360),
+        alignment=Row.Align.Left,
+        autoContentResize=True,
+        content=Glist(
+            Column(
+                spacing=3,
+                padding=0,
+                autoUniformDistribute=True,
+                autoContentResize=True,
+                content=GList(...)
+            ), ...
+        )
+    )
+```
+
+*tip*: Parameters of `Row` and `Column` prefixed with `auto-` control how **auto-layout** behaves.
+
+- ***Style Modifier***: `DqtStyle` & `DqtStyleEditor`
+
+While `DqtStyle` encapsulates the basic stylesheet syntax, `DqtStyleEditor` integrated with the state-driven mechanism
+and should be used with the **styled components**.
+
+```text
+def SampleButton() -> Button:
+    return BorderedButton(
+        text="sample",
+        styleEditor=ButtonStyle(
+            backgroundColor=RColor.hexWhite,
+            textFont=RFont.YaHei,
+            fontSize=10.8,
+            borderRadius=3,
+            borderColor=RColor.hexGrey, ...
+        )
+    )
+```
+
+*tip*: Most **styled components** are named like `BorderedButton`/`ColoredSlider`/`IconLabel`, etc.
+And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyle`/`LabelStyle`, etc.
+
+As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
+
+- ***Using State***: `Remember` & `ReferState`
+
+```text
+def SampleButton() -> Button:
+    count = Remember[int](0)
+    return Button(
+        text=ReferState(count, lambdaExp=lambda a0: f"count: {a0}"),
+        onClick=lambda: Run(
+            count.updateValue(lambda a0: a0 + 1),
+        )
+    )
+```
+
+*tip*: When necessary to manually connect the Qt signals in a `Remember` object to slots,
+use `Remember.connect` instead of `Remember.changed.connect`.
