@@ -140,7 +140,7 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
----
+***
 
 - ***Using State***: `Remember` & `ReferState`
 
