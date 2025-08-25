@@ -92,8 +92,7 @@ In the near future, a fully usable package will be prepared and uploaded to `PyP
 
 - ***Linear Layout***: `Row` & `Column`
 
-Horizontal and vertical linear layouts can create a wide variety of forms through
-different content alignment, arrangement, spacing, padding, and nested combinations.
+Horizontal and vertical linear layouts can create a wide variety of forms through nested combinations.
 
 ```text
 def SampleLayout() -> QWidget:
@@ -119,7 +118,7 @@ def SampleLayout() -> QWidget:
 
 - ***Style Modifier***: `DqtStyle` & `DqtStyleEditor`
 
-While `DqtStyle` encapsulates the basic stylesheet syntax, `DqtStyleEditor` integrated with the state-driven mechanism
+While `DqtStyle` encapsulates the basic QSS syntax, `DqtStyleEditor` integrated with the state-driven mechanism
 and should be used with the **styled components**.
 
 ```text
