@@ -114,7 +114,7 @@ def SampleLayout() -> QWidget:
 
 *tip*: Parameters of `Row` and `Column` prefixed with `auto-` control how **auto-layout** behaves.
 
-___
+---
 
 - ***Style Modifier***: `DqtStyle` & `DqtStyleEditor`
 
@@ -140,7 +140,7 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-___
+---
 
 - ***Using State***: `Remember` & `ReferState`
 
