@@ -1,4 +1,4 @@
-## What is Declarative-Qt？
+# What is Declarative-Qt？
 
 *Declarative-Qt* is a lightweight **declarative UI framework** for **Windows software** development using **Python**.
 Built on the traditional imperative PyQt5, it enhances and adapts native Qt components following declarative design
@@ -7,7 +7,7 @@ Leveraging Qt's powerful signal & slot mechanism, it implements a state-driven m
 Combined with an improved Python lambda syntax, it allows embedding small logic blocks and derived states directly in
 the UI code, further strengthening decoupling and modularity.
 
-#### ***1.1 State-Driven UI Mechanism***
+### ***1.1 State-Driven UI Mechanism***
 
 Native Qt provides a highly regarded **signal & slot** mechanism,
 valued for its strong decoupling, thread safety, and powerful communication capabilities.
@@ -23,7 +23,7 @@ For example, when a `Button` is bound to a string state for its text,
 its slot function reacts to the state change by calling Qt’s native `QPushButton.setText` method.
 This updates only the button’s text, achieving automatic updates with minimal re-rendering.
 
-#### ***1.2 Tree-Like Indented Code Style***
+### ***1.2 Tree-Like Indented Code Style***
 
 Like other mainstream declarative UI frameworks,
 *Declarative-Qt* makes it easy to visualize the component tree directly from the UI code,
@@ -31,7 +31,7 @@ including the hierarchical relationships and relative positioning of components.
 The layout can be conveniently adjusted by changing the positions of components in the code,
 without worrying about their exact coordinates.
 
-#### ***1.3 Chainable Style-Modifier***
+### ***1.3 Chainable Style-Modifier***
 
 Native Qt uses QSS
 <span style="color:grey">(Qt Style Sheets, a `CSS-like` system with similar syntax and behavior)</span>
@@ -42,7 +42,7 @@ Integrated with the state-driven mechanism,
 this approach provides greater flexibility for dynamic style parameters,
 enabling them to adapt dynamically to more complex and interactive UI requirements.
 
-#### ***1.4 Component Tree Building and Rendering Logic***
+### ***1.4 Component Tree Building and Rendering Logic***
 
 In *Declarative-Qt*, UI components exist as class objects.
 Inner components are passed as parameters to their parent components, which store them as member variables and complete
@@ -64,9 +64,9 @@ their own initialization.
   Consequently, a top-down, **pre-order** partial re-layout and re-render is performed,
   starting from the outermost component that initiated the change and propagating inward.
 
-## How to Use Declarative-Qt?
+# How to Use Declarative-Qt?
 
-#### ***2.1 Dependencies***
+### ***2.1 Dependencies***
 
 ```text
 python          3.12+
@@ -77,7 +77,7 @@ sqlite          3.45.3
 beautifulsoup4  4.12.3
 ```
 
-#### ***2.2 Start with Declarative-Qt***
+### ***2.2 Start with Declarative-Qt***
 
 Use `git clone` to obtain this repository, and you can start your development tasks directly within the *Declarative-Qt*
 project.
@@ -88,7 +88,7 @@ git clone https://github.com/Song-Lin-git/DeclarativeQt.git
 
 In the near future, a fully usable package will be prepared and uploaded to `PyPI`.
 
-#### ***2.3 Code with Declarative-Qt***
+### ***2.3 Code with Declarative-Qt***
 
 - ***Linear Layout***: `Row` & `Column`
 
@@ -138,9 +138,9 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-<hr size="10" />
-
 - ***Using State***: `Remember` & `ReferState`
+
+<img src="https://placehold.co/800x1/000000/000000" width="100%" height="1">
 
 ```text
 def SampleButton() -> Button:
