@@ -114,6 +114,10 @@ def SampleLayout() -> QWidget:
 
 *tip*: Parameters of `Row` and `Column` prefixed with `auto-` control how **auto-layout** behaves.
 
+<div><img src="https://placehold.co/5000x1/dddddd/dddddd" height="1"></div>
+
+<br />
+
 - ***Style Modifier***: `DqtStyle` & `DqtStyleEditor`
 
 While `DqtStyle` encapsulates the basic QSS syntax, `DqtStyleEditor` integrated with the state-driven mechanism
