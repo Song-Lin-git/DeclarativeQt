@@ -138,9 +138,9 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-- ***Using State***: `Remember` & `ReferState`
+<img src="https://placehold.co/2000x1/AAAAAA/AAAAAA" width="100%" height="1">
 
-<img src="https://placehold.co/800x1/000000/000000" width="100%" height="1">
+- ***Using State***: `Remember` & `ReferState`
 
 ```text
 def SampleButton() -> Button:
