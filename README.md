@@ -138,7 +138,7 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1' width='800' height='1'><rect width='800' height='1' fill='grey'/></svg>">
+![](https://placehold.co/2000x1/000000/000000)
 
 - ***Using State***: `Remember` & `ReferState`
 
