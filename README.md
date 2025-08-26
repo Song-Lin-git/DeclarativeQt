@@ -138,7 +138,7 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-<hr style="height: 10px; border: none" />
+<hr size="10" />
 
 - ***Using State***: `Remember` & `ReferState`
 
