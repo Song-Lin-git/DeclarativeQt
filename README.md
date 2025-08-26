@@ -114,7 +114,7 @@ def SampleLayout() -> QWidget:
 
 *tip*: Parameters of `Row` and `Column` prefixed with `auto-` control how **auto-layout** behaves.
 
-<div><img src="https://placehold.co/5000x2/dddddd/dddddd" height="2"></div>
+<div><img src="https://placehold.co/5000x1/dddddd/dddddd" height="1"></div>
 
 <br />
 
@@ -142,7 +142,7 @@ And their corresponding style modifiers are named like `ButtonStyle`/`SliderStyl
 
 As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyle` inherits from `DqtStyleEditor`.
 
-<div><img src="https://placehold.co/5000x2/dddddd/dddddd" height="2"></div>
+<div><img src="https://placehold.co/5000x1/dddddd/dddddd" height="1"></div>
 
 <br />
 
