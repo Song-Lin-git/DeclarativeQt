@@ -140,7 +140,7 @@ As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyl
 
 <div><img src="https://placehold.co/5000x1/dddddd/dddddd" height="1"></div>
 
-<div></div>
+<br />
 
 - ***Using State***: `Remember` & `ReferState`
 
