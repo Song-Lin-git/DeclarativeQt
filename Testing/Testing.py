@@ -22,11 +22,12 @@ from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Strings.RString import RString
 
 app = QApplication(sys.argv)
+
 app.setStyleSheet(AppMenuStyle().getStyleSheet())
 br = Remember(False)
 data = Remember(0.0)
 RString.log(br)
-main_app = MainApplication(
+demo_app = MainApplication(
     Window(
         minSize=QSize(1080, 600),
         content=Column(
@@ -64,6 +65,6 @@ main_app = MainApplication(
         )
     )
 )
+demo_app.run()
 
-main_app.run()
 sys.exit(app.exec_())
