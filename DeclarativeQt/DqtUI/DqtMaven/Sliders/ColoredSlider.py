@@ -72,7 +72,7 @@ class SliderStyle(DqtStyleEditor):
         hoverDarkerFactor = int(self.HoverColorDarkerRatio * self.ColorDarkerFactor)
         pressedDarkerFactor = int(self.PressedColorDarkerRatio * self.ColorDarkerFactor)
         darkerColorState = lambda factor: DataBox(ReferState(
-            themeColor, lambdaExp=lambda a0:
+            themeColor, referExp=lambda a0:
             RColor.qColorToHexCode(RColor.hexCodeToQColor(a0).darker(factor))
         )).data
         hoverColor = darkerColorState(hoverDarkerFactor)

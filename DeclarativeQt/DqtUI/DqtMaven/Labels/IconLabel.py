@@ -81,7 +81,7 @@ class IconLabel(Label):
             fixedHeight=fixedHeight,
             fixedWidth=fixedWidth,
             style=Validate(style, ReferState(
-                *styleEditor.styles.values(), lambdaExp=lambda *az: styleEditor.getStyleSheet()
+                *styleEditor.styles.values(), referExp=lambda *az: styleEditor.getStyleSheet()
             )),
             parent=parent,
             onClick=onClick,

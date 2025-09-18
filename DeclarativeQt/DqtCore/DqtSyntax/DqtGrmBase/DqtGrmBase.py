@@ -22,7 +22,7 @@ class BaseDqtGrammars:
     @staticmethod
     def SemanticRemember(language: RState[NLIndex], semantic: Semantics):
         exp = lambda a0: semantic[a0] if isValid(semantic) and isValid(a0) else None
-        return ReferState(language, lambdaExp=exp)
+        return ReferState(language, referExp=exp)
 
     @staticmethod
     def ValToRemember(value: object):

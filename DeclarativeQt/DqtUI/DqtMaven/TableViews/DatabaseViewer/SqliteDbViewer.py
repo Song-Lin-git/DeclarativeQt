@@ -56,9 +56,9 @@ class SqliteDbViewer(ColoredTableView):
         tableData = lambda a0, t0=None: self.tableToDataModel(fetchDataMethod(a0, fields(a0))) if a0 else None
         super().__init__(
             size=size,
-            dataModel=ReferState(sqlDb, reloadTrig, lambdaExp=tableData),
-            fieldMap=ReferState(sqlDb, language, reloadTrig, lambdaExp=dbFieldMap),
-            fields=ReferState(sqlDb, reloadTrig, lambdaExp=fields),
+            dataModel=ReferState(sqlDb, reloadTrig, referExp=tableData),
+            fieldMap=ReferState(sqlDb, language, reloadTrig, referExp=dbFieldMap),
+            fields=ReferState(sqlDb, reloadTrig, referExp=fields),
             hiddenFields=hiddenFields,
             fixedWidth=fixedWidth,
             fixedHeight=fixedHeight,

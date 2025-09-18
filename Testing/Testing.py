@@ -44,7 +44,7 @@ demo_app = MainApplication(
                         fontFamily=RFont.YaHei,
                         borderWidth=2,
                         borderColor=ReferState(
-                            br, lambdaExp=lambda a0: RColor.hexSkyBlue if a0 else RColor.hexCyanBlue
+                            br, referExp=lambda a0: RColor.hexSkyBlue if a0 else RColor.hexCyanBlue
                         ),
                     ),
                 ),

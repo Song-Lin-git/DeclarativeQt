@@ -28,7 +28,7 @@ class AdaptiveColumn(Box):
             parent=parent,
             contentPaddingRatio=float(0),
             content=ReferState(
-                *content, lambdaExp=lambda *args: Column(
+                *content, referExp=lambda *args: Column(
                     size=size,
                     options=options,
                     alignment=alignment,
@@ -65,7 +65,7 @@ class AdaptiveRow(Box):
             parent=parent,
             contentPaddingRatio=float(0),
             content=ReferState(
-                *content, lambdaExp=lambda *args: Row(
+                *content, referExp=lambda *args: Row(
                     size=size,
                     options=options,
                     alignment=alignment,
@@ -105,7 +105,7 @@ class AdaptiveLazyColumn(Box):
             parent=parent,
             contentPaddingRatio=float(0),
             content=ReferState(
-                *content, lambdaExp=lambda *args: LazyColumn(
+                *content, referExp=lambda *args: LazyColumn(
                     size=size,
                     options=options,
                     alignment=alignment,
@@ -148,7 +148,7 @@ class AdaptiveLazyRow(Box):
             parent=parent,
             contentPaddingRatio=float(0),
             content=ReferState(
-                *content, lambdaExp=lambda *args: LazyRow(
+                *content, referExp=lambda *args: LazyRow(
                     size=size,
                     options=options,
                     alignment=alignment,

@@ -72,7 +72,7 @@ class ManusTableView(Column):
         size = Validate(size, QSize(self.DefaultSize))
         dataModel = SeqToRemember(dataModel)
         if fields is None:
-            fields = ReferState(dataModel, lambdaExp=lambda a0: ColoredTableView.deriveMockFields(a0))
+            fields = ReferState(dataModel, referExp=lambda a0: ColoredTableView.deriveMockFields(a0))
         fields = ValToRemember(fields)
         buttonSize = Validate(buttonSize, QSize(30, 30))
         adjustTableTrig = Trigger()
@@ -155,7 +155,7 @@ class ManusTableView(Column):
                             icon=RIcon().loadIconPixmap(RIcon.Src.add_circle),
                             size=buttonSize,
                             enable=ReferState(
-                                fields, lambdaExp=lambda a0: False if isEmpty(a0) else True
+                                fields, referExp=lambda a0: False if isEmpty(a0) else True
                             ),
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(

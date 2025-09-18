@@ -188,10 +188,10 @@ class Remember(Generic[_MT], QObject):
 
 
 class ReferState(Generic[_MT], Remember[_MT]):
-    def __init__(self, *states: RState[Any], lambdaExp: Formula = None, value: _MT = None):
+    def __init__(self, *states: RState[Any], referExp: Formula = None, value: _MT = None):
         super().__init__(value)
         self._states = states
-        self._lambdaExp = lambdaExp if lambdaExp else lambda *x: x
+        self._referExp = referExp if referExp else lambda *x: x
         self.updateRefValue()
         for state in self._states:
             if isinstance(state, Remember):
@@ -200,7 +200,7 @@ class ReferState(Generic[_MT], Remember[_MT]):
 
     @private
     def updateRefValue(self):
-        result: Callable = partial(self._lambdaExp)
+        result: Callable = partial(self._referExp)
         for state in self._states:
             result = partial(result, Remember.getValue(state))
         try:

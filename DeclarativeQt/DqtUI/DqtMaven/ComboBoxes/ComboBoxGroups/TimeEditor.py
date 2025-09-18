@@ -113,7 +113,7 @@ class TimeEditor(Row):
         dtimePartValue = lambda idx: fixItem(str(divideDateTime(dtimeVal())[idx]))
         syncParts = Trigger()
         for i in range(self.DateTimeParts):
-            dtimePart = ReferState(dtime, syncParts, lambdaExp=lambda *az, idx=i: dtimePartValue(idx))
+            dtimePart = ReferState(dtime, syncParts, referExp=lambda *az, idx=i: dtimePartValue(idx))
             dtimeParts.append(dtimePart)
         yearVal, monthVal, dayVal, hourVal, minuteVal, secondVal = dtimeParts
         combineParts = lambda *az: datetime(*ReferList(az, lambda b0: GInt(Remember.getValue(b0))))
@@ -138,14 +138,14 @@ class TimeEditor(Row):
                     options=GList(Column.AutoSizeNoRemain),
                     content=GList(
                         IndicatorLabel(
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stYear[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stYear[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             size=QSize(canvasModifier.yearEditorWidth, canvasModifier.editorHeight),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    yearVal, lambdaExp=lambda a0:
+                                    yearVal, referExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
                             )
@@ -172,12 +172,12 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stMonth[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stMonth[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    monthVal, lambdaExp=lambda a0:
+                                    monthVal, referExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
                             )
@@ -202,13 +202,13 @@ class TimeEditor(Row):
                     content=GList(
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stDay[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stDay[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    dayVal, lambdaExp=lambda a0:
+                                    dayVal, referExp=lambda a0:
                                     dateLabelBackground if a0 is not None else invalidBackground
                                 )
                             )
@@ -222,7 +222,7 @@ class TimeEditor(Row):
                             onSelected=lambda: onPartActivated(),
                             scrollStep=int(20),
                             dataModel=ReferState(
-                                yearVal, monthVal, lambdaExp=lambda a0, a1:
+                                yearVal, monthVal, referExp=lambda a0, a1:
                                 boxItems(self.Base.MinDay, maxDays(GInt(a0), GInt(a1)))
                             ),
                         ),
@@ -240,12 +240,12 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stHour[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stHour[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    hourVal, lambdaExp=lambda a0:
+                                    hourVal, referExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 )
                             )
@@ -271,12 +271,12 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stMinute[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stMinute[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    minuteVal, lambdaExp=lambda a0:
+                                    minuteVal, referExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 )
                             )
@@ -302,12 +302,12 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, lambdaExp=lambda a0: RString.stSecond[a0]),
+                            text=ReferState(language, referExp=lambda a0: RString.stSecond[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
                                 normalBackground=ReferState(
-                                    secondVal, lambdaExp=lambda a0:
+                                    secondVal, referExp=lambda a0:
                                     timeLabelBackground if a0 is not None else invalidBackground
                                 ),
                             )

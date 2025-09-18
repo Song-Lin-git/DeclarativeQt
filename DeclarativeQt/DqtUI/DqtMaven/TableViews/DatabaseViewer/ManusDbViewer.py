@@ -64,9 +64,9 @@ class ManusDbViewer(ManusTableView):
         reloadTrig = Validate(reloadTrig, Trigger())
         super().__init__(
             size=size,
-            dataModel=ReferState(sqlDb, reloadTrig, lambdaExp=tableData),
-            fieldMap=ReferState(sqlDb, language, reloadTrig, lambdaExp=dbFieldMap),
-            fields=ReferState(sqlDb, reloadTrig, lambdaExp=fields),
+            dataModel=ReferState(sqlDb, reloadTrig, referExp=tableData),
+            fieldMap=ReferState(sqlDb, language, reloadTrig, referExp=dbFieldMap),
+            fields=ReferState(sqlDb, reloadTrig, referExp=fields),
             hiddenFields=hiddenFields,
             fixedWidth=fixedWidth,
             fixedHeight=fixedHeight,

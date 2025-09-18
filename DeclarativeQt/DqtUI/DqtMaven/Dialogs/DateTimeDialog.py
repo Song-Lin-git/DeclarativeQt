@@ -125,7 +125,7 @@ def DateTimeEditDialog(
                             size=QSize(infoLabelWidth, infoLabelHeight),
                             fixedHeight=infoLabelHeight,
                             indicatorStyle=IndicatorLabelStyle(fontSize=labelFontSize),
-                            text=ReferState(timeVal, lambdaExp=lambda a0: GStr(
+                            text=ReferState(timeVal, referExp=lambda a0: GStr(
                                 RString.pAt + RString.blankRepeat(int(3)) + GStr(a0)
                             )),
                         ),
@@ -136,7 +136,7 @@ def DateTimeEditDialog(
                     fixedHeight=checkButtonHeight,
                     size=QSize(checkButtonWidth, checkButtonHeight),
                     icon=RIcon.loadIconPixmap(RIcon.Src.check),
-                    text=ReferState(language, lambdaExp=lambda a0: RString.stOkConfirm[a0]),
+                    text=ReferState(language, referExp=lambda a0: RString.stOkConfirm[a0]),
                     styleEditor=ButtonStyle(
                         borderRadius=borderRadius,
                         fontSize=RFont.fzTinySize,

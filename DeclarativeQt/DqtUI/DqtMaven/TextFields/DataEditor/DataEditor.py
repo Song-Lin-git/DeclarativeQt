@@ -106,10 +106,10 @@ class DataEditor(BorderedTextField):
         unfocusedBackgroundExp = lambda a0: warningBackground if not a0 else RColor.hexWhite
         status = ReferState
         for key, val in DictData(
-                Key(styleEditor.focusedBorder).Val(status(checkMark, lambdaExp=focusedBorderExp)),
-                Key(styleEditor.unfocusedBorder).Val(status(checkMark, lambdaExp=unfocusedBorderExp)),
-                Key(styleEditor.focusedBackground).Val(status(checkMark, lambdaExp=focusedBackgroundExp)),
-                Key(styleEditor.unfocusedBackground).Val(status(checkMark, lambdaExp=unfocusedBackgroundExp)),
+                Key(styleEditor.focusedBorder).Val(status(checkMark, referExp=focusedBorderExp)),
+                Key(styleEditor.unfocusedBorder).Val(status(checkMark, referExp=unfocusedBorderExp)),
+                Key(styleEditor.focusedBackground).Val(status(checkMark, referExp=focusedBackgroundExp)),
+                Key(styleEditor.unfocusedBackground).Val(status(checkMark, referExp=unfocusedBackgroundExp)),
         ).data.items():
             styleEditor.setStyle(key, val)
         return styleEditor.styles

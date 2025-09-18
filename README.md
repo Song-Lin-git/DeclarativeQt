@@ -152,7 +152,7 @@ As in the example above, `BorderedButton` inherits from `Button` and `ButtonStyl
 def SampleButton() -> Button:
     count = Remember[int](0)
     return Button(
-        text=ReferState(count, lambdaExp=lambda a0: f"count: {a0}"),
+        text=ReferState(count, referExp=lambda a0: f"count: {a0}"),
         onClick=lambda: Run(
             count.updateValue(lambda a0: a0 + 1),
         )

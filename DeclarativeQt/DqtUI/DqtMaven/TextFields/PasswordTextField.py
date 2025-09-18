@@ -66,7 +66,7 @@ class PasswordTextField(Row):
                         borderRadius=self._borderRadius,
                         focusedBorder=ReferState(
                             *GList(validity, text, correction),
-                            lambdaExp=lambda a0, a1, a2: HexColor(
+                            referExp=lambda a0, a1, a2: HexColor(
                                 RColor.hexRed if not a2 or bool(
                                     len(a1) > 0 and validityCheck and not a0
                                 ) else RColor.hexBlack
@@ -74,7 +74,7 @@ class PasswordTextField(Row):
                         ),
                         unfocusedBorder=ReferState(
                             *GList(validity, text, correction),
-                            lambdaExp=lambda a0, a1, a2: HexColor(
+                            referExp=lambda a0, a1, a2: HexColor(
                                 RColor.hexRed if not a2 or bool(
                                     len(a1) > 0 and validityCheck and not a0
                                 ) else RColor.hexDarkGrey
@@ -83,7 +83,7 @@ class PasswordTextField(Row):
                     ),
                     enable=enable,
                     placehold=placehold,
-                    passwordMode=ReferState(visible, lambdaExp=lambda a0: not visible.value()),
+                    passwordMode=ReferState(visible, referExp=lambda a0: not visible.value()),
                     onValueChange=lambda: Run(
                         onValueChange(), text.setValue(RString.eraseBlank(text.value())),
                         validity.setValue(validityCheckMethod(text)) if validityCheck else None,
@@ -95,7 +95,7 @@ class PasswordTextField(Row):
                     alignment=IconLabel.Align.Center,
                     enable=enable,
                     style=ReferState(
-                        visible, lambdaExp=lambda a0: DqtStyle(
+                        visible, referExp=lambda a0: DqtStyle(
                             selector=DqtStyle.QLabel,
                             appendix=DictData(
                                 Key(DqtStyle.atBorder).Val(DqtStyle.valueCat(
@@ -117,7 +117,7 @@ class PasswordTextField(Row):
                     ),
                     iconSizeRatio=QSizeF(0.7, 0.7),
                     iconPixmap=ReferState(
-                        visible, lambdaExp=lambda a0: DataBox(
+                        visible, referExp=lambda a0: DataBox(
                             RIcon().loadIconPixmap(RIcon.Src.visibility_dark) if a0 else
                             RIcon().loadIconPixmap(RIcon.Src.visibility_off_light)
                         ).data
