@@ -164,4 +164,4 @@ use `Remember.connect` instead of `Remember.changed.connect`.
 
 <br />
 
-~ *For a complete example, please see the demo in `Demos/Demo.py`.*
+~ *For a complete example, please see the demo in `Demo.py`.*
