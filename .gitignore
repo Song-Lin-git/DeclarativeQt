@@ -12,3 +12,5 @@ venv/
 .coverage
 .ipynb_checkpoints/
 .AppData/
+*.exe
+*.dll
