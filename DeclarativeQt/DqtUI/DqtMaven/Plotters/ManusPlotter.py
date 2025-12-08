@@ -89,6 +89,10 @@ class ManusPlotter(Column):
         self._exportTrigger = Trigger()
         self._flushTrigger = Trigger()
         self._moveLegendTrigger = Trigger()
+        self._expandXLimTrigger = Trigger()
+        self._expandYLimTrigger = Trigger()
+        self._shrinkXLimTrigger = Trigger()
+        self._shrinkYLimTrigger = Trigger()
         self.fixCurvesElements()
         super().__init__(
             options=GList(Column.AutoSizeNoRemain),
@@ -96,145 +100,202 @@ class ManusPlotter(Column):
             horizontalPadding=int(0),
             spacing=topToolSpacing,
             autoExpandContentAt=int(1),
+            autoExpandToMaxCross=GList(0),
             autoContentResize=True,
             alignment=Row.Align.Left,
             content=GList(
                 Row(
                     options=GList(Row.AutoSizeNoRemain),
-                    autoContentResize=True,
-                    arrangement=Row.Align.Left,
-                    fixHeight=True,
-                    fixWidth=True,
+                    autoUniformDistribute=True,
                     padding=int(0),
                     verticalPadding=int(0),
-                    spacing=toolButtonSpacing,
                     content=GList(
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.refresh),
-                            onClick=lambda: Run(
-                                self._flushTrigger.trig(),
-                            ) if refreshMethod is None else refreshMethod()
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.home_dark),
-                            onClick=lambda: self._homeTrigger.trig()
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=ReferState(
-                                self._aspectMode, referExp=lambda a0:
-                                RIcon().loadIconPixmap(RIcon.Src.open_in_full)
-                                if Equal(a0, CurvePlotter.aspectEqual) else
-                                RIcon().loadIconPixmap(RIcon.Src.aspect_ratio)
-                            ),
-                            onClick=lambda: Run(
-                                self._aspectMode.setValue(CurvePlotter.aspectAuto)
-                                if Equal(self._aspectMode.value(), CurvePlotter.aspectEqual) else
-                                self._aspectMode.setValue(CurvePlotter.aspectEqual)
-                            )
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.curve_colored),
-                            onClick=lambda a0: Execute(
-                                self.CurveEditorDailog(
-                                    parent=a0,
-                                    curveNames=self._curveNames,
-                                    curveLabels=self._yLabels,
-                                    lineColors=self._styleEditor.lineColors,
-                                    lineStyles=self._styleEditor.lineStyles,
-                                    lineWidths=self._styleEditor.lineWidths,
-                                    pinnerSizes=self._styleEditor.pinnerSizes,
-                                    pinnerStyles=self._styleEditor.pinnerStyles,
-                                    curveVisibles=self._curveVisibles,
-                                    annotColors=self._styleEditor.annotationColors,
-                                    buttonRadiusRatio=buttonRadiusRatio,
-                                    dialogOffset=QPoint(a0.width(), -1),
-                                ) if not isEmpty(Remember.getValue(self._datas)) else None
-                            ),
-                            triggers=DictData(Key(self._datas).Val(
-                                lambda a0: self._curveNames.setValue(SeqToRemember(ExtendJoin(
-                                    Remember.getListValue(self._curveNames),
-                                    list(Remember.getDictValue(self._datas).keys())
-                                ))) if isValid(a0) else None
-                            )).data
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=ReferState(
-                                self._gridOn, referExp=lambda a0:
-                                RIcon().loadIconPixmap(RIcon.Src.calendar_view_month)
-                                if a0 else RIcon().loadIconPixmap(RIcon.Src.calendar_view_month_grey)
-                            ),
-                            onClick=lambda: self._gridOn.setValue(not self._gridOn.value())
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=ReferState(
-                                self._cursorOff, referExp=lambda a0:
-                                RIcon().loadIconPixmap(RIcon.Src.cursor_on) if not a0 else
-                                RIcon().loadIconPixmap(RIcon.Src.border_inner_grey)
-                            ),
-                            onClick=lambda: self._cursorOff.setValue(not self._cursorOff.value())
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.border_color),
-                            onClick=lambda a0: Run(
-                                self._styleEditor.cursorColor.setValue(
-                                    RColor.qColorToHexCode(ColorDialog.getColor(
-                                        initial=self._styleEditor.cursorColor.value(),
-                                        parent=a0, offset=QPoint(a0.width(), -1),
-                                        title=SemanticRemember(language, RString.stCursorColor)
+                        Row(
+                            options=GList(Row.AutoSizeNoRemain),
+                            autoContentResize=True,
+                            arrangement=Row.Align.Left,
+                            fixHeight=True,
+                            fixWidth=True,
+                            padding=int(0),
+                            verticalPadding=int(0),
+                            spacing=toolButtonSpacing,
+                            content=GList(
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.refresh),
+                                    onClick=lambda: Run(
+                                        self._flushTrigger.trig(),
+                                    ) if refreshMethod is None else refreshMethod()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.home_dark),
+                                    onClick=lambda: self._homeTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=ReferState(
+                                        self._aspectMode, referExp=lambda a0:
+                                        RIcon().loadIconPixmap(RIcon.Src.open_in_full)
+                                        if Equal(a0, CurvePlotter.aspectEqual) else
+                                        RIcon().loadIconPixmap(RIcon.Src.aspect_ratio)
+                                    ),
+                                    onClick=lambda: Run(
+                                        self._aspectMode.setValue(CurvePlotter.aspectAuto)
+                                        if Equal(self._aspectMode.value(), CurvePlotter.aspectEqual) else
+                                        self._aspectMode.setValue(CurvePlotter.aspectEqual)
+                                    )
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.curve_colored),
+                                    onClick=lambda a0: Execute(
+                                        self.CurveEditorDailog(
+                                            parent=a0,
+                                            curveNames=self._curveNames,
+                                            curveLabels=self._yLabels,
+                                            lineColors=self._styleEditor.lineColors,
+                                            lineStyles=self._styleEditor.lineStyles,
+                                            lineWidths=self._styleEditor.lineWidths,
+                                            pinnerSizes=self._styleEditor.pinnerSizes,
+                                            pinnerStyles=self._styleEditor.pinnerStyles,
+                                            curveVisibles=self._curveVisibles,
+                                            annotColors=self._styleEditor.annotationColors,
+                                            buttonRadiusRatio=buttonRadiusRatio,
+                                            dialogOffset=QPoint(a0.width(), -1),
+                                        ) if not isEmpty(Remember.getValue(self._datas)) else None
+                                    ),
+                                    triggers=DictData(Key(self._datas).Val(
+                                        lambda a0: self._curveNames.setValue(SeqToRemember(ExtendJoin(
+                                            Remember.getListValue(self._curveNames),
+                                            list(Remember.getDictValue(self._datas).keys())
+                                        ))) if isValid(a0) else None
+                                    )).data
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=ReferState(
+                                        self._gridOn, referExp=lambda a0:
+                                        RIcon().loadIconPixmap(RIcon.Src.calendar_view_month)
+                                        if a0 else RIcon().loadIconPixmap(RIcon.Src.calendar_view_month_grey)
+                                    ),
+                                    onClick=lambda: self._gridOn.setValue(not self._gridOn.value())
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=ReferState(
+                                        self._cursorOff, referExp=lambda a0:
+                                        RIcon().loadIconPixmap(RIcon.Src.cursor_on) if not a0 else
+                                        RIcon().loadIconPixmap(RIcon.Src.border_inner_grey)
+                                    ),
+                                    onClick=lambda: self._cursorOff.setValue(not self._cursorOff.value())
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.border_color),
+                                    onClick=lambda a0: Run(
+                                        self._styleEditor.cursorColor.setValue(
+                                            RColor.qColorToHexCode(ColorDialog.getColor(
+                                                initial=self._styleEditor.cursorColor.value(),
+                                                parent=a0, offset=QPoint(a0.width(), -1),
+                                                title=SemanticRemember(language, RString.stCursorColor)
+                                            )),
+                                        )
+                                    )
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.mouse_cursor_colored),
+                                    onClick=lambda a0: Execute(FixCircleShapeDialog(
+                                        drivePlotter=ExpValue(DqtMethods.findTypedChildContents(
+                                            DqtMethods.backtrackTypedParent(a0, Column),
+                                            MultiAxisPlotter, CurvePlotter, strict=True
+                                        ), lambda b0: b0[0]), language=language,
+                                        parent=a0, dialogOffset=QPoint(a0.width(), -1),
                                     )),
-                                )
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.ink_eraser),
+                                    onClick=lambda: self._clearLastMarkTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.delete_sweep),
+                                    onClick=lambda: self._clearAllMarkTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.cycle),
+                                    onClick=lambda: self._moveLegendTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.output),
+                                    onClick=lambda: self._exportTrigger.trig()
+                                ),
                             )
                         ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.mouse_cursor_colored),
-                            onClick=lambda a0: Execute(FixCircleShapeDialog(
-                                drivePlotter=ExpValue(DqtMethods.findTypedChildContents(
-                                    DqtMethods.backtrackTypedParent(a0, Column),
-                                    MultiAxisPlotter, CurvePlotter, strict=True
-                                ), lambda b0: b0[0]), language=language,
-                                parent=a0, dialogOffset=QPoint(a0.width(), -1),
-                            )),
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.ink_eraser),
-                            onClick=lambda: self._clearLastMarkTrigger.trig()
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.delete_sweep),
-                            onClick=lambda: self._clearAllMarkTrigger.trig()
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.cycle),
-                            onClick=lambda: self._moveLegendTrigger.trig()
-                        ),
-                        IconButton(
-                            size=buttonSize,
-                            fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.output),
-                            onClick=lambda: self._exportTrigger.trig()
-                        ),
+                        Row(
+                            options=GList(Row.AutoSizeNoRemain),
+                            autoContentResize=True,
+                            arrangement=Row.Align.Left,
+                            fixHeight=True,
+                            fixWidth=True,
+                            padding=int(0),
+                            verticalPadding=int(0),
+                            spacing=toolButtonSpacing,
+                            content=GList(
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.expand_x),
+                                    enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
+                                        a0, MultiAxisPlotter.aspectAuto
+                                    )),
+                                    onClick=lambda: self._expandXLimTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.compress_x),
+                                    enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
+                                        a0, MultiAxisPlotter.aspectAuto
+                                    )),
+                                    onClick=lambda: self._shrinkXLimTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.expand_y),
+                                    enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
+                                        a0, MultiAxisPlotter.aspectAuto
+                                    )),
+                                    onClick=lambda: self._expandYLimTrigger.trig()
+                                ),
+                                IconButton(
+                                    size=buttonSize,
+                                    fixedRadiusRatio=buttonRadiusRatio,
+                                    icon=RIcon().loadIconPixmap(RIcon.Src.compress_y),
+                                    enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
+                                        a0, MultiAxisPlotter.aspectAuto
+                                    )),
+                                    onClick=lambda: self._shrinkYLimTrigger.trig()
+                                ),
+                            )
+                        )
                     )
                 ),
                 CurvePlotter(
@@ -259,6 +320,10 @@ class ManusPlotter(Column):
                         clearAllMarkTrig=self._clearAllMarkTrigger,
                         clearLastMarkTrig=self._clearLastMarkTrigger,
                         circleMarkFixTrig=self._circleMarkFixTrigger,
+                        shrinkXLimTrig=self._shrinkXLimTrigger,
+                        shrinkYLimTrig=self._shrinkYLimTrigger,
+                        expandXLimTrig=self._expandXLimTrigger,
+                        expandYLimTrig=self._expandYLimTrigger,
                     ),
                     triggers=triggers,
                     styleEditor=self._styleEditor,

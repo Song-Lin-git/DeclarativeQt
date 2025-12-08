@@ -100,6 +100,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     circleMarkRadiusRatio: LutRatio = 0.01
     circleMarkLimitRatio: LutRatio = 1.0
     circleMarkFixRatio: LutRatio = 0.91434
+    defaultLimScaleRatio: LutRatio = 0.12
     axisExpandRatio: LutRatio = 0.03
     prtFontName: OptionArg = "font.sans-serif"
     prtUnicodeMinus: OptionArg = "axes.unicode_minus"
@@ -784,6 +785,36 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         if flush:
             self.flushFigureCanvas()
         return None
+
+    @private
+    def scaleYAxisLimitation(self, ratio: float, flush: bool = True):
+        y_lim = self._ax.get_ylim()
+        if not Equal(self._aspectMode, self.aspectAuto):
+            return y_lim
+        y_min, y_max = y_lim
+        y_span = ratio * float(y_max - y_min)
+        y_min += -y_span / 2.0
+        y_max += y_span / 2.0
+        y_lim = GList(y_min, y_max)
+        self._ax.set_ylim(y_min, y_max)
+        if flush:
+            self._fig.canvas.draw_idle()
+        return y_lim
+
+    @private
+    def scaleXAxisLimitation(self, ratio: float, flush: bool = True):
+        x_lim = self._ax.get_xlim()
+        if not Equal(self._aspectMode, self.aspectAuto):
+            return x_lim
+        x_min, x_max = x_lim
+        x_span = ratio * float(x_max - x_min)
+        x_min += -x_span / 2.0
+        x_max += x_span / 2.0
+        x_lim = GList(x_min, x_max)
+        self._ax.set_xlim(x_min, x_max)
+        if flush:
+            self._fig.canvas.draw_idle()
+        return x_lim
 
     @private
     def syncYAxisLimitation(self, flush: bool = True) -> List:

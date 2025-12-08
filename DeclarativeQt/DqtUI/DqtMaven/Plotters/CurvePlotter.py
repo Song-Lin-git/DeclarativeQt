@@ -74,6 +74,10 @@ class PlotterTrigger:
             canvasFlushTrig: Remember = None,
             exportFigureTrig: Remember = None,
             adjustLegendTrig: Remember = None,
+            expandXLimTrig: Remember = None,
+            expandYLimTrig: Remember = None,
+            shrinkXLimTrig: Remember = None,
+            shrinkYLimTrig: Remember = None,
     ):
         self.homeTrig = homeTrig
         self.clearAllMarkTrig = clearAllMarkTrig
@@ -82,6 +86,10 @@ class PlotterTrigger:
         self.canvasFlushTrig = canvasFlushTrig
         self.exportFigureTrig = exportFigureTrig
         self.adjustLegendTrig = adjustLegendTrig
+        self.expandXLimTrig = expandXLimTrig
+        self.expandYLimTrig = expandYLimTrig
+        self.shrinkXLimTrig = shrinkXLimTrig
+        self.shrinkYLimTrig = shrinkYLimTrig
 
 
 class CurvePlotter(MultiAxisPlotter):
@@ -258,6 +266,10 @@ class CurvePlotter(MultiAxisPlotter):
             Key(trigs.adjustLegendTrig).Val(self.autoMoveLegend),
             Key(trigs.exportFigureTrig).Val(self.exportAxFigure),
             Key(trigs.circleMarkFixTrig).Val(self.fixCircleMarker),
+            Key(trigs.expandXLimTrig).Val(partial(self.scaleXAxisLimitation, -self.defaultLimScaleRatio)),
+            Key(trigs.expandYLimTrig).Val(partial(self.scaleYAxisLimitation, -self.defaultLimScaleRatio)),
+            Key(trigs.shrinkXLimTrig).Val(partial(self.scaleXAxisLimitation, self.defaultLimScaleRatio)),
+            Key(trigs.shrinkYLimTrig).Val(partial(self.scaleYAxisLimitation, self.defaultLimScaleRatio)),
         ).data
         for k, v in optionTrigs.items():
             if isinstance(k, Remember):

@@ -16,6 +16,10 @@ IconName = str
 
 # https://fonts.google.com/icons
 class IconSource(ABC):
+    compress_x: IconName = "compress_x.png"
+    compress_y: IconName = "compress_y.png"
+    expand_x: IconName = "expand_x.png"
+    expand_y: IconName = "expand_y.png"
     block_small: IconName = "block_small.png"
     block: IconName = "block.png"
     triangle: IconName = "triangle.png"
