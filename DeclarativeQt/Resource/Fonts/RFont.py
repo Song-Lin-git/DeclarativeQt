@@ -42,13 +42,13 @@ class RFont:
             Key(self.CambriaMath).Val(RString.pCambria)
         ).data
 
-    def getQFont(self, family: str, size: int = None, args: FontArgs = None) -> QFont:
+    def getQFont(self, family: str, size: int = None, style: FontArgs = None) -> QFont:
         font = QFont()
         font.setFamily(family)
         font.setPointSize(Validate(size, self.fzDefaultSize))
-        if args is None:
+        if style is None:
             return font
-        bold, italic, underline = args.bold, args.italic, args.underline
+        bold, italic, underline = style.bold, style.italic, style.underline
         font.setBold(Validate(bold, False))
         font.setItalic(Validate(italic, False))
         font.setUnderline(Validate(underline, False))
@@ -58,7 +58,7 @@ class RFont:
         return self.getQFont(self.SimSun, size=self.fzDefaultSize)
 
     def defaultTitleQFont(self):
-        return self.getQFont(self.SimHei, size=self.fzDefaultTitleSize, args=FontArgs(bold=True))
+        return self.getQFont(self.SimHei, size=self.fzDefaultTitleSize, style=FontArgs(bold=True))
 
     @private
     def getFontFileName(self, fontName: FontName):
