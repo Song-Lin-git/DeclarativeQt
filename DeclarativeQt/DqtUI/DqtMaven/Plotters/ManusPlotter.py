@@ -108,6 +108,7 @@ class ManusPlotter(Column):
                     options=GList(Row.AutoSizeNoRemain),
                     autoUniformDistribute=True,
                     padding=int(0),
+                    fixHeight=True,
                     verticalPadding=int(0),
                     content=GList(
                         Row(
