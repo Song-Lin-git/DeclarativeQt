@@ -94,6 +94,7 @@ class PlotterTrigger:
 
 class CurvePlotter(MultiAxisPlotter):
     curveLabel: StyleKey = "label"
+    curveVisible: StyleKey = "visible"
     curveLegendLocations: List[ModeArg] = ListData(
         MultiAxisPlotter.labelUpperLeftLoc,
         MultiAxisPlotter.labelUpperRightLoc,
@@ -176,6 +177,7 @@ class CurvePlotter(MultiAxisPlotter):
             Key(PlotterStyle.atPinnerStyle).Val(Remember.obtainListItem(pinnerStyles, idx)),
             Key(PlotterStyle.atPinnerSize).Val(Remember.obtainListItem(pinnerSizes, idx)),
             Key(PlotterStyle.atAnnotationColor).Val(Remember.obtainListItem(annotationColors, idx)),
+            Key(self.curveVisible).Val(Remember.obtainListItem(curveVisibles, idx))
         ).data
         self._curveKeys = list(Remember.getDictValue(datas).keys())
         if isinstance(datas, Remember):
@@ -404,5 +406,6 @@ class CurvePlotter(MultiAxisPlotter):
             axis_data = Remember.getValue(v)
             curveParams = self._curveParams(idx)
             self.setAxCurveDatas(description, axis_data, **curveParams)
+            self.setCurveVisible(description, curveParams[self.curveVisible])
         self._curveKeys = curveKeys
         return None
