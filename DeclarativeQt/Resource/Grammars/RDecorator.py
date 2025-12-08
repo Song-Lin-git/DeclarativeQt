@@ -2,13 +2,17 @@ import inspect
 import os.path
 from typing import Callable
 
+import colorama
+from colorama import Fore
+
+colorama.init(autoreset=True)
+
 
 def logPrivate(func: Callable):
-    file_path = inspect.getfile(func)
-    file_path = os.path.basename(file_path)
-    line_number = inspect.getsourcelines(func)[1]
-    log = "A private function called: " + f"{func.__name__} at file {file_path}: line {line_number}"
-    print(log)
+    file = os.path.basename(inspect.getfile(func))
+    line = inspect.getsourcelines(func)[1]
+    func = f"{func.__name__}"
+    print(f"{Fore.YELLOW}Private: {func} at {file}: line-{line}")
     return func
 
 
