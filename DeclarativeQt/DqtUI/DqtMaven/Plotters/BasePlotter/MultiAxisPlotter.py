@@ -101,6 +101,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     circleMarkLimitRatio: LutRatio = 1.0
     circleMarkFixRatio: LutRatio = 0.91434
     defaultLimScaleRatio: LutRatio = 0.12
+    oncePlotLimit: OptionArg = 10
     axisExpandRatio: LutRatio = 0.03
     prtFontName: OptionArg = "font.sans-serif"
     prtUnicodeMinus: OptionArg = "axes.unicode_minus"

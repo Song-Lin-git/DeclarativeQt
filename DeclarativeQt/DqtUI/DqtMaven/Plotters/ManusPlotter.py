@@ -343,17 +343,21 @@ class ManusPlotter(Column):
         self.fixCurveArgs(self._styleEditor.lineStyles, lambda i, a0=None: CurvePlotter.defaultCurveStyle)
         self.fixCurveArgs(self._styleEditor.pinnerStyles, lambda i, a0=None: CurvePlotter.defaultPinnerStyle)
         self.fixCurveArgs(self._styleEditor.pinnerSizes, lambda i, a0=None: CurvePlotter.defaultPinnerSize)
-        self.fixCurveArgs(self._curveVisibles, lambda i, a0=None: Remember(True))
+        fixVisible = lambda i, a0=None: Remember(True if i < MultiAxisPlotter.oncePlotLimit else False)
+        self.fixCurveArgs(self._curveVisibles, fixVisible)
         return None
 
     @private
-    def fixCurveArgs(self, args: Remember[List[RState]], method: Callable[[int, List], Any]):
-        argsVal = Remember.getValue(args)
+    def fixCurveArgs(
+            self, tar: Remember[List[RState]],
+            method: Callable[[int, List], Any],
+    ) -> None:
+        argsVal = Remember.getValue(tar)
         dif = len(self._curveNames.value()) - len(argsVal)
         if dif <= 0:
             return None
         fixer = ReferList(range(dif), lambda i, a0=argsVal: method(i, a0))
-        args.setValue(JoinLists(argsVal, fixer))
+        tar.setValue(JoinLists(argsVal, fixer))
         return None
 
     @staticmethod

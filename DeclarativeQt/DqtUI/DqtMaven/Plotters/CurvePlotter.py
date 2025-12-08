@@ -392,6 +392,7 @@ class CurvePlotter(MultiAxisPlotter):
     def setCurveDatas(self, curveData: CurveData):
         if not isValid(curveData):
             return None
+        self.clearFigCanvas()
         curveKeys = ExtendJoin(self._curveKeys, Remember.getListValue(curveData.keys()))
         for k, v in curveData.items():
             idx = curveKeys.index(k)
