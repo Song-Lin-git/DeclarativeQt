@@ -350,11 +350,13 @@ class ManusPlotter(Column):
     @private
     def fixCurveArgs(
             self, tar: Remember[List[RState]],
-            method: Callable[[int, List], Any]
+            method: Callable[[int, List], Any],
     ) -> None:
         argsVal = Remember.getValue(tar)
-        dif = len(self._curveNames.value()) - len(argsVal)
+        n = len(self._curveNames.value())
+        dif = n - len(argsVal)
         if dif <= 0:
+            tar.setValue(argsVal[:n])
             return None
         fixer = ReferList(range(dif), lambda i, a0=argsVal: method(i, a0))
         tar.setValue(JoinLists(argsVal, fixer))
