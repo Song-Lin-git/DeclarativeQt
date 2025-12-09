@@ -206,7 +206,7 @@ class ReferState(Generic[_MT], Remember[_MT]):
         try:
             result = result()
         except Exception as e:
-            RString.log(str(e), RString.pLogError)
+            RString.log(str(e), RString.lgError)
             return None
         self.setValue(result)
         return None

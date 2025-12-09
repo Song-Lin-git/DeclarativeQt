@@ -172,8 +172,8 @@ class SqlComposer:
             cursor.execute(self._cmd)
             self._connection.commit()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.pLogError)
-            RString.log(str(self._cmd), RString.pLogError)
+            RString.log(str(e), RString.lgError)
+            RString.log(str(self._cmd), RString.lgError)
             self._cmd = self.pNone
             return False
         self._cmd = self.pNone
@@ -190,8 +190,8 @@ class SqlComposer:
             cursor.execute(self._cmd)
             datas = cursor.fetchall()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.pLogError)
-            RString.log(str(self._cmd), RString.pLogError)
+            RString.log(str(e), RString.lgError)
+            RString.log(str(self._cmd), RString.lgError)
             self._cmd = self.pNone
             return None
         self._cmd = self.pNone
@@ -208,8 +208,8 @@ class SqlComposer:
             cursor.execute(self._cmd)
             self._connection.commit()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.pLogError)
-            RString.log(str(self._cmd), RString.pLogError)
+            RString.log(str(e), RString.lgError)
+            RString.log(str(self._cmd), RString.lgError)
             self._cmd = self.pNone
             return None
         self._cmd = self.pNone

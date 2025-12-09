@@ -14,7 +14,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Plotters.PlotterAssistant.FixCircleShapeDialog
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, ExtendJoin, DictData, Key, DataBox, isValid, \
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key, DataBox, isValid, \
     ListData, DictToDefault
 from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
 
@@ -395,7 +395,7 @@ class CurvePlotter(MultiAxisPlotter):
         if not isValid(curveData):
             return None
         self.clearFigCanvas()
-        curveKeys = ExtendJoin(self._curveKeys, Remember.getListValue(curveData.keys()))
+        curveKeys = Remember.getListValue(curveData.keys())
         for k, v in curveData.items():
             idx = curveKeys.index(k)
             if isinstance(k, Remember):

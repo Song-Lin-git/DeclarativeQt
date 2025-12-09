@@ -4,6 +4,7 @@ from concurrent import futures
 from itertools import chain
 from typing import Dict, List, Callable, Tuple, Union, Any, Optional
 
+import matplotlib
 import numpy as np
 from PyQt5.QtCore import QSizeF
 from matplotlib import pyplot as plt, patches, rcParams
@@ -24,6 +25,8 @@ from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, ReferDict, ReferLi
     Validate, GList, GIters, Equal, isEmpty, inRange, StrFrame, GTuple, Inf, ConditionList, EnumList, PureList, isValid
 from DeclarativeQt.Resource.Images.RImage import LutRatio
 from DeclarativeQt.Resource.Strings.RString import RString
+
+matplotlib.set_loglevel("error")
 
 OptionArg = Union[float, int, str]
 AnnotFrame = Callable[[float, float], str]
@@ -490,19 +493,19 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._fig.canvas.draw_idle()
         return None
 
-    def setCurveDescription(self, idx: int, description: str):
+    def setCurveDescription(self, idx: int, dcpKey: str):
         if not self.isValidIndex(idx):
             return None
-        if Equal(list(self._yDatas.keys())[idx], description):
+        if dcpKey in self._yDatas:
             return None
-        self._lines[idx].set_label(description)
+        self._lines[idx].set_label(dcpKey)
         yAxisDatas = dict()
         for i, item in enumerate(self._yDatas.items()):
             k, v = item
             if not Equal(i, idx):
                 yAxisDatas[k] = v
                 continue
-            yAxisDatas[description] = v
+            yAxisDatas[dcpKey] = v
         self._yDatas = yAxisDatas
         self._fig.canvas.draw_idle()
         return None
@@ -864,7 +867,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
             try:
                 self._KDTrees.append(cKDTree(np.column_stack(GTuple(x_data, y_data))))
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
         return None
 
     @private

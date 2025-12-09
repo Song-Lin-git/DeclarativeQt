@@ -88,7 +88,7 @@ class PhyMeasure(ABC):
         try:
             rounded = decimal_val.quantize(exponent, rounding=ROUND_HALF_UP)
         except Exception as e:
-            RString.log(str(e), RString.pLogError)
+            RString.log(str(e), RString.lgError)
             return value
         return float(rounded)
 

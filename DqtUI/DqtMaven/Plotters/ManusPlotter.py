@@ -28,7 +28,7 @@ from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GList, ReferList, JoinLists, DataBox, DictData, Key, \
-    SumNestedList, Equal, ExtendJoin, isValid, isEmpty, GetDictItem, SwitchListItem, ExpValue
+    SumNestedList, Equal, isValid, isEmpty, GetDictItem, SwitchListItem, ExpValue
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import RImage
 from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
@@ -171,10 +171,9 @@ class ManusPlotter(Column):
                                         ) if not isEmpty(Remember.getValue(self._datas)) else None
                                     ),
                                     triggers=DictData(Key(self._datas).Val(
-                                        lambda a0: self._curveNames.setValue(SeqToRemember(ExtendJoin(
-                                            Remember.getListValue(self._curveNames),
+                                        lambda a0: self._curveNames.setValue(SeqToRemember(
                                             list(Remember.getDictValue(self._datas).keys())
-                                        ))) if isValid(a0) else None
+                                        )) if isValid(a0) else None
                                     )).data
                                 ),
                                 IconButton(
@@ -335,7 +334,7 @@ class ManusPlotter(Column):
 
     @private
     def fixCurvesElements(self):
-        self.fixCurveArgs(self._yLabels, lambda i, a0: self._curveNames.value()[len(a0):][i].copy())
+        self._yLabels.setValue(SeqToRemember(Remember.getListValue(self._curveNames).copy()))
         self.fixCurveArgs(self._styleEditor.lineColors, lambda i, a0=None: Remember(RColor().randomColor()))
         fixAnnotColor = lambda i, a0: self._styleEditor.lineColors.value()[len(a0):][i].copy()
         self.fixCurveArgs(self._styleEditor.annotationColors, fixAnnotColor)

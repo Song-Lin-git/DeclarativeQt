@@ -1,10 +1,10 @@
-import math
 import sys
 
+import numpy as np
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QApplication
 
-from DeclarativeQt.DqtCore.DqtBase import ReferState, Remember
+from DeclarativeQt.DqtCore.DqtBase import ReferState, Remember, Run
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import MainApplication
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BorderedButton import ButtonStyle
@@ -17,7 +17,7 @@ from DeclarativeQt.DqtUI.DqtTools.AppMenu import AppMenuStyle
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Window, Column
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
-from DeclarativeQt.Resource.Grammars.RGrammar import GList, DictData, Key, ReferList, GTuple, GStr
+from DeclarativeQt.Resource.Grammars.RGrammar import GList, DictData, Key, GStr
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Strings.RString import RString
 
@@ -25,7 +25,12 @@ app = QApplication(sys.argv)
 
 app.setStyleSheet(AppMenuStyle().getStyleSheet())
 br = Remember(False)
-data = Remember(0.0)
+data = Remember(10.0)
+key = Remember("sin")
+Span = 20
+NPoint = 1000
+Nequist = NPoint / Span
+tlist = np.linspace(0, Span, NPoint)
 RString.log(br)
 demo_app = MainApplication(
     Window(
@@ -47,17 +52,27 @@ demo_app = MainApplication(
                             br, referExp=lambda a0: RColor.hexSkyBlue if a0 else RColor.hexCyanBlue
                         ),
                     ),
+                    onClick=lambda: Run(
+                        key.setValue(key.value() + "0"), print(key.value())
+                    ),
                 ),
                 ColoredSlider(
                     data=data,
                     direction=Slider.Horizontal,
                     percision=1000,
+                    minVal=1,
+                    maxVal=Nequist / 2.0,
                     onValueChange=lambda: print(data.value()),
                 ),
                 TimeEditor(canvasModifier=TimeEditor.Canvas(editorHeight=34)),
                 ManusPlotter(
                     datas=DictData(
-                        Key("sin").Val(ReferList(range(1000), lambda i: GTuple(i * 0.1, math.sin(i * 0.1)))),
+                        Key(key).Val(ReferState(
+                            data, referExp=lambda a0: list(zip(
+                                tlist.tolist(),
+                                np.sin(a0 * tlist).tolist(),
+                            ))
+                        )),
                     ).data,
                     xLabel=GStr("时间/s")
                 )

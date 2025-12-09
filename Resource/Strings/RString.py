@@ -42,14 +42,14 @@ class RString(ABC):
             try:
                 tp(val)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return False
             return True
         elif Equal(tp, datetime):
             try:
                 parser.parse(timestr=val)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return False
             return True
         return False
@@ -59,7 +59,7 @@ class RString(ABC):
         try:
             dtime = parser.parse(timestr=dtime)
         except Exception as e:
-            RString.log(str(e), RString.pLogError)
+            RString.log(str(e), RString.lgError)
             return None
         return dtime
 
@@ -70,7 +70,7 @@ class RString(ABC):
             try:
                 dtime = parser.parse(timestr=dtime)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return None
         return dtime.strftime(RString.frDefaultDateFormat)
 
@@ -81,7 +81,7 @@ class RString(ABC):
             try:
                 dtime = parser.parse(timestr=dtime)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return None
         return dtime.strftime(RString.frDefaultTimeFormat)
 
@@ -92,7 +92,7 @@ class RString(ABC):
             try:
                 dtime = parser.parse(timestr=dtime)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return None
         return dtime.strftime(RString.frDefaultDatetimeFormat)
 
@@ -103,7 +103,7 @@ class RString(ABC):
             try:
                 dtime = parser.parse(timestr=dtime)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 return None
         return dtime.isoformat()
 
@@ -146,10 +146,10 @@ class RString(ABC):
             item = float(item)
         except Exception as e:
             if showLog:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
             return False
         if showLog:
-            RString.log(str(item), RString.pLogData)
+            RString.log(str(item), RString.lgData)
         return True
 
     @staticmethod
@@ -177,7 +177,7 @@ class RString(ABC):
             try:
                 match = int(match)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 match = None
             results.append(match)
         return results
@@ -196,7 +196,7 @@ class RString(ABC):
             try:
                 match = float(match)
             except Exception as e:
-                RString.log(str(e), RString.pLogError)
+                RString.log(str(e), RString.lgError)
                 match = None
             results.append(match)
         return results
@@ -266,16 +266,11 @@ class RString(ABC):
 
     @staticmethod
     def log(info: Any, port: str = None):
-        norm = RString.pLogNormal
+        norm = RString.lgNormal
         port = Validate(port, norm)
         print(port, info, norm, sep=RString.pEmpty)
         return None
 
-    pLogNormal: Symbol = "\033[0m"
-    pLogInfo: Symbol = "\033[34m"
-    pLogError: Symbol = "\033[31m"
-    pLogWarn: Symbol = "\033[33m"
-    pLogData: Symbol = "\033[36m"
     pTrue: Symbol = "√"
     pTable: Symbol = "tab"
     pFig: Symbol = "fig"
@@ -340,6 +335,11 @@ class RString(ABC):
     frDecimalRound: PhraseFrame = staticmethod(lambda x: "{" + f":.{x}f" + "}")
     frQuote: StrFrame = staticmethod(lambda text: f"\"{text}\"")
     frSingleQuote: StrFrame = staticmethod(lambda text: f"\'{text}\'")
+    lgNormal: Symbol = "\033[0m"
+    lgInfo: Symbol = "\033[34m"
+    lgError: Symbol = "\033[31m"
+    lgWarn: Symbol = "\033[33m"
+    lgData: Symbol = "\033[36m"
     with open(Path(_ThisFilePath).parent / NLSourceAt, "r", encoding="utf-8") as file:
         loader = dict(yaml.safe_load(file))
         semantic = DictToDefault(loader, defaultExp=lambda: defaultdict(str))

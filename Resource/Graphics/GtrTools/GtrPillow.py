@@ -34,7 +34,7 @@ class PilGraphic:
         try:
             image.save(image_bytes, format=form)
         except Exception as e:
-            RString.log(str(e), RString.pLogError)
+            RString.log(str(e), RString.lgError)
         image_bytes.seek(0)
         return image_bytes
 

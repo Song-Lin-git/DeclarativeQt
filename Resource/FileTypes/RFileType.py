@@ -43,7 +43,7 @@ class RFileType:
         try:
             ext = os.path.splitext(fileName)[1][1:]
         except Exception as e:
-            RString.log(str(e), RString.pLogError)
+            RString.log(str(e), RString.lgError)
             return False
         return Equal(ext, fileType)
 
