@@ -356,7 +356,7 @@ class ManusPlotter(Column):
         val = Remember.getValue(tar)
         n = len(self._curveNames.value())
         dif = n - len(val)
-        for i, item in enumerate(val):
+        for i, item in enumerate(val[:n]):
             if prevTrav:
                 if isinstance(item, Remember):
                     item.setValue(prevTrav(i))

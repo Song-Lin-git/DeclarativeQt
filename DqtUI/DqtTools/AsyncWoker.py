@@ -1,3 +1,4 @@
+import time
 from functools import partial
 from typing import Callable
 
@@ -24,6 +25,7 @@ class RActor(QThread):
             return None
         self._running = True
         result = self._func(*self._args, **self._kwargs)
+        time.sleep(0.2)
         # noinspection PyUnresolvedReferences
         self.finished.emit(GList(result))
         return None
