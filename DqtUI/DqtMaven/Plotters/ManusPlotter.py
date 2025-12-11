@@ -69,7 +69,7 @@ class ManusPlotter(Column):
         self._xLabel = ValToRemember(xLabel)
         self._yLabels = SeqToRemember(yLabels)
         self._aspectMode = ValToRemember(aspectMode)
-        self._curveNames = SeqToRemember(list(Remember.getDictValue(datas).keys()))
+        self._curveNames = SeqToRemember(list(Remember.getValue(datas).keys()))
         self._styleEditor: PlotterStyle = Validate(styleEditor, PlotterStyle())
         self._styleEditor.lineColors = SeqToRemember(self._styleEditor.lineColors)
         self._styleEditor.annotationColors = SeqToRemember(self._styleEditor.annotationColors)
@@ -172,7 +172,7 @@ class ManusPlotter(Column):
                                     ),
                                     triggers=DictData(Key(self._datas).Val(
                                         lambda a0: self._curveNames.setValue(SeqToRemember(
-                                            list(Remember.getDictValue(self._datas).keys())
+                                            list(Remember.getValue(self._datas).keys())
                                         )) if isValid(a0) else None
                                     )).data
                                 ),
@@ -334,31 +334,45 @@ class ManusPlotter(Column):
 
     @private
     def fixCurvesElements(self):
-        self._yLabels.setValue(SeqToRemember(Remember.getListValue(self._curveNames).copy()))
-        self.fixCurveArgs(self._styleEditor.lineColors, lambda i, a0=None: Remember(RColor().randomColor()))
-        fixAnnotColor = lambda i, a0: self._styleEditor.lineColors.value()[len(a0):][i].copy()
+        curveNames = Remember.getListValue(self._curveNames)
+        self.fixCurveArgs(self._yLabels, lambda i: curveNames[i], prevTrav=lambda i: curveNames[i])
+        self.fixCurveArgs(self._styleEditor.lineColors, lambda i: RColor().randomColor())
+        fixAnnotColor = lambda i: self._styleEditor.lineColors.value()[i].copy()
         self.fixCurveArgs(self._styleEditor.annotationColors, fixAnnotColor)
-        self.fixCurveArgs(self._styleEditor.lineWidths, lambda i, a0=None: CurvePlotter.defaultLineWidth)
-        self.fixCurveArgs(self._styleEditor.lineStyles, lambda i, a0=None: CurvePlotter.defaultCurveStyle)
-        self.fixCurveArgs(self._styleEditor.pinnerStyles, lambda i, a0=None: CurvePlotter.defaultPinnerStyle)
-        self.fixCurveArgs(self._styleEditor.pinnerSizes, lambda i, a0=None: CurvePlotter.defaultPinnerSize)
-        fixVisible = lambda i, a0=None: Remember(True if i < MultiAxisPlotter.oncePlotLimit else False)
+        self.fixCurveArgs(self._styleEditor.lineWidths, lambda i: CurvePlotter.defaultLineWidth)
+        self.fixCurveArgs(self._styleEditor.lineStyles, lambda i: CurvePlotter.defaultCurveStyle)
+        self.fixCurveArgs(self._styleEditor.pinnerStyles, lambda i: CurvePlotter.defaultPinnerStyle)
+        self.fixCurveArgs(self._styleEditor.pinnerSizes, lambda i: CurvePlotter.defaultPinnerSize)
+        fixVisible = lambda i: i - len(self._curveVisibles.value()) < MultiAxisPlotter.oncePlotLimit
         self.fixCurveArgs(self._curveVisibles, fixVisible)
         return None
 
     @private
     def fixCurveArgs(
             self, tar: Remember[List[RState]],
-            method: Callable[[int, List], Any],
+            method: Callable[[int], Any],
+            prevTrav: Callable[[int], Any] = None,
     ) -> None:
-        argsVal = Remember.getValue(tar)
+        val = Remember.getValue(tar)
         n = len(self._curveNames.value())
-        dif = n - len(argsVal)
+        dif = n - len(val)
+        for i, item in enumerate(val):
+            if prevTrav:
+                if isinstance(item, Remember):
+                    item.setValue(prevTrav(i))
+                else:
+                    val[i] = prevTrav(i)
+            else:
+                if Remember.getValue(item) is None:
+                    if isinstance(item, Remember):
+                        item.setValue(method(i))
+                    else:
+                        val[i] = method(i)
         if dif <= 0:
-            tar.setValue(argsVal[:n])
+            tar.setValue(val[:n])
             return None
-        fixer = ReferList(range(dif), lambda i, a0=argsVal: method(i, a0))
-        tar.setValue(JoinLists(argsVal, fixer))
+        fixer = ReferList(range(dif), lambda idx: method(idx + len(val)))
+        tar.setValue(JoinLists(val, fixer))
         return None
 
     @staticmethod

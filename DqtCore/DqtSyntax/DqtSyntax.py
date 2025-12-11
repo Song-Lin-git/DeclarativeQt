@@ -20,5 +20,5 @@ Execute = DqtGrmBase.BaseDqtGrammars.Execute
 MainApplication = DqtGrmBase.MainApplication
 ValToRemember = DqtGrmBase.BaseDqtGrammars.ValToRemember
 SeqToRemember = DqtGrmBase.BaseDqtGrammars.SeqToRemember
-CompareSize = DqtGrmBase.BaseDqtGrammars.CompareSize
 SemanticRemember = DqtGrmBase.BaseDqtGrammars.SemanticRemember
+CompareSize = DqtGrmBase.BaseDqtGrammars.CompareSize
