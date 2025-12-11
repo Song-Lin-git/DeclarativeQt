@@ -27,10 +27,10 @@ app.setStyleSheet(AppMenuStyle().getStyleSheet())
 br = Remember(False)
 data = Remember(10.0)
 key = Remember("sin")
-Span = 20
-NPoint = 1000
-Nequist = NPoint / Span
-tlist = np.linspace(0, Span, NPoint)
+span = 20
+npoint = 1000
+smpFreq = npoint / span
+tlist = np.linspace(0, span, npoint)
 RString.log(br)
 demo_app = MainApplication(
     Window(
@@ -61,7 +61,7 @@ demo_app = MainApplication(
                     direction=Slider.Horizontal,
                     percision=1000,
                     minVal=1,
-                    maxVal=Nequist / 2.0,
+                    maxVal=smpFreq / 2.0,
                     onValueChange=lambda: print(data.value()),
                 ),
                 TimeEditor(canvasModifier=TimeEditor.Canvas(editorHeight=34)),
@@ -74,7 +74,7 @@ demo_app = MainApplication(
                             ))
                         )),
                     ).data,
-                    xLabel=GStr("时间/s")
+                    xLabel=GStr("时间/s"),
                 )
             )
         )

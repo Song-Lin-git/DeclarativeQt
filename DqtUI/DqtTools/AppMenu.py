@@ -1,11 +1,11 @@
 from typing import Dict, Any
 
-from DeclarativeQt.DqtCore.DqtBase import RState
+from DeclarativeQt.DqtCore.DqtBase import RState, Remember
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyleEditor import DqtStyleEditor
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
-from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, Validate
+from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key
 
 
 class AppMenuStyle(DqtStyleEditor):
@@ -55,29 +55,29 @@ class AppMenuStyle(DqtStyleEditor):
             speratorHeight: RState[int] = None,
     ):
         styles: Dict[str, RState[Any]] = DictData(
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexLightWhite)),
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzTinySize)),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexDeepStoneBlue)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
-            Key(DqtStyle.atPadding).Val(Validate(padding, int(4))),
-            Key(self.itemTopPadding).Val(Validate(itemTopPadding, int(8))),
-            Key(self.itemBottomPadding).Val(Validate(itemBottomPadding, int(8))),
-            Key(self.itemLeftPadding).Val(Validate(itemLeftPadding, int(14))),
-            Key(self.itemRightPadding).Val(Validate(itemRightPadding, int(16))),
-            Key(self.itemBorderRadius).Val(Validate(itemBorderRadius, int(2))),
-            Key(self.selectedTextColor).Val(Validate(selectedTextColor, RColor.hexBlack)),
-            Key(self.selectedBackground).Val(Validate(selectedBackground, RColor.hexIceBlue)),
-            Key(self.hoverTextColor).Val(Validate(hoverTextColor, RColor.hexBlack)),
-            Key(self.hoverBackground).Val(Validate(hoverBackground, RColor.hexIceBlue)),
-            Key(self.disabledTextColor).Val(Validate(disabledTextColor, RColor.hexDarkGrey)),
-            Key(self.disabledBackground).Val(Validate(disabledBackground, RColor.qtTransparent)),
-            Key(self.speratorHeight).Val(Validate(speratorHeight, int(1))),
-            Key(self.speratorColor).Val(Validate(speratorColor, RColor.hexLightGrey)),
-            Key(self.speratorHorizontalMargin).Val(Validate(speratorHorizontalMargin, int(0))),
-            Key(self.speratorVerticalMargin).Val(Validate(speratorVerticalMargin, int(4))),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexLightWhite)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzTinySize)),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexDeepStoneBlue)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
+            Key(DqtStyle.atPadding).Val(Remember.toValid(padding, int(4))),
+            Key(self.itemTopPadding).Val(Remember.toValid(itemTopPadding, int(8))),
+            Key(self.itemBottomPadding).Val(Remember.toValid(itemBottomPadding, int(8))),
+            Key(self.itemLeftPadding).Val(Remember.toValid(itemLeftPadding, int(14))),
+            Key(self.itemRightPadding).Val(Remember.toValid(itemRightPadding, int(16))),
+            Key(self.itemBorderRadius).Val(Remember.toValid(itemBorderRadius, int(2))),
+            Key(self.selectedTextColor).Val(Remember.toValid(selectedTextColor, RColor.hexBlack)),
+            Key(self.selectedBackground).Val(Remember.toValid(selectedBackground, RColor.hexIceBlue)),
+            Key(self.hoverTextColor).Val(Remember.toValid(hoverTextColor, RColor.hexBlack)),
+            Key(self.hoverBackground).Val(Remember.toValid(hoverBackground, RColor.hexIceBlue)),
+            Key(self.disabledTextColor).Val(Remember.toValid(disabledTextColor, RColor.hexDarkGrey)),
+            Key(self.disabledBackground).Val(Remember.toValid(disabledBackground, RColor.qtTransparent)),
+            Key(self.speratorHeight).Val(Remember.toValid(speratorHeight, int(1))),
+            Key(self.speratorColor).Val(Remember.toValid(speratorColor, RColor.hexLightGrey)),
+            Key(self.speratorHorizontalMargin).Val(Remember.toValid(speratorHorizontalMargin, int(0))),
+            Key(self.speratorVerticalMargin).Val(Remember.toValid(speratorVerticalMargin, int(4))),
         ).data
         super().__init__(styles)
 

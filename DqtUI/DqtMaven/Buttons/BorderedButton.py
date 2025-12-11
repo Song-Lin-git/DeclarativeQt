@@ -12,7 +12,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Buttons.BaseButton.Button import Button
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, Validate, NxLimitVal
+from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, NxLimitVal
 
 
 class ButtonStyle(DqtStyleEditor):
@@ -45,24 +45,24 @@ class ButtonStyle(DqtStyleEditor):
             hoverBackground: RState[str] = None,
             hoverBorder: RState[str] = None,
     ):
-        hoverSkyBlue: str = RColor().setQStyleAlpha(RColor.hexSkyBlue, alpha=0.1)
-        clickSkyBlue: str = RColor().setQStyleAlpha(RColor.hexSkyBlue, alpha=0.6)
+        hoverSkyBlue: str = RColor.setQStyleAlpha(RColor.hexSkyBlue, alpha=0.1)
+        clickSkyBlue: str = RColor.setQStyleAlpha(RColor.hexSkyBlue, alpha=0.6)
         self._styles: dict = DictData(
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzSmallSize)),
-            Key(self.borderWidth).Val(Validate(borderWidth, 1)),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexGrey)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(DqtStyle.atBorderRadius).Val(Validate(borderRadius, 10)),
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexWhite)),
-            Key(self.pressedBorder).Val(Validate(pressedBorder, RColor.hexBlack)),
-            Key(self.pressedBackground).Val(Validate(pressedBackground, clickSkyBlue)),
-            Key(self.disabledColor).Val(Validate(disabledColor, RColor.hexGrey)),
-            Key(self.disabledBackground).Val(Validate(disabledBackground, RColor.hexWhite)),
-            Key(self.disabledBorder).Val(Validate(disabledBorder, RColor.hexLightGrey)),
-            Key(self.hoverBackground).Val(Validate(hoverBackground, hoverSkyBlue)),
-            Key(self.hoverBorder).Val(Validate(hoverBorder, RColor.hexDarkGrey)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzSmallSize)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, 1)),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexGrey)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(DqtStyle.atBorderRadius).Val(Remember.toValid(borderRadius, 10)),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexWhite)),
+            Key(self.pressedBorder).Val(Remember.toValid(pressedBorder, RColor.hexBlack)),
+            Key(self.pressedBackground).Val(Remember.toValid(pressedBackground, clickSkyBlue)),
+            Key(self.disabledColor).Val(Remember.toValid(disabledColor, RColor.hexGrey)),
+            Key(self.disabledBackground).Val(Remember.toValid(disabledBackground, RColor.hexWhite)),
+            Key(self.disabledBorder).Val(Remember.toValid(disabledBorder, RColor.hexLightGrey)),
+            Key(self.hoverBackground).Val(Remember.toValid(hoverBackground, hoverSkyBlue)),
+            Key(self.hoverBorder).Val(Remember.toValid(hoverBorder, RColor.hexDarkGrey)),
         ).data
         super().__init__(self._styles)
 

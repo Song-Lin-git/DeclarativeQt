@@ -41,16 +41,16 @@ class HeaderViewStyle(DqtStyleEditor):
         hoverColor = RColor().setQStyleAlpha(RColor.hexCyanBlue, 0.16)
         selectedColor = RColor().setQStyleAlpha(RColor.hexCyanBlue, 0.34)
         self._styles = DictData(
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, headerColor)),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzTinySize)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexGrey)),
-            Key(self.selectedBackgroundColor).Val(Validate(selectedBackgroundColor, selectedColor)),
-            Key(self.hoverBackgroundColor).Val(Validate(hoverBackgroundColor, hoverColor)),
-            Key(self.selectedFontFamily).Val(Validate(selectedFontFamily, RFont.JhengHei))
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, headerColor)),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzTinySize)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexGrey)),
+            Key(self.selectedBackgroundColor).Val(Remember.toValid(selectedBackgroundColor, selectedColor)),
+            Key(self.hoverBackgroundColor).Val(Remember.toValid(hoverBackgroundColor, hoverColor)),
+            Key(self.selectedFontFamily).Val(Remember.toValid(selectedFontFamily, RFont.JhengHei))
         ).data
         super().__init__(self._styles)
 
@@ -137,23 +137,23 @@ class TableViewStyle(DqtStyleEditor):
         alternateColor = RColor().setQStyleAlpha(RColor.hexIceBlue, 0.34)
         cornerColor = RColor().setQStyleAlpha(RColor.hexMistBlue, 0.92)
         self._styles = DictData(
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzTinySize)),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexWhite)),
-            Key(DqtStyle.atAlternateBackgroundColor).Val(Validate(alternateBackgroundColor, alternateColor)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
-            Key(DqtStyle.atGridlineColor).Val(Validate(gridlineColor, RColor.hexLightGrey)),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexDarkGrey)),
-            Key(self.selectedBackgroundColor).Val(Validate(selectedBackgroundColor, selectedColor)),
-            Key(self.selectedBorderColor).Val(Validate(selectedBorderColor, RColor.hexGrey)),
-            Key(self.selectedBorderStyle).Val(Validate(selectedBorderStyle, DqtStyle.valBorderSolid)),
-            Key(self.selectedBorderRadius).Val(Validate(selectedBorderRadius, int(0))),
-            Key(self.hoverBackgroundColor).Val(Validate(hoverBackgroundColor, hoverColor)),
-            Key(self.focusOutlineColor).Val(Validate(focusOutlineColor, RColor.hexDeepStoneBlue)),
-            Key(self.focusOutlineStyle).Val(Validate(focusOutlineStyle, DqtStyle.valBorderSolid)),
-            Key(self.cornerButtonColor).Val(Validate(cornerButtonColor, cornerColor)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzTinySize)),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexWhite)),
+            Key(DqtStyle.atAlternateBackgroundColor).Val(Remember.toValid(alternateBackgroundColor, alternateColor)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
+            Key(DqtStyle.atGridlineColor).Val(Remember.toValid(gridlineColor, RColor.hexLightGrey)),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexDarkGrey)),
+            Key(self.selectedBackgroundColor).Val(Remember.toValid(selectedBackgroundColor, selectedColor)),
+            Key(self.selectedBorderColor).Val(Remember.toValid(selectedBorderColor, RColor.hexGrey)),
+            Key(self.selectedBorderStyle).Val(Remember.toValid(selectedBorderStyle, DqtStyle.valBorderSolid)),
+            Key(self.selectedBorderRadius).Val(Remember.toValid(selectedBorderRadius, int(0))),
+            Key(self.hoverBackgroundColor).Val(Remember.toValid(hoverBackgroundColor, hoverColor)),
+            Key(self.focusOutlineColor).Val(Remember.toValid(focusOutlineColor, RColor.hexDeepStoneBlue)),
+            Key(self.focusOutlineStyle).Val(Remember.toValid(focusOutlineStyle, DqtStyle.valBorderSolid)),
+            Key(self.cornerButtonColor).Val(Remember.toValid(cornerButtonColor, cornerColor)),
         ).data
         super().__init__(self._styles)
         self._hearderStyle = Validate(hearderStyle, HeaderViewStyle())

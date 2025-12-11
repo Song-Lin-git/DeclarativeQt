@@ -6,7 +6,7 @@ from PyQt5.QtGui import QPainter, QColor, QFontMetrics, QFont, QPixmap
 from PyQt5.QtWidgets import QStyledItemDelegate, QStyle, QStyleOptionViewItem, QCompleter, QLineEdit, QListView, \
     QApplication
 
-from DeclarativeQt.DqtCore.DqtBase import RState
+from DeclarativeQt.DqtCore.DqtBase import RState, Remember
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyleEditor import DqtStyleEditor
 from DeclarativeQt.DqtUI.DqtTools.Scroller import ScrollerStyle
@@ -29,12 +29,12 @@ class CompleterStyle(DqtStyleEditor):
             backgroundColor: RState[str] = None,
             scrollerStyle: ScrollerStyle = None,
     ):
-        borderColor = Validate(borderColor, RColor().setQStyleAlpha(RColor.hexNightSkyBlue, 0.6))
+        defaultBorderColor = RColor.setQStyleAlpha(RColor.hexNightSkyBlue, 0.6)
         self._styles = DictData(
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexIceBlue)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderColor).Val(borderColor),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexIceBlue)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, defaultBorderColor)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
             Key(DqtStyle.atBorderRadius).Val(int(0))
         ).data
         self._scrollerStyle = Validate(scrollerStyle, ScrollerStyle(

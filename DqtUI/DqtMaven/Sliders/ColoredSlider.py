@@ -68,7 +68,8 @@ class SliderStyle(DqtStyleEditor):
             handlePressedBorderColor: RState[str] = None,
             handlePressedBackground: RState[str] = None,
     ):
-        themeColor = Validate(themeHexColor, RColor.hexMistyHarborBlue)
+        defaultTheme = RColor.hexMistyHarborBlue
+        themeColor = Remember.toValid(themeHexColor, defaultTheme)
         hoverDarkerFactor = int(self.HoverColorDarkerRatio * self.ColorDarkerFactor)
         pressedDarkerFactor = int(self.PressedColorDarkerRatio * self.ColorDarkerFactor)
         darkerColorState = lambda factor: DataBox(ReferState(
@@ -78,31 +79,31 @@ class SliderStyle(DqtStyleEditor):
         hoverColor = darkerColorState(hoverDarkerFactor)
         pressedColor = darkerColorState(pressedDarkerFactor)
         self._styles: Dict[str, RState[Any]] = DictData(
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexLightWhite)),
-            Key(DqtStyle.atBorderRadius).Val(Validate(borderRadius, int(3))),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexSoftStone)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.grooveLengthRatio).Val(Validate(grooveLengthRatio, 0.94)),
-            Key(self.grooveThickness).Val(Validate(grooveThickness, int(4))),
-            Key(self.grooveBackground).Val(Validate(grooveBackground, RColor.hexGrey)),
-            Key(self.grooveBorderWidth).Val(Validate(grooveBorderWidth, int(0))),
-            Key(self.grooveBorderColor).Val(Validate(grooveBorderColor, RColor.hexDarkGrey)),
-            Key(self.grooveBorderRadius).Val(Validate(grooveBorderRadius, int(2))),
-            Key(self.subPageBackground).Val(Validate(subPageBackground, themeColor)),
-            Key(self.addPageBackground).Val(Validate(addPageBackground, RColor.hexUrbanShadow)),
-            Key(self.handleBorderRadius).Val(Validate(handleBorderRadius, None)),
-            Key(self.handleWidthRatio).Val(Validate(handleWidthRatio, 4.0)),
-            Key(self.handleHeightRatio).Val(Validate(handleHeightRatio, 4.0)),
-            Key(self.handleBorderWidth).Val(Validate(handleBorderWidth, int(2))),
-            Key(self.handleBorderColor).Val(Validate(handleBorderColor, themeColor)),
-            Key(self.handleBackground).Val(Validate(handleBackground, RColor.hexWhite)),
-            Key(self.handleHoverBorderWidth).Val(Validate(handleHoverBorderWidth, int(0))),
-            Key(self.handleHoverBorderColor).Val(Validate(handleHoverBorderColor, hoverColor)),
-            Key(self.handleHoverBackground).Val(Validate(handleHoverBackground, hoverColor)),
-            Key(self.handlePressedBorderWidth).Val(Validate(handlePressedBorderWidth, int(0))),
-            Key(self.handlePressedBorderColor).Val(Validate(handlePressedBorderColor, themeColor)),
-            Key(self.handlePressedBackground).Val(Validate(handlePressedBackground, pressedColor)),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexLightWhite)),
+            Key(DqtStyle.atBorderRadius).Val(Remember.toValid(borderRadius, int(3))),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexSoftStone)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.grooveLengthRatio).Val(Remember.toValid(grooveLengthRatio, 0.94)),
+            Key(self.grooveThickness).Val(Remember.toValid(grooveThickness, int(4))),
+            Key(self.grooveBackground).Val(Remember.toValid(grooveBackground, RColor.hexGrey)),
+            Key(self.grooveBorderWidth).Val(Remember.toValid(grooveBorderWidth, int(0))),
+            Key(self.grooveBorderColor).Val(Remember.toValid(grooveBorderColor, RColor.hexDarkGrey)),
+            Key(self.grooveBorderRadius).Val(Remember.toValid(grooveBorderRadius, int(2))),
+            Key(self.subPageBackground).Val(Remember.toValid(subPageBackground, themeColor)),
+            Key(self.addPageBackground).Val(Remember.toValid(addPageBackground, RColor.hexUrbanShadow)),
+            Key(self.handleBorderRadius).Val(Remember.toValid(handleBorderRadius, None)),
+            Key(self.handleWidthRatio).Val(Remember.toValid(handleWidthRatio, 4.0)),
+            Key(self.handleHeightRatio).Val(Remember.toValid(handleHeightRatio, 4.0)),
+            Key(self.handleBorderWidth).Val(Remember.toValid(handleBorderWidth, int(2))),
+            Key(self.handleBorderColor).Val(Remember.toValid(handleBorderColor, themeColor)),
+            Key(self.handleBackground).Val(Remember.toValid(handleBackground, RColor.hexWhite)),
+            Key(self.handleHoverBorderWidth).Val(Remember.toValid(handleHoverBorderWidth, int(0))),
+            Key(self.handleHoverBorderColor).Val(Remember.toValid(handleHoverBorderColor, hoverColor)),
+            Key(self.handleHoverBackground).Val(Remember.toValid(handleHoverBackground, hoverColor)),
+            Key(self.handlePressedBorderWidth).Val(Remember.toValid(handlePressedBorderWidth, int(0))),
+            Key(self.handlePressedBorderColor).Val(Remember.toValid(handlePressedBorderColor, themeColor)),
+            Key(self.handlePressedBackground).Val(Remember.toValid(handlePressedBackground, pressedColor)),
         ).data
         super().__init__(self._styles)
 

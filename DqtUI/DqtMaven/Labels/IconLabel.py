@@ -29,13 +29,13 @@ class LabelStyle(DqtStyleEditor):
             borderColor: RState[str] = None,
     ):
         styles = DictData(
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(0))),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexLightGrey)),
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.qtTransparent)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzTinySize)),
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atBorderRadius).Val(Validate(borderRadius, int(3))),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(0))),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexLightGrey)),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.qtTransparent)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzTinySize)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atBorderRadius).Val(Remember.toValid(borderRadius, int(3))),
         ).data
         super().__init__(styleValues=styles)
 

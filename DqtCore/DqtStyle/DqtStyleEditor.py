@@ -1,13 +1,20 @@
-from abc import abstractmethod, ABC
+from abc import abstractmethod
 from typing import Dict, Any, Self
+
+from PyQt5.QtCore import QObject
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, RState
 from DeclarativeQt.Resource.Grammars.RGrammar import GetDictItem, SetDictItem, Validate
 
 
-class DqtStyleEditor(ABC):
+class DqtStyleEditor(QObject):
     def __init__(self, styleValues: Dict[str, RState[Any]]):
+        super().__init__()
         self._styleSources = Validate(styleValues, dict())
+        self._defaultStyles = Remember.getDictValue(self._styleSources.copy())
+        for k, v in self._styleSources.items():
+            if isinstance(v, Remember):
+                v.setAlwaysValid(self._defaultStyles[k])
 
     @abstractmethod
     def getStyleSheet(self, *args, **kwargs) -> str:

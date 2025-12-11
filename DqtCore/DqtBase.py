@@ -32,6 +32,7 @@ class Remember(Generic[_MT], QObject):
         self._signal = signal
         self._sensitive = sensitive
         self._spread = spread
+        self._dftVal = None
         self._connections = defaultdict(list)
         self._uniqueMethods = dict()
         self.setValue(value)
@@ -43,6 +44,8 @@ class Remember(Generic[_MT], QObject):
     # noinspection PyUnresolvedReferences
     def setValue(self, value: object):
         value = Remember.getValue(value)
+        if value is None and self._dftVal is not None:
+            value = self._dftVal
         if self._spread:
             if isinstance(value, List):
                 value = Remember.rememberListItems(value)
@@ -58,6 +61,16 @@ class Remember(Generic[_MT], QObject):
     def setSpread(self, spread: bool):
         self._spread = spread
         self.setValue(self._value)
+        return None
+
+    def setAlwaysValid(self, val: object):
+        val = Remember.getValue(val)
+        if val is not None:
+            self._dftVal = val
+        return None
+
+    def setAllowInvalid(self):
+        self._dftVal = None
         return None
 
     # noinspection PyTypeChecker

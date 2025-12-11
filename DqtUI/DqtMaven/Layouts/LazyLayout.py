@@ -30,11 +30,11 @@ class ScrollAreaStyle(DqtStyleEditor):
             scrollerStyle: ScrollerStyle = None
     ):
         self._styles = DictData(
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexLightWhite)),
-            Key(DqtStyle.atBorderRadius).Val(Validate(borderRadius, int(3))),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexGrey)),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexLightWhite)),
+            Key(DqtStyle.atBorderRadius).Val(Remember.toValid(borderRadius, int(3))),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexGrey)),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
         ).data
         self._scrollerStyle = Validate(scrollerStyle, ScrollerStyle())
         super(ScrollAreaStyle, self).__init__(self._styles)

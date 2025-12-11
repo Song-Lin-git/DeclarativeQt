@@ -35,14 +35,14 @@ class CheckBoxStyle(DqtStyleEditor):
             iconSizeRatio: QSizeF = None
     ):
         self._styles = DictData(
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, RFont.fzSmallSize)),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(DqtStyle.atFontFamily).Val(Validate(textFont, RFont.YaHei)),
-            Key(self.checkedIcon).Val(Validate(checkedIcon, self.DefaultCheckedIcon)),
-            Key(self.uncheckedIcon).Val(Validate(uncheckedIcon, self.DefaultUncheckedIcon)),
-            Key(self.iconSizeRatio).Val(Validate(iconSizeRatio, self.DefaultIconSizeRatio)),
-            Key(self.hoverColor).Val(Validate(hoverColor, self.DefaultHoverColor)),
-            Key(self.pressedColor).Val(Validate(pressedColor, self.DefaultPressedColor))
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, RFont.fzSmallSize)),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(textFont, RFont.YaHei)),
+            Key(self.checkedIcon).Val(Remember.toValid(checkedIcon, self.DefaultCheckedIcon)),
+            Key(self.uncheckedIcon).Val(Remember.toValid(uncheckedIcon, self.DefaultUncheckedIcon)),
+            Key(self.iconSizeRatio).Val(Remember.toValid(iconSizeRatio, self.DefaultIconSizeRatio)),
+            Key(self.hoverColor).Val(Remember.toValid(hoverColor, self.DefaultHoverColor)),
+            Key(self.pressedColor).Val(Remember.toValid(pressedColor, self.DefaultPressedColor))
         ).data
         super().__init__(self._styles)
 

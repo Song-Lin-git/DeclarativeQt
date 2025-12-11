@@ -54,23 +54,23 @@ class ComboBoxStyle(DqtStyleEditor):
             scrollerStyle: ScrollerStyle = None
     ):
         self._styles = DictData(
-            Key(DqtStyle.atFontFamily).Val(Validate(fontFamily, RFont.YaHei)),
-            Key(DqtStyle.atFontSize).Val(Validate(fontSize, float(RFont.fzSmallSize))),
-            Key(DqtStyle.atColor).Val(Validate(textColor, RColor.hexBlack)),
-            Key(DqtStyle.atBackgroundColor).Val(Validate(backgroundColor, RColor.hexWhite)),
-            Key(DqtStyle.atBorderRadius).Val(Validate(borderRadius, int(5))),
-            Key(self.borderWidth).Val(Validate(borderWidth, int(1))),
-            Key(self.borderColor).Val(Validate(borderColor, RColor.hexDarkGrey)),
-            Key(self.borderStyle).Val(Validate(borderStyle, DqtStyle.valBorderSolid)),
-            Key(self.downArrowIcon).Val(Validate(downArrowIcon, self.DefaultDownArrowIcon)),
-            Key(self.upArrowIcon).Val(Validate(upArrowIcon, self.DefaultUpArrowIcon)),
-            Key(self.iconSizeRatio).Val(Validate(iconSizeRatio, self.DefaultIconSizeRatio)),
-            Key(self.dropDownPressedColor).Val(Validate(dropDownPressedColor, self.DefaultPressedColor)),
-            Key(self.dropDownHoverColor).Val(Validate(dropDownHoverColor, self.DefaultHoverColor)),
-            Key(self.dropDownOpenColor).Val(Validate(dropDownOpenColor, self.DefaultOpenColor)),
-            Key(self.dropListBackground).Val(Validate(dropListBackground, RColor.hexIceBlue)),
-            Key(self.dropListBorderColor).Val(Validate(dropListBorderColor, self.DefaultDropListBorderColor)),
-            Key(self.dropListBorderWidth).Val(Validate(dropListBorderWidth, int(1)))
+            Key(DqtStyle.atFontFamily).Val(Remember.toValid(fontFamily, RFont.YaHei)),
+            Key(DqtStyle.atFontSize).Val(Remember.toValid(fontSize, float(RFont.fzSmallSize))),
+            Key(DqtStyle.atColor).Val(Remember.toValid(textColor, RColor.hexBlack)),
+            Key(DqtStyle.atBackgroundColor).Val(Remember.toValid(backgroundColor, RColor.hexWhite)),
+            Key(DqtStyle.atBorderRadius).Val(Remember.toValid(borderRadius, int(5))),
+            Key(self.borderWidth).Val(Remember.toValid(borderWidth, int(1))),
+            Key(self.borderColor).Val(Remember.toValid(borderColor, RColor.hexDarkGrey)),
+            Key(self.borderStyle).Val(Remember.toValid(borderStyle, DqtStyle.valBorderSolid)),
+            Key(self.downArrowIcon).Val(Remember.toValid(downArrowIcon, self.DefaultDownArrowIcon)),
+            Key(self.upArrowIcon).Val(Remember.toValid(upArrowIcon, self.DefaultUpArrowIcon)),
+            Key(self.iconSizeRatio).Val(Remember.toValid(iconSizeRatio, self.DefaultIconSizeRatio)),
+            Key(self.dropDownPressedColor).Val(Remember.toValid(dropDownPressedColor, self.DefaultPressedColor)),
+            Key(self.dropDownHoverColor).Val(Remember.toValid(dropDownHoverColor, self.DefaultHoverColor)),
+            Key(self.dropDownOpenColor).Val(Remember.toValid(dropDownOpenColor, self.DefaultOpenColor)),
+            Key(self.dropListBackground).Val(Remember.toValid(dropListBackground, RColor.hexIceBlue)),
+            Key(self.dropListBorderColor).Val(Remember.toValid(dropListBorderColor, self.DefaultDropListBorderColor)),
+            Key(self.dropListBorderWidth).Val(Remember.toValid(dropListBorderWidth, int(1)))
         ).data
         self._scrollerStyle = Validate(scrollerStyle, ScrollerStyle(
             scrollHandleBackground=RColor.hexMistBlue,

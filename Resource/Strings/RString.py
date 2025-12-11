@@ -268,7 +268,7 @@ class RString(ABC):
     def log(info: Any, port: str = None):
         norm = RString.lgNormal
         port = Validate(port, norm)
-        print(port, info, norm, sep=RString.pEmpty)
+        print(f"{port}{info}{norm}")
         return None
 
     pTrue: Symbol = "√"
