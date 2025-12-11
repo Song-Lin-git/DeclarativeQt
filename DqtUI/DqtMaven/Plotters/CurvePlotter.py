@@ -207,7 +207,8 @@ class CurvePlotter(MultiAxisPlotter):
             if isinstance(k, Remember):
                 k.uniqueConnect(self.setCurveDescription, i, host=self)
             if isinstance(v, Remember):
-                v.uniqueConnect(self.setAxCurveDatas, Remember.getValue(k), host=self)
+                updateData = lambda a0, a1=k: self.setAxCurveDatas(Remember.getValue(a1), a0)
+                v.uniqueConnect(self.setAxCurveDatas, method=updateData, host=self)
         for i, label in enumerate(Remember.getValue(yLabels)):
             if isinstance(label, Remember):
                 label.uniqueConnect(self.setYLabel, i, host=self)
