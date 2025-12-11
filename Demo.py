@@ -70,7 +70,7 @@ demo_app = MainApplication(
                         Key(key).Val(ReferState(
                             data, referExp=lambda a0: list(zip(
                                 tlist.tolist(),
-                                np.sin(a0 * tlist).tolist(),
+                                np.sin(2.0 * np.pi * a0 * tlist).tolist(),
                             ))
                         )),
                     ).data,
