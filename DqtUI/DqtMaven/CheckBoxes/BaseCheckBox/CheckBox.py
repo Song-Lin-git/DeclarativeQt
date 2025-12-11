@@ -17,6 +17,7 @@ class CheckBox(QCheckBox):
     def __init__(
             self,
             size: QSize = None,
+            fixedWidth: int = None,
             fixedHeight: int = None,
             description: RState[str] = None,
             checked: RState[bool] = False,
@@ -28,7 +29,10 @@ class CheckBox(QCheckBox):
     ):
         super().__init__()
         size = Validate(size, QSize(self.DefaultSize))
+        self._fixedWidth = None if not fixedWidth else max(fixedWidth, DqtCanvasBase.MinWidth)
         self._fixedHeight = None if not fixedHeight else max(fixedHeight, DqtCanvasBase.MinHeight)
+        if self._fixedWidth:
+            size.setWidth(self._fixedWidth)
         if self._fixedHeight:
             size.setHeight(self._fixedHeight)
         self.setFixedSize(size)
@@ -55,6 +59,7 @@ class CheckBox(QCheckBox):
 
     def resizeEvent(self, a0):
         super().resizeEvent(a0)
+        DqtCanvas.setFixedWidth(self, self._fixedWidth)
         DqtCanvas.setFixedHeight(self, self._fixedHeight)
         return None
 

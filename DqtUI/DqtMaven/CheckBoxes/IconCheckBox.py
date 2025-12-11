@@ -98,6 +98,7 @@ class IconCheckBox(CheckBox):
     def __init__(
             self,
             size: QSize = None,
+            fixedWidth: int = None,
             fixedHeight: int = None,
             description: RState[str] = None,
             checked: RState[bool] = False,
@@ -109,6 +110,7 @@ class IconCheckBox(CheckBox):
     ):
         super().__init__(
             size=size,
+            fixedWidth=fixedWidth,
             fixedHeight=fixedHeight,
             description=description,
             checked=checked,
