@@ -1,11 +1,11 @@
-import textwrap
 from abc import ABC
 
 from PyQt5.QtCore import QSize, QSizeF
-from PyQt5.QtGui import QFont, QFontMetrics, QPixmap
+from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtWidgets import QMessageBox, QWidget
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, OptionKey, Trigger, RState
+from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtDevice.DqtKeyboard import DqtKeyboard
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember, Execute
@@ -18,7 +18,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, I
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
 from DeclarativeQt.Resource.Colors.RColor import RColor, HexColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, DictData, Key, ReferList, GStr, EnumList, isEmpty
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, DictData, Key, ReferList, GStr, EnumList
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import GList, Run, DataBox
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutRatio
@@ -82,7 +82,7 @@ class NoteDialog(Dialog):
         textFont = Validate(textFont, self.DefaultFont)
         text = ValToRemember(Remember.toValid(text, RString.pEmpty))
         perLine = Validate(perLine, self.MaxCharPerLine[language])
-        labelSize = self.fontTextMetric(textFont, text, perLine=perLine)
+        labelSize = DqtCanvas.fontTextMetric(textFont, text, lchLim=perLine)
         labelSize.setHeight(int(labelSize.height() * lineHeightRatio))
         labelSize.setWidth(int(labelSize.width() * self.FixTextWidthRatio))
         iconHeight = int(labelSize.height() * (text.value().count(RString.pLinefeed) + 1))
@@ -190,23 +190,6 @@ class NoteDialog(Dialog):
                 )
             )
         )
-
-    @staticmethod
-    def fontTextMetric(font: QFont, text: RState[str], perLine: int = None) -> QSize:
-        metrics = QFontMetrics(font)
-        height = metrics.height()
-        lines = list()
-        for line in Remember.getValue(text).split(RString.pLinefeed):
-            if perLine:
-                lines += textwrap.wrap(line, width=perLine)
-            else:
-                lines.append(line)
-        if isEmpty(lines):
-            return QSize(int(1), height)
-        maxWidth = max(ReferList(lines, lambda a0: metrics.horizontalAdvance(a0)))
-        if isinstance(text, Remember):
-            text.setValue(RString.pLinefeed.join(lines))
-        return QSize(maxWidth, height)
 
     @staticmethod
     def error(

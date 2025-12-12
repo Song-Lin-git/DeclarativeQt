@@ -1,13 +1,17 @@
+import textwrap
 from typing import Callable, List, Union, Optional, Tuple
 
 from PyQt5.QtCore import QSize, QPoint, QSizeF
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QFont, QFontMetrics
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
 
+from DeclarativeQt.DqtCore.DqtBase import Remember
 from DeclarativeQt.DqtCore.DqtCanvas.DqtAlign import DqtAlign
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import RState
 from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, ReferList, DataBox, JoinLists, GList, \
-    SumNestedList, Validate, LimitVal
+    SumNestedList, Validate, LimitVal, isEmpty
 from DeclarativeQt.Resource.Images.RImage import RImage
+from DeclarativeQt.Resource.Strings.RString import RString
 
 
 class DqtCanvasBase:
@@ -36,6 +40,23 @@ def setWindowOffset(body: QWidget, offset: QPoint, anchor: QWidget = None):
     y = LimitVal(loc.y(), desktop.top(), desktop.bottom() - body.height())
     body.move(QPoint(x, y))
     return None
+
+
+def fontTextMetric(font: QFont, text: RState[str], lchLim: int = None) -> QSize:
+    metrics = QFontMetrics(font)
+    height = metrics.height()
+    lines = list()
+    for line in Remember.getValue(text).split(RString.pLinefeed):
+        if lchLim:
+            lines += textwrap.wrap(line, width=lchLim)
+        else:
+            lines.append(line)
+    if isEmpty(lines):
+        return QSize(int(1), height)
+    maxWidth = max(ReferList(lines, lambda a0: metrics.horizontalAdvance(a0)))
+    if isinstance(text, Remember):
+        text.setValue(RString.pLinefeed.join(lines))
+    return QSize(maxWidth, height)
 
 
 def rectAspect(rect: Union[QSize, QSizeF, Tuple]) -> Optional[float]:

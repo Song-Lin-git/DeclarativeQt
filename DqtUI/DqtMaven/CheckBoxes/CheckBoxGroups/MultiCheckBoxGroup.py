@@ -1,9 +1,13 @@
+import math
 from functools import partial
 from typing import Callable, List, Iterable, Dict
 
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QFont
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, Run, RState
+from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
+from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import BoolSTox, StringSTox, SeqToRemember, \
     ValToRemember, SemanticRemember
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
@@ -12,7 +16,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Dividers.LinearDivider import VerticalDivider,
 from DeclarativeQt.DqtUI.DqtMaven.Spacers.LinearSpacer import HorizontalSpacer, VerticalSpacer
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import FixListLength, Validate, ReferList, inRange, JoinLists, GList, \
-    Equal, DataBox
+    Equal
 from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
 
 
@@ -25,6 +29,7 @@ class MultiCheckBoxGroup(LinearLayout):
             size: QSize = None,
             checkBoxItems: StringSTox = None,
             checkBoxSize: QSize = None,
+            adaptiveCheckBoxWidth: bool = False,
             fixedCheckBoxHeight: int = None,
             checkBoxStates: BoolSTox = None,
             onChecked: List[Callable] = None,
@@ -44,18 +49,30 @@ class MultiCheckBoxGroup(LinearLayout):
             styleEditor: CheckBoxStyle = None
     ):
         checkBoxItems = SeqToRemember(checkBoxItems).value()
-        count = len(checkBoxItems)
-        checkBoxStates = SeqToRemember(FixListLength(Validate(checkBoxStates, list()), count, False)).value()
-        onChecked = FixListLength(Validate(onChecked, list()), count, lambda: None)
-        selectAllState = Remember(False)
-        checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
-        language = Validate(language, RString.EnglishIndex)
+        total = len(checkBoxItems)
+        checkBoxStates = SeqToRemember(
+            FixListLength(Validate(checkBoxStates, list()), total, False)
+        ).value()
+        onChecked = FixListLength(Validate(onChecked, list()), total, lambda: None)
         if fixedCheckBoxHeight:
             checkBoxSize.setHeight(fixedCheckBoxHeight)
-        spaceBox: QSize = DataBox(QSize(
-            int(checkBoxSize.width() * self.MainSpacerLengthRatio),
-            int(checkBoxSize.height() * self.MainSpacerLengthRatio)
-        )).data
+        checkBoxSizes = ReferList(range(total), lambda a0: QSize(checkBoxSize))
+        language = Validate(language, RString.EnglishIndex)
+        if selectAll:
+            checkBoxSizes.append(QSize(checkBoxSize))
+            checkBoxItems.append(SemanticRemember(language, RString.stSelectAll))
+        selectAllState = Remember(False)
+        checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
+        maxWidth = checkBoxSize.width()
+        if adaptiveCheckBoxWidth:
+            for i, box in enumerate(checkBoxSizes):
+                width = DqtCanvas.fontTextMetric(QFont(
+                    Remember.getValue(styleEditor.getStyle(DqtStyle.atFontFamily)),
+                    math.ceil(Remember.getValue(styleEditor.getStyle(DqtStyle.atFontSize)))
+                ), Remember.getValue(checkBoxItems[i])).width()
+                width += int(1.5 * checkBoxSize.height())
+                maxWidth = max(maxWidth, width)
+                box.setWidth(width)
         super().__init__(
             size=size,
             direction=direction,
@@ -69,40 +86,43 @@ class MultiCheckBoxGroup(LinearLayout):
             content=JoinLists(
                 GList(
                     IconCheckBox(
-                        size=checkBoxSize,
+                        size=checkBoxSizes[-1],
                         fixedHeight=fixedCheckBoxHeight,
-                        description=SemanticRemember(language, RString.stSelectAll),
+                        description=checkBoxItems[-1],
                         checked=selectAllState,
+                        styleEditor=styleEditor,
                         onClick=lambda: Run(
-                            ReferList(range(count), lambda i: Run(
-                                checkBoxStates[i].setValue(selectAllState)
-                            )),
-                            self.updateSelection()
+                            ReferList(range(total), lambda idx: Run(
+                                checkBoxStates[idx].setValue(selectAllState)
+                            )), self.updateSelection(),
                         ),
-                        styleEditor=styleEditor
                     ),
-                    VerticalDivider(length=checkBoxSize.height(), fixedLength=fixedCheckBoxHeight)
-                    if Equal(direction, LinearLayout.Horizontal) else
+                    VerticalDivider(
+                        length=checkBoxSize.height(), fixedLength=fixedCheckBoxHeight
+                    ) if Equal(direction, LinearLayout.Horizontal) else
                     HorizontalDivider(length=checkBoxSize.width()),
-                    HorizontalSpacer(width=spaceBox.width(), fixed=True)
-                    if Equal(direction, LinearLayout.Horizontal) else
-                    VerticalSpacer(height=spaceBox.height(), fixed=True)
+                    HorizontalSpacer(width=int(
+                        maxWidth * self.MainSpacerLengthRatio
+                    ), fixed=True) if Equal(direction, LinearLayout.Horizontal) else
+                    VerticalSpacer(height=int(
+                        checkBoxSize.height() * self.MainSpacerLengthRatio
+                    ), fixed=True)
                 ) if selectAll else list(),
                 ReferList(
-                    range(count), lambda i:
+                    range(total), lambda idx:
                     IconCheckBox(
-                        size=checkBoxSize,
+                        size=checkBoxSizes[idx],
                         fixedHeight=fixedCheckBoxHeight,
-                        description=checkBoxItems[i],
-                        checked=checkBoxStates[i],
-                        onClick=partial(self.fixSelections, i),
-                        onValueChange=partial(onChecked[i]),
+                        description=checkBoxItems[idx],
+                        checked=checkBoxStates[idx],
+                        onClick=partial(self.fixSelections, idx),
+                        onValueChange=partial(onChecked[idx]),
                         styleEditor=styleEditor,
                     )
                 )
             ),
         )
-        self._itemsCount = count
+        self._itemsCount = total
         self._checkBoxStates: BoolSTox = checkBoxStates
         self._selectAllState = selectAllState
         self._selection = ValToRemember(Validate(selection, list()))
