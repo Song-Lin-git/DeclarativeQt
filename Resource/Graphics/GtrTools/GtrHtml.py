@@ -56,7 +56,7 @@ class HtmlBase64Encoder:
             image, images = images[0], images[1:]
             base64_data = method(image)
             img_tag[self._srcField] = self._imageDataFrame(base64_data)
-            img_tag[self._widthField] = width
+            img_tag[self._widthField] = f"{width}"
             img_tag[self._heightField] = self._autoMode
         beautiful_soup = HtmlCode(beautiful_soup)
         return beautiful_soup
