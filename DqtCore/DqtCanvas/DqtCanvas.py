@@ -42,13 +42,13 @@ def setWindowOffset(body: QWidget, offset: QPoint, anchor: QWidget = None):
     return None
 
 
-def fontTextMetric(font: QFont, text: RState[str], lchLim: int = None) -> QSize:
+def fontTextMetric(font: QFont, text: RState[str], lineLim: int = None) -> QSize:
     metrics = QFontMetrics(font)
     height = metrics.height()
     lines = list()
     for line in Remember.getValue(text).split(RString.pLinefeed):
-        if lchLim:
-            lines += textwrap.wrap(line, width=lchLim)
+        if lineLim:
+            lines += textwrap.wrap(line, width=lineLim)
         else:
             lines.append(line)
     if isEmpty(lines):

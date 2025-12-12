@@ -82,7 +82,7 @@ class NoteDialog(Dialog):
         textFont = Validate(textFont, self.DefaultFont)
         text = ValToRemember(Remember.toValid(text, RString.pEmpty))
         perLine = Validate(perLine, self.MaxCharPerLine[language])
-        labelSize = DqtCanvas.fontTextMetric(textFont, text, lchLim=perLine)
+        labelSize = DqtCanvas.fontTextMetric(textFont, text, lineLim=perLine)
         labelSize.setHeight(int(labelSize.height() * lineHeightRatio))
         labelSize.setWidth(int(labelSize.width() * self.FixTextWidthRatio))
         iconHeight = int(labelSize.height() * (text.value().count(RString.pLinefeed) + 1))
