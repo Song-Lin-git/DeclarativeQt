@@ -50,18 +50,18 @@ class PlotterStyle:
             annotationAlpha: RState[float] = None,
             annotationFrame: RState[AnnotFrame] = None,
     ):
-        self.style = Validate(style, RString.pEmpty)
-        self.lineColors = Validate(lineColors, list())
-        self.lineWidths = Validate(lineWidths, list())
-        self.lineStyles = Validate(lineStyles, list())
-        self.pinnerStyles = Validate(pinnerStyles, list())
-        self.pinnerSizes = Validate(pinnerSizes, list())
-        self.cursorColor = Validate(cursorColor, RColor().randomColor())
-        self.cursorAlpha = Validate(cursorAlpha, 1.0)
-        self.cursorStyle = Validate(cursorStyle, MultiAxisPlotter.defaultCursorStyle)
-        self.annotationColors = Validate(annotationColors, list())
-        self.annotationAlpha = Validate(annotationAlpha, MultiAxisPlotter.defaultAnnotationAlpha)
-        self.annotationFrame = Validate(annotationFrame, MultiAxisPlotter.defaultAnnotationFrame)
+        self.style = Remember.toValid(style, RString.pEmpty)
+        self.lineColors = Remember.toValid(lineColors, list())
+        self.lineWidths = Remember.toValid(lineWidths, list())
+        self.lineStyles = Remember.toValid(lineStyles, list())
+        self.pinnerStyles = Remember.toValid(pinnerStyles, list())
+        self.pinnerSizes = Remember.toValid(pinnerSizes, list())
+        self.cursorColor = Remember.toValid(cursorColor, RColor().randomColor())
+        self.cursorAlpha = Remember.toValid(cursorAlpha, 1.0)
+        self.cursorStyle = Remember.toValid(cursorStyle, MultiAxisPlotter.defaultCursorStyle)
+        self.annotationColors = Remember.toValid(annotationColors, list())
+        self.annotationAlpha = Remember.toValid(annotationAlpha, MultiAxisPlotter.defaultAnnotationAlpha)
+        self.annotationFrame = Remember.toValid(annotationFrame, MultiAxisPlotter.defaultAnnotationFrame)
 
 
 class PlotterTrigger:
