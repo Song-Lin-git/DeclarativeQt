@@ -1,23 +1,31 @@
+import math
 from functools import partial
 from typing import Iterable, Dict, Callable, List
 
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QFont
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, RState
+from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
+from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import StringSTox, BoolSTox, SeqToRemember, \
     ValToRemember
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.CheckBoxes.IconCheckBox import IconCheckBox, CheckBoxStyle
 from DeclarativeQt.Resource.Grammars.RDecorator import private
-from DeclarativeQt.Resource.Grammars.RGrammar import Validate, FixListLength, ReferList, inRange
+from DeclarativeQt.Resource.Grammars.RGrammar import Validate, FixListLength, ReferList, inRange, isValid
 
 
 class OneHotCheckBoxGroup(LinearLayout):
+    DefaultCheckBoxSize = QSize(180, 30)
+
     def __init__(
             self,
             size: QSize = None,
             checkBoxItems: StringSTox = None,
             checkBoxSize: QSize = None,
+            adaptiveCheckBoxWidth: bool = False,
+            fixCheckBoxWidth: bool = False,
             fixedCheckBoxHeight: int = None,
             checkBoxStates: BoolSTox = None,
             onChecked: List[Callable] = None,
@@ -36,9 +44,23 @@ class OneHotCheckBoxGroup(LinearLayout):
             styleEditor: CheckBoxStyle = None
     ):
         checkBoxItems = SeqToRemember(checkBoxItems).value()
-        count = len(checkBoxItems)
-        checkBoxStates = SeqToRemember(FixListLength(Validate(checkBoxStates, list()), count, False)).value()
-        onChecked = FixListLength(Validate(onChecked, list()), count, lambda: None)
+        total = len(checkBoxItems)
+        checkBoxStates = SeqToRemember(
+            FixListLength(Validate(checkBoxStates, list()), total, False)
+        ).value()
+        checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
+        if fixedCheckBoxHeight:
+            checkBoxSize.setHeight(fixedCheckBoxHeight)
+        checkBoxSizes = ReferList(range(total), lambda a0: QSize(checkBoxSize))
+        if adaptiveCheckBoxWidth:
+            for i, box in enumerate(checkBoxSizes):
+                width = DqtCanvas.fontTextMetric(QFont(
+                    Remember.getValue(styleEditor.getStyle(DqtStyle.atFontFamily)),
+                    math.ceil(Remember.getValue(styleEditor.getStyle(DqtStyle.atFontSize)))
+                ), Remember.getValue(checkBoxItems[i])).width()
+                width += int(1.5 * checkBoxSize.height())
+                box.setWidth(width)
+        onChecked = FixListLength(Validate(onChecked, list()), total, lambda: None)
         super().__init__(
             size=size,
             direction=direction,
@@ -50,23 +72,29 @@ class OneHotCheckBoxGroup(LinearLayout):
             crossPadding=crossPadding,
             style=style,
             content=ReferList(
-                range(count), lambda i:
+                range(total), lambda idx:
                 IconCheckBox(
-                    size=checkBoxSize,
+                    size=checkBoxSizes[idx],
                     fixedHeight=fixedCheckBoxHeight,
-                    description=checkBoxItems[i],
-                    checked=checkBoxStates[i],
-                    onClick=partial(self.fixSelections, i),
-                    onValueChange=partial(onChecked[i]),
+                    fixedWidth=checkBoxSizes[idx].width() if fixCheckBoxWidth else None,
+                    description=checkBoxItems[idx],
+                    checked=checkBoxStates[idx],
+                    onClick=partial(self.fixSelections, idx),
+                    onValueChange=partial(onChecked[idx]),
                     styleEditor=styleEditor,
                 )
             ),
         )
         self._forcedCheck = forcedCheck
-        self._itemsCount = count
+        self._itemsCount = total
         self._checkBoxStates: BoolSTox = checkBoxStates
         self._selection = ValToRemember(selection)
-        self._selection.connect(partial(Validate(onSelect, lambda i: None)), host=self)
+        if forcedCheck:
+            self._selection.updateValue(lambda a0: 0 if a0 is None else a0)
+        if isValid(self._selection.value()):
+            self._selection.updateValue(lambda a0: min(total - 1, max(0, a0)))
+            self.fixSelections(self._selection.value())
+        self._selection.connect(partial(Validate(onSelect, lambda idx: None)), host=self)
         trigger = Validate(trigger, dict())
         for k, v in trigger.items():
             k.connect(partial(v), host=self)

@@ -21,8 +21,8 @@ from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
 
 
 class MultiCheckBoxGroup(LinearLayout):
-    DefaultCheckBoxSize = QSize(180, 30)
     MainSpacerLengthRatio = 0.2
+    DefaultCheckBoxSize = QSize(180, 30)
 
     def __init__(
             self,
@@ -30,6 +30,7 @@ class MultiCheckBoxGroup(LinearLayout):
             checkBoxItems: StringSTox = None,
             checkBoxSize: QSize = None,
             adaptiveCheckBoxWidth: bool = False,
+            fixCheckBoxWidth: bool = False,
             fixedCheckBoxHeight: int = None,
             checkBoxStates: BoolSTox = None,
             onChecked: List[Callable] = None,
@@ -54,6 +55,7 @@ class MultiCheckBoxGroup(LinearLayout):
             FixListLength(Validate(checkBoxStates, list()), total, False)
         ).value()
         onChecked = FixListLength(Validate(onChecked, list()), total, lambda: None)
+        checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
         if fixedCheckBoxHeight:
             checkBoxSize.setHeight(fixedCheckBoxHeight)
         checkBoxSizes = ReferList(range(total), lambda a0: QSize(checkBoxSize))
@@ -62,7 +64,6 @@ class MultiCheckBoxGroup(LinearLayout):
             checkBoxSizes.append(QSize(checkBoxSize))
             checkBoxItems.append(SemanticRemember(language, RString.stSelectAll))
         selectAllState = Remember(False)
-        checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
         maxWidth = checkBoxSize.width()
         if adaptiveCheckBoxWidth:
             for i, box in enumerate(checkBoxSizes):
@@ -88,6 +89,7 @@ class MultiCheckBoxGroup(LinearLayout):
                     IconCheckBox(
                         size=checkBoxSizes[-1],
                         fixedHeight=fixedCheckBoxHeight,
+                        fixedWidth=checkBoxSizes[-1].width() if fixCheckBoxWidth else None,
                         description=checkBoxItems[-1],
                         checked=selectAllState,
                         styleEditor=styleEditor,
@@ -113,6 +115,7 @@ class MultiCheckBoxGroup(LinearLayout):
                     IconCheckBox(
                         size=checkBoxSizes[idx],
                         fixedHeight=fixedCheckBoxHeight,
+                        fixedWidth=checkBoxSizes[idx].width() if fixCheckBoxWidth else None,
                         description=checkBoxItems[idx],
                         checked=checkBoxStates[idx],
                         onClick=partial(self.fixSelections, idx),
