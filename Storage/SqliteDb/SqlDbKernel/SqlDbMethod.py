@@ -19,7 +19,7 @@ class BaseSqlDbMethod:
         return ReferList(cursor.description, lambda x: x[0])
 
     @staticmethod
-    def getTableDatas(dbFile: str, tableName: str, fields: List[str] = None):
+    def getTableData(dbFile: str, tableName: str, fields: List[str] = None):
         sql = SqlComposer(dbFile)
         if not sql.isConnected():
             return None
@@ -44,19 +44,19 @@ class SqlDbMethod:
         sql.select(fields, sqlDb.dbTableName)
         if sort:
             sql.cmdAppend(sql.orderByFrame(sqlDb.fdSort))
-        datas = sql.cmdEnd().fetchall()
-        if translator is None or isEmpty(datas):
-            return datas
-        datas = ReferList(datas, lambda a0: list(a0))
+        data = sql.cmdEnd().fetchall()
+        if translator is None or isEmpty(data):
+            return data
+        data = ReferList(data, lambda a0: list(a0))
         for field, mapping in translator.items():
             if field not in fields:
                 continue
             idx = fields.index(field)
             translate = lambda a0: a0 if a0 not in mapping else mapping[a0]
-            for row in datas:
+            for row in data:
                 row[idx] = translate(row[idx])
-        datas = ReferList(datas, lambda a0: tuple(a0))
-        return datas
+        data = ReferList(data, lambda a0: tuple(a0))
+        return data
 
     @staticmethod
     def deleteDataRow(sqlDb: SqlDatabase, uniqueKey: dict):

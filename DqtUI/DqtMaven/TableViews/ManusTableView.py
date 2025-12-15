@@ -458,7 +458,7 @@ class ManusTableView(Column):
         defaultInputs = FixListLength(defaultInputs, count, RString.pEmpty)
         acceptor = Trigger()
         itemSpace = int(7)
-        datas = SeqToRemember(defaultInputs)
+        data = SeqToRemember(defaultInputs)
         result = Execute(
             Dialog(
                 parent=parent,
@@ -514,7 +514,7 @@ class ManusTableView(Column):
                                                     styleEditor=TextFieldStyle(
                                                         borderRadius=editorBorderRadius
                                                     ),
-                                                    data=Remember.getValue(datas)[i]
+                                                    data=Remember.getValue(data)[i]
                                                 ),
                                             )
                                         ),
@@ -540,5 +540,5 @@ class ManusTableView(Column):
         )
         if Equal(result, Dialog.Accepted):
             dataWash = lambda x: x.strip() if isinstance(x, str) else x
-            return ReferList(Remember.getListValue(datas), dataWash)
+            return ReferList(Remember.getListValue(data), dataWash)
         return None

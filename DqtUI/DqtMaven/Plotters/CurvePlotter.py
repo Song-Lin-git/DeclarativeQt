@@ -118,7 +118,7 @@ class CurvePlotter(MultiAxisPlotter):
 
     def __init__(
             self,
-            datas: RState[CurveData] = None,
+            curveData: RState[CurveData] = None,
             xLabel: RState[str] = None,
             yLabels: RState[StringSTox] = None,
             aspectMode: RState[str] = None,
@@ -137,7 +137,7 @@ class CurvePlotter(MultiAxisPlotter):
     ):
         styleEditor: PlotterStyle = Validate(styleEditor, PlotterStyle())
         super().__init__(
-            datas=Remember.getDictValue(datas),
+            curveData=Remember.getDictValue(curveData),
             xLabel=Remember.getValue(xLabel),
             yLabels=Remember.getListValue(yLabels),
             aspectMode=Remember.getValue(aspectMode),
@@ -160,7 +160,7 @@ class CurvePlotter(MultiAxisPlotter):
             cursorOff=Remember.getValue(cursorOff),
             gridOn=Remember.getValue(gridOn),
         )
-        datas = Remember.toValid(datas, dict())
+        curveData = Remember.toValid(curveData, dict())
         yLabels = Remember.toValid(yLabels, list())
         lineWidths = Remember.toValid(styleEditor.lineWidths, list())
         lineColors = Remember.toValid(styleEditor.lineColors, list())
@@ -179,9 +179,9 @@ class CurvePlotter(MultiAxisPlotter):
             Key(PlotterStyle.atAnnotationColor).Val(Remember.obtainListItem(annotationColors, idx)),
             Key(self.curveVisible).Val(Remember.obtainListItem(curveVisibles, idx))
         ).data
-        self._curveKeys = list(Remember.getDictValue(datas).keys())
-        if isinstance(datas, Remember):
-            datas.connect(lambda value: self.setCurveDatas(value), host=self)
+        self._curveKeys = list(Remember.getDictValue(curveData).keys())
+        if isinstance(curveData, Remember):
+            curveData.connect(lambda value: self.setCurveData(value), host=self)
         if isinstance(xLabel, Remember):
             xLabel.connect(lambda value: self.setXLabel(value), host=self)
         if isinstance(yLabels, Remember):
@@ -202,13 +202,13 @@ class CurvePlotter(MultiAxisPlotter):
             annotationColors.connect(lambda value: self.setAnnotationColors(value), host=self)
         if isinstance(curveVisibles, Remember):
             curveVisibles.connect(lambda value: self.setCurveVisibles(value), host=self)
-        for i, item in enumerate(Remember.getValue(datas).items()):
+        for i, item in enumerate(Remember.getValue(curveData).items()):
             k, v = item
             if isinstance(k, Remember):
                 k.uniqueConnect(self.setCurveDescription, i, host=self)
             if isinstance(v, Remember):
-                updateData = lambda a0, a1=k: self.setAxCurveDatas(Remember.getValue(a1), a0)
-                v.uniqueConnect(self.setAxCurveDatas, method=updateData, host=self)
+                updateData = lambda a0, a1=k: self.setAxCurveData(Remember.getValue(a1), a0)
+                v.uniqueConnect(self.setAxCurveData, method=updateData, host=self)
         for i, label in enumerate(Remember.getValue(yLabels)):
             if isinstance(label, Remember):
                 label.uniqueConnect(self.setYLabel, i, host=self)
@@ -376,12 +376,12 @@ class CurvePlotter(MultiAxisPlotter):
         return None
 
     @private
-    def setAxCurveDatas(
-            self, key: str, datas: List[Tuple[float, float]], **kwargs: Any
+    def setAxCurveData(
+            self, key: str, curveData: List[Tuple[float, float]], **kwargs: Any
     ) -> None:
         kwargs = DictToDefault(kwargs)
-        return DataBox(super().setAxCurveDatas(
-            key=key, datas=datas,
+        return DataBox(super().setAxCurveData(
+            key=key, curveData=curveData,
             label=kwargs[self.curveLabel],
             lineColor=kwargs[PlotterStyle.atLineColor],
             lineWidth=kwargs[PlotterStyle.atLineWidth],
@@ -392,7 +392,7 @@ class CurvePlotter(MultiAxisPlotter):
         )).data
 
     @private
-    def setCurveDatas(self, curveData: CurveData):
+    def setCurveData(self, curveData: CurveData):
         if not isValid(curveData):
             return None
         self.clearFigCanvas()
@@ -402,11 +402,11 @@ class CurvePlotter(MultiAxisPlotter):
             if isinstance(k, Remember):
                 k.uniqueConnect(self.setCurveDescription, idx, host=self)
             if isinstance(v, Remember):
-                v.uniqueConnect(self.setAxCurveDatas, Remember.getValue(k), host=self)
+                v.uniqueConnect(self.setAxCurveData, Remember.getValue(k), host=self)
             description = Remember.getValue(k)
             axis_data = Remember.getValue(v)
             curveParams = self._curveParams(idx)
-            self.setAxCurveDatas(description, axis_data, **curveParams)
+            self.setAxCurveData(description, axis_data, **curveParams)
             self.setCurveVisible(description, curveParams[self.curveVisible])
         self._curveKeys = curveKeys
         return None

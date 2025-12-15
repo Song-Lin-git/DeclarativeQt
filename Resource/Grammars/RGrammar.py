@@ -44,7 +44,6 @@ EnumList: Grammar = RGrmBase.GEnumList
 DtReferList: Grammar = lambda dt, exp: list([exp(k, v) for k, v in dt.items()])
 SumNestedList: Grammar = lambda lt: sum(lt, [])
 JoinLists: Grammar = lambda *lt: list(chain(*lt))
-DxJoinLists: Grammar = lambda *lt: DataBox(JoinLists(lt))
 ReferDict: Grammar = lambda iterable, keyExp, valExp: dict({keyExp(x): valExp(x) for x in iterable})
 EnumDict: Grammar = lambda iterable, keyExp, valExp: dict({keyExp(i, x): valExp(i, x) for i, x in enumerate(iterable)})
 ConditionDict: Grammar = lambda dt, condition: dict({k: v for k, v in dt.items() if condition(k, v)})

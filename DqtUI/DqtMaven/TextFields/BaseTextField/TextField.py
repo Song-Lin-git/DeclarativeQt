@@ -105,11 +105,11 @@ class TextField(QLineEdit):
 
     @private
     def buildCompleter(self, complterStyle: CompleterStyle = None):
-        datas = Remember.getValue(self._completer)
+        data = Remember.getValue(self._completer)
         showMethod = lambda: self._completered.setValue(True)
         hideMethod = lambda: self._completered.setValue(False)
         completer = DataBox(Completer.buildCompleterForLineEdit(
-            dataModel=datas, lineEdit=self,
+            dataModel=data, lineEdit=self,
             onCompleterShow=partial(showMethod),
             onCompleterHide=partial(hideMethod),
             styleEditor=complterStyle,

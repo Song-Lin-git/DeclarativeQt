@@ -220,7 +220,7 @@ stUnexpectedFileType:
 stExportFailed:
   ch: "导出失败！"
   en: "Failed to export!"
-stTooManyDatas:
+stTooMuchData:
   ch: "数据量过多！建议通过Excel或EDX文件格式导出"
   en: "Data volume too large! Please export via Excel (.xlsx) or EDX file format."
 stSucceed:

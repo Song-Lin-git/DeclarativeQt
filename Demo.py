@@ -66,7 +66,7 @@ demo_app = MainApplication(
                 ),
                 TimeEditor(canvasModifier=TimeEditor.Canvas(editorHeight=34)),
                 ManusPlotter(
-                    datas=DictData(
+                    curveData=DictData(
                         Key(key).Val(ReferState(
                             data, referExp=lambda a0: list(zip(
                                 tlist.tolist(),

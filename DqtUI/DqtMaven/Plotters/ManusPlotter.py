@@ -37,7 +37,7 @@ from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
 class ManusPlotter(Column):
     def __init__(
             self,
-            datas: RState[CurveData] = None,
+            curveData: RState[CurveData] = None,
             xLabel: RState[str] = None,
             yLabels: RState[StringSTox] = None,
             aspectMode: RState[str] = None,
@@ -59,17 +59,17 @@ class ManusPlotter(Column):
             buttonRadiusRatio: float = 0.15,
     ):
         buttonSize = Validate(buttonSize, QSize(30, 30))
-        datas = Remember.toValid(datas, dict())
+        curveData = Remember.toValid(curveData, dict())
         xLabel = Remember.toValid(xLabel, RString.pEmpty)
         yLabels = Remember.toValid(yLabels, list())
         aspectMode = Remember.toValid(aspectMode, CurvePlotter.aspectEqual)
         curveVisibles = Remember.toValid(curveVisibles, list())
         language = Validate(language, RString.EnglishIndex)
-        self._datas = ValToRemember(datas)
+        self._curveData = ValToRemember(curveData)
         self._xLabel = ValToRemember(xLabel)
         self._yLabels = SeqToRemember(yLabels)
         self._aspectMode = ValToRemember(aspectMode)
-        self._curveNames = SeqToRemember(list(Remember.getValue(datas).keys()))
+        self._curveNames = SeqToRemember(list(Remember.getValue(curveData).keys()))
         self._styleEditor: PlotterStyle = Validate(styleEditor, PlotterStyle())
         self._styleEditor.lineColors = SeqToRemember(self._styleEditor.lineColors)
         self._styleEditor.annotationColors = SeqToRemember(self._styleEditor.annotationColors)
@@ -168,11 +168,11 @@ class ManusPlotter(Column):
                                             annotColors=self._styleEditor.annotationColors,
                                             buttonRadiusRatio=buttonRadiusRatio,
                                             dialogOffset=QPoint(a0.width(), -1),
-                                        ) if not isEmpty(Remember.getValue(self._datas)) else None
+                                        ) if not isEmpty(Remember.getValue(self._curveData)) else None
                                     ),
-                                    triggers=DictData(Key(self._datas).Val(
+                                    triggers=DictData(Key(self._curveData).Val(
                                         lambda a0: self._curveNames.setValue(SeqToRemember(
-                                            list(Remember.getValue(self._datas).keys())
+                                            list(Remember.getValue(self._curveData).keys())
                                         )) if isValid(a0) else None
                                     )).data
                                 ),
@@ -299,7 +299,7 @@ class ManusPlotter(Column):
                     )
                 ),
                 CurvePlotter(
-                    datas=self._datas,
+                    curveData=self._curveData,
                     xLabel=self._xLabel,
                     yLabels=self._yLabels,
                     aspectMode=self._aspectMode,

@@ -447,7 +447,7 @@ class RString(ABC):
     stTo: Semantics = semantic["stTo"]
     stEnd: Semantics = semantic["stEnd"]
     stStart: Semantics = semantic["stStart"]
-    stTooManyDatas: Semantics = semantic["stTooManyDatas"]
+    stTooMuchData: Semantics = semantic["stTooMuchData"]
     stExportFailed: Semantics = semantic["stExportFailed"]
     stFetchAll: Semantics = semantic["stFetchAll"]
     stFilterQuery: Semantics = semantic["stFilterQuery"]

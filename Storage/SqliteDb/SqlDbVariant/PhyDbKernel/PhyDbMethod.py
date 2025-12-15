@@ -10,9 +10,9 @@ from DeclarativeQt.Storage.SqliteDb.SqlDbVariant.PhyDbKernel.PhyDatabase import 
 
 class PhyDbMethod(SqlDbMethod):
     @staticmethod
-    def fetchDbTableDatasToAppMeasureUnit(
+    def fetchDbTableDataToAppMeasureUnit(
             phyDb: PhyDatabase, fields: List[DataField] = None,
-            readyDatas: SqlTableData = None,
+            readyData: SqlTableData = None,
             appUnits: Dict[str, MeasureUnit] = None, translator: DataTranslator = None,
     ) -> SqlTableData:
         converted = list()
@@ -22,10 +22,10 @@ class PhyDbMethod(SqlDbMethod):
         measurements = Measurements.UnitPhyMeasureMap
         fields = Validate(fields, phyDb.dbFields)
         simpleFetch = SqlDbMethod.fetchSqlTable
-        datas = readyDatas if isValid(readyDatas) else simpleFetch(phyDb, fields, translator=translator)
-        if isEmpty(datas):
+        data = readyData if isValid(readyData) else simpleFetch(phyDb, fields, translator=translator)
+        if isEmpty(data):
             return None
-        for row in datas.copy():
+        for row in data.copy():
             rowData: List[Any] = list(row)
             for i, item in enumerate(rowData):
                 if item is None:

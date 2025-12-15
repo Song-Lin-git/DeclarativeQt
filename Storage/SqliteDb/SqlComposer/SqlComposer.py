@@ -188,14 +188,14 @@ class SqlComposer:
                 RString.log(self._cmd)
             cursor = self._connection.cursor()
             cursor.execute(self._cmd)
-            datas = cursor.fetchall()
+            data = cursor.fetchall()
         except sqlite3.Error as e:
             RString.log(str(e), RString.lgError)
             RString.log(str(self._cmd), RString.lgError)
             self._cmd = self.pNone
             return None
         self._cmd = self.pNone
-        return datas
+        return data
 
     def execute(self, showLog: bool = True) -> Optional[Cursor]:
         if not self._connected or not self.isCommandEnded():
