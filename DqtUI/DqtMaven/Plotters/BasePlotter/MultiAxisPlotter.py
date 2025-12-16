@@ -92,7 +92,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     priorityManhattan: PriorityArg = "Manhattan"
     priorityEuclidean: PriorityArg = "Euclidean"
     priorityAuto: PriorityArg = "Auto"
-    defaultAnnotationFrame: StrFrame = staticmethod(lambda x, y: f"x: {x:.4f}, y: {y:.4f}")
+    defaultAnnotationFrame: StrFrame = staticmethod(lambda x, y: f"x: {x:.6f}, y: {y:.6f}")
     annotationBBox: ModeFrame = staticmethod(lambda alpha: dict(boxstyle="round", fc="w", alpha=alpha))
     annotationArraw: LayoutArg = dict(arrowstyle="->")
     draggingRatio: OptionArg = 1.46
