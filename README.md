@@ -79,8 +79,7 @@ beautifulsoup4  4.12.3
 
 ### ***2.2 Start with Declarative-Qt***
 
-Use `git clone` to obtain this repository, and you can start your development tasks directly within the *Declarative-Qt*
-project.
+Use `git clone` to obtain this repository, and you can directly use it as a standalone module.
 
 ```commandline
 git clone https://github.com/Song-Lin-git/DeclarativeQt.git
