@@ -17,7 +17,7 @@ from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDbMethod import SqlDbMethod
 
 
-class RptDbMethod(SqlDbMethod):
+class AstDbMethod(SqlDbMethod):
     @staticmethod
     def executeRequestDialog(
             content: QWidget,

@@ -14,11 +14,11 @@ FilterFrame: StrFrame = lambda description, suffix: str(description + f" (*.{suf
 
 
 class RSpecialFiles(ABC):
-    rpt: FileType = "rpt"
+    ast: FileType = "ast"
     udi: FileType = "udi"
-    dptRpt: FileDescription = "App Settings"
+    dptAst: FileDescription = "App Settings"
     dptUdi: FileDescription = "User Data"
-    fltRpt: FileFilter = FilterFrame(dptRpt, rpt)
+    fltAst: FileFilter = FilterFrame(dptAst, ast)
     fltUdi: FileFilter = FilterFrame(dptUdi, udi)
 
 

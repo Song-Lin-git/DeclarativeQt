@@ -153,7 +153,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
             self.setStyleSheet(style)
         curveData = DtReferDict(Validate(curveData, dict()), valExp=lambda k, v: self.cleanLineData(v))
         self._xAxis: List = ReferList(curveData.values(), lambda v: ReferList(v, lambda p: p[0]))
-        self._yData: Dict = DtReferDict(curveData, lambda k, v: k, lambda k, v: ReferList(v, lambda p: p[1]))
+        self._yAxData: Dict = DtReferDict(curveData, lambda k, v: k, lambda k, v: ReferList(v, lambda p: p[1]))
         self._lines = list()
         self._lineCount = len(curveData)
         self._dataRanges = list()
@@ -477,7 +477,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     def clearFigCanvas(self):
         self.clearAllMarks()
         self._xAxis.clear()
-        self._yData.clear()
+        self._yAxData.clear()
         self._yLabels.clear()
         self.clearAllCurves()
         self._lineWidths.clear()
@@ -496,17 +496,17 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
     def setCurveDescription(self, idx: int, dcpKey: str):
         if not self.isValidIndex(idx):
             return None
-        if dcpKey in self._yData:
+        if dcpKey in self._yAxData:
             return None
         self._lines[idx].set_label(dcpKey)
         yAxisData = dict()
-        for i, item in enumerate(self._yData.items()):
+        for i, item in enumerate(self._yAxData.items()):
             k, v = item
             if not Equal(i, idx):
                 yAxisData[k] = v
                 continue
             yAxisData[dcpKey] = v
-        self._yData = yAxisData
+        self._yAxData = yAxisData
         self._fig.canvas.draw_idle()
         return None
 
@@ -549,9 +549,9 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         if not self.isValidIndex(idx):
             return None
         plot_line: List[Line2D] = DataBox(self._ax.plot(
-            self._xAxis[idx], list(self._yData.values())[idx],
+            self._xAxis[idx], list(self._yAxData.values())[idx],
             linestyle=self._lineStyles[idx], linewidth=self._lineWidths[idx],
-            label=list(self._yData.keys())[idx], color=self._lineColors[idx],
+            label=list(self._yAxData.keys())[idx], color=self._lineColors[idx],
             marker=self._pinnerStyles[idx], markersize=self._pinnerSizes[idx],
             markeredgecolor=self.defaultPinnerEdgeColor, markeredgewidth=self.defaultPinnerEdge
         )).data
@@ -569,14 +569,14 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         curveData = self.cleanLineData(curveData)
         yAxisData = ReferList(curveData, lambda p: p[1])
         xAxisData = ReferList(curveData, lambda p: p[0])
-        if key in self._yData:
-            self._yData[key] = yAxisData
-            idx = list(self._yData.keys()).index(key)
+        if key in self._yAxData:
+            self._yAxData[key] = yAxisData
+            idx = list(self._yAxData.keys()).index(key)
             self._xAxis[idx] = xAxisData
-            self._lines[idx].set_data(self._xAxis[idx], self._yData[key])
+            self._lines[idx].set_data(self._xAxis[idx], self._yAxData[key])
             self.checkMarkValidation(idx)
         else:
-            self._yData[key] = yAxisData
+            self._yAxData[key] = yAxisData
             self._xAxis.append(xAxisData)
             if lineColor is not None:
                 self._lineColors.append(lineColor)
@@ -654,9 +654,9 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         return None
 
     def setCurveVisible(self, key: str, visible: bool):
-        if key not in self._yData:
+        if key not in self._yAxData:
             return None
-        idx = list(self._yData.keys()).index(key)
+        idx = list(self._yAxData.keys()).index(key)
         self.setCurveVisibleByIndex(idx, visible)
         return None
 
@@ -678,7 +678,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
 
     @private
     def yAxisValues(self) -> list:
-        return list(set(chain(*list(self._visibleAxis(self._yData.values())))))
+        return list(set(chain(*list(self._visibleAxis(self._yAxData.values())))))
 
     @private
     def axisScopeSpan(self):
@@ -754,7 +754,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
             found = False
             if x in self._xAxis[idx]:
                 data_index = self._xAxis[idx].index(x)
-                if Equal(list(self._yData.values())[idx][data_index], y):
+                if Equal(list(self._yAxData.values())[idx][data_index], y):
                     found = True
             if not found:
                 circle.remove()
@@ -1125,10 +1125,10 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
 
     @private
     def fixDataSequence(self):
-        for i, key in enumerate(self._yData.keys()):
-            valid_len = min(len(self._xAxis[i]), len(self._yData[key]))
+        for i, key in enumerate(self._yAxData.keys()):
+            valid_len = min(len(self._xAxis[i]), len(self._yAxData[key]))
             self._xAxis[i] = self._xAxis[i][:valid_len]
-            self._yData[key] = self._yData[key][:valid_len]
+            self._yAxData[key] = self._yAxData[key][:valid_len]
         return None
 
     @private
@@ -1141,5 +1141,5 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._pinnerSizes += RepeatList(self.defaultPinnerSize, fixLength(self._pinnerSizes))
         self._pinnerStyles += RepeatList(self.defaultPinnerStyle, fixLength(self._pinnerStyles))
         self._annonationColors += self._lineColors[len(self._annonationColors):]
-        self._yLabels += list(self._yData.keys())[len(self._yLabels):]
+        self._yLabels += list(self._yAxData.keys())[len(self._yLabels):]
         return None

@@ -11,7 +11,8 @@ from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase, 
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDbMethod import SqlTableData
 
 
-class RptDatabase(SqlDatabase):
+class AstDatabase(SqlDatabase):
+    DbFileDirAt = RStorage().getDir(RStorage.dirAppSetting)
     fdAutoId: DataField = "id"
 
     @property
@@ -21,32 +22,32 @@ class RptDatabase(SqlDatabase):
 
     @property
     @abstractmethod
-    def defaultRptParams(self) -> Dict[DataField, Any]:
+    def defaultAstParams(self) -> Dict[DataField, Any]:
         pass
 
     @abstractmethod
-    def initRptParams(self) -> Self:
+    def initAstParams(self) -> Self:
         pass
 
     @abstractmethod
-    def fetchRptParams(self) -> Any:
+    def fetchAstParams(self) -> Any:
         pass
 
     @abstractmethod
-    def actRequestRptParams(self, *args: Any, **kwargs: Any) -> bool:
+    def actRequestAstParams(self, *args: Any, **kwargs: Any) -> bool:
         pass
 
     @abstractmethod
-    def updateRptParams(self, *args: Any, **kwargs: Any) -> Self:
+    def updateAstParams(self, *args: Any, **kwargs: Any) -> Self:
         pass
 
-    def fecthRptTableData(self, sql: SqlComposer = None) -> SqlTableData:
+    def fecthAstTableData(self, sql: SqlComposer = None) -> SqlTableData:
         sql = Validate(sql, self.sql)
         if not sql.isConnected():
             return None
         return sql.select(self.dbParamFields, self.dbTableName).cmdEnd().fetchall()
 
-    def updateRptTableData(self, sql: SqlComposer = None, **kwargs: Any) -> Self:
+    def updateAstTableData(self, sql: SqlComposer = None, **kwargs: Any) -> Self:
         sql = Validate(sql, self.sql)
         if not sql.isConnected():
             return None
@@ -96,5 +97,3 @@ class RptDatabase(SqlDatabase):
     @abstractmethod
     def dbFilePath(self) -> FilePath:
         pass
-
-    DbFileDirAt = RStorage().getDir(RStorage.dirAppSetting)
