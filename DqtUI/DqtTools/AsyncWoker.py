@@ -34,9 +34,9 @@ class RActor(QThread):
         # noinspection PyUnresolvedReferences
         self.finished.emit(self._result)
 
-    def start(self, priority: QThread.Priority = QThread.InheritPriority):
+    def start(self, *args: QThread.Priority):
         self._taskEnd = False
-        return super().start(priority)
+        return super().start(*args[:1])
 
     def run(self):
         if self._running:
