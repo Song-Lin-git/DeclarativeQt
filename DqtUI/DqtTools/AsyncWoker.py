@@ -148,7 +148,7 @@ class AsyncWorker(QObject):
         self._ckclock = Remember(0.0)
         self._tolerance = math.ceil(ck.tolerance / ck.interval)
         self._cktimer = RTimer(self._ckclock, int(1e3 * ck.interval))
-        self._ckclock.connect(self.check, host=self)
+        self._ckclock.connect(lambda: self.check(), host=self)
         self._cktimer.setParent(self._parent)
         self._waiting = self._tolerance
 
