@@ -8,8 +8,8 @@ from PyQt5.QtGui import QFont
 from DeclarativeQt.DqtCore.DqtBase import Remember, RState
 from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import StringSTox, BoolSTox, SeqToRemember, \
-    ValToRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import StringSTox, BoolSTox, SeqToState, \
+    ValToState
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.CheckBoxes.IconCheckBox import IconCheckBox, CheckBoxStyle
 from DeclarativeQt.Resource.Grammars.RDecorator import private
@@ -43,9 +43,9 @@ class OneHotCheckBoxGroup(LinearLayout):
             trigger: Dict[Remember, Callable] = None,
             styleEditor: CheckBoxStyle = None
     ):
-        checkBoxItems = SeqToRemember(checkBoxItems).value()
+        checkBoxItems = SeqToState(checkBoxItems).value()
         total = len(checkBoxItems)
-        checkBoxStates = SeqToRemember(
+        checkBoxStates = SeqToState(
             FixListLength(Validate(checkBoxStates, list()), total, False)
         ).value()
         checkBoxSize = Validate(checkBoxSize, self.DefaultCheckBoxSize)
@@ -88,7 +88,7 @@ class OneHotCheckBoxGroup(LinearLayout):
         self._forcedCheck = forcedCheck
         self._itemsCount = total
         self._checkBoxStates: BoolSTox = checkBoxStates
-        self._selection = ValToRemember(selection)
+        self._selection = ValToState(selection)
         if forcedCheck:
             self._selection.updateValue(lambda a0: 0 if a0 is None else a0)
         if isValid(self._selection.value()):

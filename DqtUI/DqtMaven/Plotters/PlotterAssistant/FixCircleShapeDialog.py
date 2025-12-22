@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget
 from matplotlib import patches
 from matplotlib.patches import Ellipse
 
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import RState, SemanticRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import RState, SmticToState
 from DeclarativeQt.DqtUI.DqtMaven.Plotters.BasePlotter.MultiAxisPlotter import MultiAxisPlotter
 from DeclarativeQt.DqtUI.DqtMaven.Plotters.PlotterAssistant.PlotterDialog.PlotterDialog import PlotterDialog
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
@@ -45,7 +45,7 @@ class FixCircleShapeDialog(PlotterDialog):
             parent=parent,
             offset=dialogOffset,
             figures=GList(self._fig),
-            title=SemanticRemember(language, RString.stCircleMarker),
+            title=SmticToState(language, RString.stCircleMarker),
             content=self._plotter
         )
         self.buildCanvas()

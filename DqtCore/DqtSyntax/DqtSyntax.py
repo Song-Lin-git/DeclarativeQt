@@ -15,10 +15,10 @@ BoolSTox = List[RState[bool]]
 
 DialogOffsetMethod = Callable[[QWidget], Optional[QPoint]]
 
+MainApplication = DqtGrmBase.MainApplication
+ValToState = DqtGrmBase.BaseDqtGrammars.ValToState
+SeqToState = DqtGrmBase.BaseDqtGrammars.SeqToState
+SmticToState = DqtGrmBase.BaseDqtGrammars.SmticToState
+MapToState = DqtGrmBase.BaseDqtGrammars.MapToState
 Callback = DqtGrmBase.BaseDqtGrammars.Callback
 Execute = DqtGrmBase.BaseDqtGrammars.Execute
-MainApplication = DqtGrmBase.MainApplication
-ValToRemember = DqtGrmBase.BaseDqtGrammars.ValToRemember
-SeqToRemember = DqtGrmBase.BaseDqtGrammars.SeqToRemember
-SemanticRemember = DqtGrmBase.BaseDqtGrammars.SemanticRemember
-CompareSize = DqtGrmBase.BaseDqtGrammars.CompareSize

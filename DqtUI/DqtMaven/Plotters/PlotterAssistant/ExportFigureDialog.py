@@ -8,7 +8,6 @@ from matplotlib.figure import Figure
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, RState
 from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import CompareSize
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BorderedButton import ButtonStyle
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.IconButton import IconButton
 from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.NoteDialog import NoteDialog
@@ -55,7 +54,7 @@ class ExportFigureDialog(PlotterDialog):
         canvas_size: QSize = drivePlotter.size()
         canvas_aspect: LutRatio = DqtCanvas.rectAspect(canvas_size)
         limit_size: QSize = DqtCanvas.fillLimitBox(canvas_aspect, self.PlotterSizeLimitBox)
-        if CompareSize(limit_size, self._plotter.size()) < 0:
+        if DqtCanvas.compareSize(limit_size, self._plotter.size()) < 0:
             self._plotter = DataBox(PixmapLabel(
                 pixmap=PilGraphic.toQPixmap(PilGraphic.fromMatplotFig(self._fig)),
                 size=limit_size,

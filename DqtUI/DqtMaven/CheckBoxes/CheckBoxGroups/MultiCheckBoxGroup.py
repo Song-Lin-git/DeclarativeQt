@@ -8,8 +8,8 @@ from PyQt5.QtGui import QFont
 from DeclarativeQt.DqtCore.DqtBase import Remember, Run, RState
 from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import BoolSTox, StringSTox, SeqToRemember, \
-    ValToRemember, SemanticRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import BoolSTox, StringSTox, SeqToState, \
+    ValToState, SmticToState
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.CheckBoxes.IconCheckBox import IconCheckBox, CheckBoxStyle
 from DeclarativeQt.DqtUI.DqtMaven.Dividers.LinearDivider import VerticalDivider, HorizontalDivider
@@ -49,9 +49,9 @@ class MultiCheckBoxGroup(LinearLayout):
             trigger: Dict[Remember, Callable] = None,
             styleEditor: CheckBoxStyle = None
     ):
-        checkBoxItems = SeqToRemember(checkBoxItems).value()
+        checkBoxItems = SeqToState(checkBoxItems).value()
         total = len(checkBoxItems)
-        checkBoxStates = SeqToRemember(
+        checkBoxStates = SeqToState(
             FixListLength(Validate(checkBoxStates, list()), total, False)
         ).value()
         onChecked = FixListLength(Validate(onChecked, list()), total, lambda: None)
@@ -62,7 +62,7 @@ class MultiCheckBoxGroup(LinearLayout):
         language = Validate(language, RString.EnglishIndex)
         if selectAll:
             checkBoxSizes.append(QSize(checkBoxSize))
-            checkBoxItems.append(SemanticRemember(language, RString.stSelectAll))
+            checkBoxItems.append(SmticToState(language, RString.stSelectAll))
         selectAllState = Remember(False)
         maxWidth = checkBoxSize.width()
         if adaptiveCheckBoxWidth:
@@ -128,7 +128,7 @@ class MultiCheckBoxGroup(LinearLayout):
         self._itemsCount = total
         self._checkBoxStates: BoolSTox = checkBoxStates
         self._selectAllState = selectAllState
-        self._selection = ValToRemember(Validate(selection, list()))
+        self._selection = ValToState(Validate(selection, list()))
         self._selection.connect(partial(Validate(onSelect, lambda lt: None)), host=self)
         trigger = Validate(trigger, dict())
         for k, v in trigger.items():

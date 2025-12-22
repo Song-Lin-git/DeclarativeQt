@@ -8,7 +8,7 @@ from DeclarativeQt.DqtCore.DqtBase import Remember, RState
 from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate
 from DeclarativeQt.Resource.Strings.RString import RString
 
@@ -44,7 +44,7 @@ class ComboBox(QComboBox):
         self.setFixedSize(size)
         self.setParent(parent)
         self._placeholder = Validate(placeholder, self.DefaultPlaceholder)
-        self._selection = ValToRemember(selection)
+        self._selection = ValToState(selection)
         if isinstance(self._selection, Remember):
             self._selection.connect(lambda value: self.setCurrentText(value), host=self)
             # noinspection PyUnresolvedReferences

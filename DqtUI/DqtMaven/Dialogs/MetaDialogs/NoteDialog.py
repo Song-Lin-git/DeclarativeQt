@@ -8,7 +8,7 @@ from DeclarativeQt.DqtCore.DqtBase import Remember, OptionKey, Trigger, RState
 from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtDevice.DqtKeyboard import DqtKeyboard
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember, Execute
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState, Execute
 from DeclarativeQt.DqtUI.DqtLayouts.Layout import Column, Row
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BorderedButton import ButtonStyle
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.IconButton import IconButton
@@ -80,7 +80,7 @@ class NoteDialog(Dialog):
             if Equal(h & buttonHint, h):
                 hints.append(h)
         textFont = Validate(textFont, self.DefaultFont)
-        text = ValToRemember(Remember.toValid(text, RString.pEmpty))
+        text = ValToState(Remember.toValid(text, RString.pEmpty))
         perLine = Validate(perLine, self.MaxCharPerLine[language])
         labelSize = DqtCanvas.fontTextMetric(textFont, text, lineLim=perLine)
         labelSize.setHeight(int(labelSize.height() * lineHeightRatio))

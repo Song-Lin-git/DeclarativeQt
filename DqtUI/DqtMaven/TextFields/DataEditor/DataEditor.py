@@ -6,7 +6,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BaseTextField.TextField import CompleterMethod
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BorderedTextField import BorderedTextField, \
     TextFieldStyle
@@ -47,7 +47,7 @@ class DataEditor(BorderedTextField):
             triggers: Dict[Remember, Callable] = None,
             styleEditor: TextFieldStyle = None
     ):
-        data = ValToRemember(data)
+        data = ValToState(data)
         dataVal = lambda: Remember.getValue(data)
         dataType = Validate(dataType, type(dataVal()))
         fixData = lambda: Validate(dataVal(), RString.pEmpty)

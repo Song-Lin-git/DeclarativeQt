@@ -6,7 +6,7 @@ from typing import Callable
 from PyQt5.QtCore import QSize
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, Run, Trigger, RState
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState
 from DeclarativeQt.DqtUI.DqtLayouts.Layout import Row, Column
 from DeclarativeQt.DqtUI.DqtMaven.ComboBoxes.BorderedComboBox import BorderedComboBox, ComboBoxStyle
 from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, IndicatorLabelStyle
@@ -102,7 +102,7 @@ class TimeEditor(Row):
         editorMode = Validate(editorMode, self.DateTime)
         dtime = RString.datetimeToStandard(Remember.getValue(timeValue))
         dtime = Validate(dtime, RString.datetimeToStandard(None))
-        timeValue = ValToRemember(timeValue)
+        timeValue = ValToState(timeValue)
         dtime = Remember(dtime)
         dtimeVal = lambda: RString.toDatetime(dtime.value())
         fixItem = lambda a0: str(0) + a0 if len(a0) < 2 else a0

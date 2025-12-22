@@ -59,6 +59,12 @@ def fontTextMetric(font: QFont, text: RState[str], lineLim: int = None) -> QSize
     return QSize(maxWidth, height)
 
 
+def compareSize(a0: QSize, a1: QSize):
+    square = lambda size: size.width() * size.height()
+    a0, a1 = square(a0), square(a1)
+    return int(1) if a0 > a1 else int(-1 if a0 < a1 else int(0))
+
+
 def rectAspect(rect: Union[QSize, QSizeF, Tuple]) -> Optional[float]:
     if rect is None:
         return None

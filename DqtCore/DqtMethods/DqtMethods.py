@@ -8,8 +8,8 @@ from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.BoxLayout import BoxLayout
 from DeclarativeQt.DqtUI.DqtLayouts.BaseLayouts.LinearLayout import LinearLayout
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BaseButton.Button import Button
 from DeclarativeQt.DqtUI.DqtMaven.TextFields.BaseTextField.TextField import TextField
-from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, isValid, CheckType, NxLimitVal, ConditionList, GList, \
-    Equal
+from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, CheckType, NxLimitVal, ConditionList, GList, \
+    Equal, isValid
 
 
 class DqtMethods:

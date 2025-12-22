@@ -2,7 +2,6 @@ import inspect
 from functools import partial
 from typing import Iterable, Dict, Union, Callable
 
-from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QDialog, QMainWindow, QWidget
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
@@ -20,27 +19,27 @@ class MainApplication:
 
 class BaseDqtGrammars:
     @staticmethod
-    def SemanticRemember(language: RState[NLIndex], semantic: Semantics):
+    def SmticToState(language: RState[NLIndex], semantic: Semantics):
         exp = lambda a0: semantic[a0] if isValid(semantic) and isValid(a0) else None
         return ReferState(language, referExp=exp)
 
     @staticmethod
-    def ValToRemember(value: object):
+    def ValToState(value: object):
         if isinstance(value, Remember):
             return value
         return Remember(value)
 
     @staticmethod
-    def SeqToRemember(sequence: Union[Iterable, Remember]):
+    def SeqToState(sequence: Union[Iterable, Remember]):
         sequence = Remember.toValid(sequence, list())
         if isinstance(sequence, Remember):
             sequence.setSpread(True)
             return sequence
-        lt = ReferList(sequence, lambda item: BaseDqtGrammars.ValToRemember(item))
+        lt = ReferList(sequence, lambda item: BaseDqtGrammars.ValToState(item))
         return Remember(lt, spread=True)
 
     @staticmethod
-    def MapToRemember(mapping: Union[Dict, Remember]):
+    def MapToState(mapping: Union[Dict, Remember]):
         mapping = Remember.toValid(mapping, dict())
         if isinstance(mapping, Remember):
             mapping.setSpread(True)
@@ -60,9 +59,3 @@ class BaseDqtGrammars:
         if len(inspect.signature(method).parameters) > 0:
             method = partial(method, body)
         return partial(method)
-
-    @staticmethod
-    def CompareSize(a0: QSize, a1: QSize):
-        square = lambda size: size.width() * size.height()
-        a0, a1 = square(a0), square(a1)
-        return int(1) if a0 > a1 else int(-1 if a0 < a1 else int(0))

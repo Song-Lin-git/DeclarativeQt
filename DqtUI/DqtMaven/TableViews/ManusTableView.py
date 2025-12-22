@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QWidget
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, Trigger, Run, InputRequest, ReferState, RState
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import SeqToRemember, ValToRemember, Execute
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import SeqToState, ValToState, Execute
 from DeclarativeQt.DqtUI.DqtLayouts.Layout import Column, Row
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.IconButton import IconButton
 from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.NoteDialog import NoteDialog
@@ -70,10 +70,10 @@ class ManusTableView(Column):
             editDataMethod: RowOptCallback = None
     ):
         size = Validate(size, QSize(self.DefaultSize))
-        dataModel = SeqToRemember(dataModel)
+        dataModel = SeqToState(dataModel)
         if fields is None:
             fields = ReferState(dataModel, referExp=lambda a0: ColoredTableView.deriveMockFields(a0))
-        fields = ValToRemember(fields)
+        fields = ValToState(fields)
         buttonSize = Validate(buttonSize, QSize(30, 30))
         adjustTableTrig = Trigger()
         locateRowTrig = Trigger()
@@ -82,8 +82,8 @@ class ManusTableView(Column):
         locateCellTrig = Trigger()
         copyCellsTrig = Trigger()
         editorDialogOffset = lambda: QPoint(self.width(), 0)
-        cellSelection = ValToRemember(cellSelection)
-        areaSelection = ValToRemember(areaSelection)
+        cellSelection = ValToState(cellSelection)
+        areaSelection = ValToState(areaSelection)
         validateRow = lambda row: LimitVal(row, int(0), finalRow())
         currentRow = lambda: cellSelection.value().x()
         currentRows = lambda: list(set(ReferList(areaSelection.value(), lambda a0: a0.x())))
@@ -458,7 +458,7 @@ class ManusTableView(Column):
         defaultInputs = FixListLength(defaultInputs, count, RString.pEmpty)
         acceptor = Trigger()
         itemSpace = int(7)
-        data = SeqToRemember(defaultInputs)
+        data = SeqToState(defaultInputs)
         result = Execute(
             Dialog(
                 parent=parent,

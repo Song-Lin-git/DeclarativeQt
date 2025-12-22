@@ -8,11 +8,11 @@ from DeclarativeQt.DqtCore.DqtBase import Remember, Run, ReferState, Trigger, RS
 from DeclarativeQt.DqtCore.DqtDevice.DqtKeyboard import DqtKeyboard
 from DeclarativeQt.DqtCore.DqtMethods.DqtMethods import DqtMethods
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember, SeqToRemember, Execute, SemanticRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState, SeqToState, Execute, SmticToState
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BorderedButton import ButtonStyle
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.IconButton import IconButton
 from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.ColorDialog import ColorDialog
-from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.InputDialog import InputDialog
+from DeclarativeQt.DqtUI.DqtMaven.Dialogs.ActionDialog import ActionDialog
 from DeclarativeQt.DqtUI.DqtMaven.Dividers.LinearDivider import HorizontalDivider
 from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, IndicatorLabelStyle
 from DeclarativeQt.DqtUI.DqtMaven.Layouts.LazyLayout import LazyColumn
@@ -65,23 +65,23 @@ class ManusPlotter(Column):
         aspectMode = Remember.toValid(aspectMode, CurvePlotter.aspectEqual)
         curveVisibles = Remember.toValid(curveVisibles, list())
         language = Validate(language, RString.EnglishIndex)
-        self._curveData = ValToRemember(curveData)
-        self._xLabel = ValToRemember(xLabel)
-        self._yLabels = SeqToRemember(yLabels)
-        self._aspectMode = ValToRemember(aspectMode)
-        self._curveNames = SeqToRemember(list(Remember.getValue(curveData).keys()))
+        self._curveData = ValToState(curveData)
+        self._xLabel = ValToState(xLabel)
+        self._yLabels = SeqToState(yLabels)
+        self._aspectMode = ValToState(aspectMode)
+        self._curveNames = SeqToState(list(Remember.getValue(curveData).keys()))
         self._styleEditor: PlotterStyle = Validate(styleEditor, PlotterStyle())
-        self._styleEditor.lineColors = SeqToRemember(self._styleEditor.lineColors)
-        self._styleEditor.annotationColors = SeqToRemember(self._styleEditor.annotationColors)
-        self._styleEditor.lineStyles = SeqToRemember(self._styleEditor.lineStyles)
-        self._styleEditor.lineWidths = SeqToRemember(self._styleEditor.lineWidths)
-        self._styleEditor.pinnerStyles = SeqToRemember(self._styleEditor.pinnerStyles)
-        self._styleEditor.pinnerSizes = SeqToRemember(self._styleEditor.pinnerSizes)
-        self._styleEditor.cursorColor = ValToRemember(self._styleEditor.cursorColor)
-        self._styleEditor.annotationFrame = ValToRemember(self._styleEditor.annotationFrame)
-        self._curveVisibles = SeqToRemember(curveVisibles)
-        self._cursorOff = ValToRemember(cursorOff)
-        self._gridOn = ValToRemember(gridOn)
+        self._styleEditor.lineColors = SeqToState(self._styleEditor.lineColors)
+        self._styleEditor.annotationColors = SeqToState(self._styleEditor.annotationColors)
+        self._styleEditor.lineStyles = SeqToState(self._styleEditor.lineStyles)
+        self._styleEditor.lineWidths = SeqToState(self._styleEditor.lineWidths)
+        self._styleEditor.pinnerStyles = SeqToState(self._styleEditor.pinnerStyles)
+        self._styleEditor.pinnerSizes = SeqToState(self._styleEditor.pinnerSizes)
+        self._styleEditor.cursorColor = ValToState(self._styleEditor.cursorColor)
+        self._styleEditor.annotationFrame = ValToState(self._styleEditor.annotationFrame)
+        self._curveVisibles = SeqToState(curveVisibles)
+        self._cursorOff = ValToState(cursorOff)
+        self._gridOn = ValToState(gridOn)
         self._homeTrigger = Trigger()
         self._clearLastMarkTrigger = Trigger()
         self._clearAllMarkTrigger = Trigger()
@@ -171,7 +171,7 @@ class ManusPlotter(Column):
                                         ) if not isEmpty(Remember.getValue(self._curveData)) else None
                                     ),
                                     triggers=DictData(Key(self._curveData).Val(
-                                        lambda a0: self._curveNames.setValue(SeqToRemember(
+                                        lambda a0: self._curveNames.setValue(SeqToState(
                                             list(Remember.getValue(self._curveData).keys())
                                         )) if isValid(a0) else None
                                     )).data
@@ -205,7 +205,7 @@ class ManusPlotter(Column):
                                             RColor.qColorToHexCode(ColorDialog.getColor(
                                                 initial=self._styleEditor.cursorColor.value(),
                                                 parent=a0, offset=QPoint(a0.width(), -1),
-                                                title=SemanticRemember(language, RString.stCursorColor)
+                                                title=SmticToState(language, RString.stCursorColor)
                                             )),
                                         )
                                     )
@@ -523,7 +523,7 @@ class ManusPlotter(Column):
                             fixedRadiusRatio=buttonRadiusRatio,
                             icon=RIcon().loadIconPixmap(RIcon.Src.edit_note),
                             onClick=lambda a0: Run(
-                                curveLabel.setValue(InputDialog.TextInputDialog(
+                                curveLabel.setValue(ActionDialog.getTextInput(
                                     initial=curveLabel.value(), restore=curveName.value(),
                                     parent=a0, dialogOffset=QPoint(
                                         a0.width(), -int(float(cardHeight - nameButtonHeight) / 2.0 + 1)
@@ -566,7 +566,7 @@ class ManusPlotter(Column):
                                 RColor.qColorToHexCode(ColorDialog.getColor(
                                     initial=Remember.getValue(curveColor),
                                     parent=a0, offset=QPoint(a0.width(), -1),
-                                    title=SemanticRemember(language, RString.stCurveColor),
+                                    title=SmticToState(language, RString.stCurveColor),
                                 )),
                             ),
                             triggers=DictData(
@@ -670,7 +670,7 @@ class ManusPlotter(Column):
                             IndicatorLabel(
                                 size=QSize(editableModuleWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SemanticRemember(language, RString.stCurveStyle),
+                                text=SmticToState(language, RString.stCurveStyle),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,
@@ -688,7 +688,7 @@ class ManusPlotter(Column):
                             IndicatorLabel(
                                 size=QSize(leadingLabelWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SemanticRemember(language, RString.stLine),
+                                text=SmticToState(language, RString.stLine),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,
@@ -752,7 +752,7 @@ class ManusPlotter(Column):
                             IndicatorLabel(
                                 size=QSize(leadingLabelWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SemanticRemember(language, RString.stPinner),
+                                text=SmticToState(language, RString.stPinner),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,

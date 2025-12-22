@@ -9,7 +9,7 @@ from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtCanvas.DqtAlign import DqtAlign
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
-from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToRemember
+from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState
 from DeclarativeQt.DqtUI.DqtTools import Completer
 from DeclarativeQt.DqtUI.DqtTools.AppMenu import AppMenuStyle
 from DeclarativeQt.DqtUI.DqtTools.Completer import CompleterStyle
@@ -56,7 +56,7 @@ class TextField(QLineEdit):
         alignment = Validate(alignment, self.Align.Left)
         self.setStyleSheet(style)
         self.setAlignment(alignment)
-        self._text = ValToRemember(Validate(text, RString.pEmpty))
+        self._text = ValToState(Validate(text, RString.pEmpty))
         self.setText(self._text)
         if placehold:
             self.setPlaceholderText(placehold)
