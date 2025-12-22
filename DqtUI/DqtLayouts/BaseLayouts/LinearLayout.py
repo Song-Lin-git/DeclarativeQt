@@ -12,7 +12,7 @@ from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, ReferList, Equal, Validate, PureList, isValid, GTuple
 from DeclarativeQt.Resource.Images.RImage import LutPixel
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class LinearLayout(QWidget):
@@ -61,7 +61,7 @@ class LinearLayout(QWidget):
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.initCanvasSize(size)
         refuseParentStyle = bool(self.RefuseParentStyle in self._options)
-        self._style = Validate(style, DqtStyle.emptyStyle(DqtStyle.QWidget) if refuseParentStyle else RString.pEmpty)
+        self._style = Validate(style, DqtStyle.emptyStyle(DqtStyle.QWidget) if refuseParentStyle else RStr.pEmpty)
         self.setStyleSheet(self._style)
         if isinstance(self._style, Remember):
             self._style.connect(lambda value: self.setStyleSheet(value), host=self)

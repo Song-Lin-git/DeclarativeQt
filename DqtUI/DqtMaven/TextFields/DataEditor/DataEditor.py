@@ -13,7 +13,7 @@ from DeclarativeQt.DqtUI.DqtMaven.TextFields.BorderedTextField import BorderedTe
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GList, isEmpty, DictData, Key
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase.PhyMtrBase import PhyMeasure
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class DataEditor(BorderedTextField):
@@ -50,14 +50,14 @@ class DataEditor(BorderedTextField):
         data = ValToState(data)
         dataVal = lambda: Remember.getValue(data)
         dataType = Validate(dataType, type(dataVal()))
-        fixData = lambda: Validate(dataVal(), RString.pEmpty)
+        fixData = lambda: Validate(dataVal(), RStr.pEmpty)
         dataPiece = lambda: str(fixData())
         if dataType in GList(float, Decimal):
             decimalRound = Validate(decimalRound, PhyMeasure.DecimalRound)
-            dataPiece = lambda: RString.decimalRound(fixData(), decimalRound)
+            dataPiece = lambda: RStr.decimalRound(fixData(), decimalRound)
         dataStr = Remember(dataPiece())
         isInputValid = lambda: not isEmpty(dataStr.value())
-        checkInputValue = lambda: RString.checkValue(dataStr.value(), dataType) if isInputValid() else True
+        checkInputValue = lambda: RStr.checkValue(dataStr.value(), dataType) if isInputValid() else True
         inputCheck = Validate(inputCheck, Remember(checkInputValue()))
         styleEditor = Validate(styleEditor, TextFieldStyle())
         if autoWarning:
@@ -83,7 +83,7 @@ class DataEditor(BorderedTextField):
         )
         dataStr.connect(lambda a0: inputCheck.setValue(checkInputValue()), host=self)
         if isinstance(data, Remember):
-            self.textEdited.connect(lambda: data.setValue(RString.matchOne(dataStr.value(), dataType)))
+            self.textEdited.connect(lambda: data.setValue(RStr.matchOne(dataStr.value(), dataType)))
             data.connect(partial(Validate(onValueChange, lambda: None)), host=self)
         if isinstance(syncDataTrig, Remember):
             syncDataTrig.connect(partial(self._optSyncData), host=self)

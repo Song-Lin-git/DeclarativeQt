@@ -23,7 +23,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import GList, DataBox, isValid, is
 from DeclarativeQt.Resource.Graphics.GtrTools.GtrPillow import PilGraphic
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutRatio
-from DeclarativeQt.Resource.Strings.RString import RString, Semantics, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, Semantics, NLIndex
 
 ExportOptionArg = Tuple[QPixmap, HexColor, Semantics, Callable[[Figure], bool]]
 
@@ -48,8 +48,8 @@ class ExportFigureDialog(PlotterDialog):
             dialogVPadding: int = int(30),
             **options: ExportOptionArg,
     ):
-        dialogTitle = Validate(dialogTitle, RString.pEmpty)
-        self._lng = Remember.getValue(Validate(language, RString.EnglishIndex))
+        dialogTitle = Validate(dialogTitle, RStr.pEmpty)
+        self._lang = Remember.getValue(Validate(language, RStr.EN))
         self._ax, self._fig, self._plotter = drivePlotter.plotterCopy(curvesCopy=True)
         canvas_size: QSize = drivePlotter.size()
         canvas_aspect: LutRatio = DqtCanvas.rectAspect(canvas_size)
@@ -86,9 +86,9 @@ class ExportFigureDialog(PlotterDialog):
                                     borderRadius=borderRadius,
                                     fontSize=buttonFontSize,
                                 ),
-                                icon=RIcon().loadIconPixmap(RIcon.Src.output),
-                                text=RString.stExportFigure[self._lng],
-                                onClick=lambda: self.actExportFigure(self._lng),
+                                icon=RIcon().loadIconPixmap(RIcon.R.output),
+                                text=RStr.R.stExportFigure[self._lang],
+                                onClick=lambda: self.actExportFigure(self._lang),
                             ),
                             *ReferList(
                                 options.values(), lambda a0:
@@ -110,7 +110,7 @@ class ExportFigureDialog(PlotterDialog):
                                             Validate(a0[1], RColor.hexIceBlue), 0.68
                                         ),
                                     ),
-                                    text=ExpValue(a0[2], lambda b0: b0[self._lng]),
+                                    text=ExpValue(a0[2], lambda b0: b0[self._lang]),
                                     onClick=lambda: ExpValue(a0[3], lambda b0: b0(self._fig)),
                                 ),
                             )
@@ -128,20 +128,20 @@ class ExportFigureDialog(PlotterDialog):
             self, language: RState[NLIndex] = None,
             dpi: int = DefaultDpi, escape: bool = False,
     ) -> None:
-        lng = Remember.getValue(Validate(language, self._lng))
+        lang = Remember.getValue(Validate(language, self._lang))
         file_path = DataBox(QFileDialog.getSaveFileName(
-            parent=self, caption=RString.stExportFigure[lng],
-            directory=os.path.join(os.getcwd(), RString.stFigure[lng]),
+            parent=self, caption=RStr.R.stExportFigure[lang],
+            directory=os.path.join(os.getcwd(), RStr.R.stFigure[lang]),
             filter=RFileType().joinFilters(RFileType.fltPng, RFileType.fltJpg)
         )).data[0]
         if not isValid(file_path) or isEmpty(file_path):
             return None
         self._fig.savefig(file_path, dpi=dpi)
         if Equal(NoteDialog.information(
-                text=RString.joinWords(
-                    RString.stAlreadyExportToFile[lng],
-                    RString.pLinefeed, file_path
-                ), language=lng, parent=self,
+                text=RStr.joinWords(
+                    RStr.R.stAlreadyExportToFile[lang],
+                    RStr.pLinefeed, file_path
+                ), language=lang, parent=self,
                 buttonHint=NoteDialog.Ok | NoteDialog.Escape,
         ), NoteDialog.Ok) and escape:
             self.accept()

@@ -16,7 +16,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import Validate, ReferList, Equal,
     ConditionList, DictData, Key, GStr, GList
 from DeclarativeQt.Resource.Images.RImage import LutPixel
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase.PhyMtrBase import PhyMeasure
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import FieldNLMap
 
 CellArea = Optional[List[QPoint]]
@@ -86,7 +86,7 @@ class TableView(QTableView):
         self._initAdjust = False
         self._wheelRate = Validate(wheelRate, self.DefaultScrollRate)
         self._focusOn = False
-        self._copyLinker = Validate(copyLinker, RString.pLinefeed)
+        self._copyLinker = Validate(copyLinker, RStr.pLinefeed)
         self._decimalRound = Validate(decimalRound, PhyMeasure.DecimalRound)
         self._retainFocus = retainFocus
         self._areaSelection = Validate(areaSelection, Remember(None))
@@ -399,7 +399,7 @@ class TableView(QTableView):
 
     def tableStandardItem(self, item: Any) -> QStandardItem:
         if isinstance(item, float) or isinstance(item, Decimal):
-            item = RString.decimalRound(float(item), self._decimalRound)
+            item = RStr.decimalRound(float(item), self._decimalRound)
         return QStandardItem(GStr(item))
 
     def setDataModel(

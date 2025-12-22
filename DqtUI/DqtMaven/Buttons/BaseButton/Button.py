@@ -13,7 +13,7 @@ from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import Callback
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, isEmpty, GTuple, GList, PureList
 from DeclarativeQt.Resource.Images.RImage import LutRatio
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 KeyHint = QKeySequence
 
@@ -50,7 +50,7 @@ class Button(QPushButton):
         self.sizeScale()
         self.setParent(parent)
         self.setFocusPolicy(Qt.StrongFocus)
-        text = Validate(text, RString.pEmpty)
+        text = Validate(text, RStr.pEmpty)
         style = Validate(style, DqtStyle.emptyStyle(DqtStyle.QPushButton))
         self.setEnabled(Remember.getValue(enable))
         self.setText(text)

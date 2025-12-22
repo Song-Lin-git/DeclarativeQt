@@ -11,8 +11,8 @@ from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState, SeqToState, Execute, SmticToState
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.BorderedButton import ButtonStyle
 from DeclarativeQt.DqtUI.DqtMaven.Buttons.IconButton import IconButton
-from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.ColorDialog import ColorDialog
 from DeclarativeQt.DqtUI.DqtMaven.Dialogs.ActionDialog import ActionDialog
+from DeclarativeQt.DqtUI.DqtMaven.Dialogs.MetaDialogs.ColorDialog import ColorDialog
 from DeclarativeQt.DqtUI.DqtMaven.Dividers.LinearDivider import HorizontalDivider
 from DeclarativeQt.DqtUI.DqtMaven.Labels.IndicatorLabel import IndicatorLabel, IndicatorLabelStyle
 from DeclarativeQt.DqtUI.DqtMaven.Layouts.LazyLayout import LazyColumn
@@ -31,7 +31,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GList, ReferList,
     SumNestedList, Equal, isValid, isEmpty, GetDictItem, SwitchListItem, ExpValue
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import RImage
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 
 class ManusPlotter(Column):
@@ -60,11 +60,11 @@ class ManusPlotter(Column):
     ):
         buttonSize = Validate(buttonSize, QSize(30, 30))
         curveData = Remember.toValid(curveData, dict())
-        xLabel = Remember.toValid(xLabel, RString.pEmpty)
+        xLabel = Remember.toValid(xLabel, RStr.pEmpty)
         yLabels = Remember.toValid(yLabels, list())
         aspectMode = Remember.toValid(aspectMode, CurvePlotter.aspectEqual)
         curveVisibles = Remember.toValid(curveVisibles, list())
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         self._curveData = ValToState(curveData)
         self._xLabel = ValToState(xLabel)
         self._yLabels = SeqToState(yLabels)
@@ -124,7 +124,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.refresh),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.refresh),
                                     onClick=lambda: Run(
                                         self._flushTrigger.trig(),
                                     ) if refreshMethod is None else refreshMethod()
@@ -132,7 +132,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.home_dark),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.home_dark),
                                     onClick=lambda: self._homeTrigger.trig()
                                 ),
                                 IconButton(
@@ -140,9 +140,9 @@ class ManusPlotter(Column):
                                     fixedRadiusRatio=buttonRadiusRatio,
                                     icon=ReferState(
                                         self._aspectMode, referExp=lambda a0:
-                                        RIcon().loadIconPixmap(RIcon.Src.open_in_full)
+                                        RIcon().loadIconPixmap(RIcon.R.open_in_full)
                                         if Equal(a0, CurvePlotter.aspectEqual) else
-                                        RIcon().loadIconPixmap(RIcon.Src.aspect_ratio)
+                                        RIcon().loadIconPixmap(RIcon.R.aspect_ratio)
                                     ),
                                     onClick=lambda: Run(
                                         self._aspectMode.setValue(CurvePlotter.aspectAuto)
@@ -153,7 +153,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.curve_colored),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.curve_colored),
                                     onClick=lambda a0: Execute(
                                         self.CurveEditorDailog(
                                             parent=a0,
@@ -181,8 +181,8 @@ class ManusPlotter(Column):
                                     fixedRadiusRatio=buttonRadiusRatio,
                                     icon=ReferState(
                                         self._gridOn, referExp=lambda a0:
-                                        RIcon().loadIconPixmap(RIcon.Src.calendar_view_month)
-                                        if a0 else RIcon().loadIconPixmap(RIcon.Src.calendar_view_month_grey)
+                                        RIcon().loadIconPixmap(RIcon.R.calendar_view_month)
+                                        if a0 else RIcon().loadIconPixmap(RIcon.R.calendar_view_month_grey)
                                     ),
                                     onClick=lambda: self._gridOn.setValue(not self._gridOn.value())
                                 ),
@@ -191,21 +191,21 @@ class ManusPlotter(Column):
                                     fixedRadiusRatio=buttonRadiusRatio,
                                     icon=ReferState(
                                         self._cursorOff, referExp=lambda a0:
-                                        RIcon().loadIconPixmap(RIcon.Src.cursor_on) if not a0 else
-                                        RIcon().loadIconPixmap(RIcon.Src.border_inner_grey)
+                                        RIcon().loadIconPixmap(RIcon.R.cursor_on) if not a0 else
+                                        RIcon().loadIconPixmap(RIcon.R.border_inner_grey)
                                     ),
                                     onClick=lambda: self._cursorOff.setValue(not self._cursorOff.value())
                                 ),
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.border_color),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.border_color),
                                     onClick=lambda a0: Run(
                                         self._styleEditor.cursorColor.setValue(
                                             RColor.qColorToHexCode(ColorDialog.getColor(
                                                 initial=self._styleEditor.cursorColor.value(),
                                                 parent=a0, offset=QPoint(a0.width(), -1),
-                                                title=SmticToState(language, RString.stCursorColor)
+                                                title=SmticToState(language, RStr.R.stCursorColor)
                                             )),
                                         )
                                     )
@@ -213,7 +213,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.mouse_cursor_colored),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.mouse_cursor_colored),
                                     onClick=lambda a0: Execute(FixCircleShapeDialog(
                                         drivePlotter=ExpValue(DqtMethods.findTypedChildContents(
                                             DqtMethods.backtrackTypedParent(a0, Column),
@@ -225,25 +225,25 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.ink_eraser),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.ink_eraser),
                                     onClick=lambda: self._clearLastMarkTrigger.trig()
                                 ),
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.delete_sweep),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.delete_sweep),
                                     onClick=lambda: self._clearAllMarkTrigger.trig()
                                 ),
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.cycle),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.cycle),
                                     onClick=lambda: self._moveLegendTrigger.trig()
                                 ),
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.output),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.output),
                                     onClick=lambda: self._exportTrigger.trig()
                                 ),
                             )
@@ -261,7 +261,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.expand_x),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.expand_x),
                                     enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
                                         a0, MultiAxisPlotter.aspectAuto
                                     )),
@@ -270,7 +270,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.compress_x),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.compress_x),
                                     enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
                                         a0, MultiAxisPlotter.aspectAuto
                                     )),
@@ -279,7 +279,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.expand_y),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.expand_y),
                                     enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
                                         a0, MultiAxisPlotter.aspectAuto
                                     )),
@@ -288,7 +288,7 @@ class ManusPlotter(Column):
                                 IconButton(
                                     size=buttonSize,
                                     fixedRadiusRatio=buttonRadiusRatio,
-                                    icon=RIcon().loadIconPixmap(RIcon.Src.compress_y),
+                                    icon=RIcon().loadIconPixmap(RIcon.R.compress_y),
                                     enable=ReferState(self._aspectMode, referExp=lambda a0: Equal(
                                         a0, MultiAxisPlotter.aspectAuto
                                     )),
@@ -464,7 +464,7 @@ class ManusPlotter(Column):
                             fixedHeight=confirmButtonHeight,
                             onClick=lambda: dialogCloser.trig(),
                             fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.task_alt),
+                            icon=RIcon().loadIconPixmap(RIcon.R.task_alt),
                             shortCuts=DqtKeyboard.multiShortCuts(DqtKeyboard.keyEnter, DqtKeyboard.keyReturn)
                         )
                     )
@@ -494,7 +494,7 @@ class ManusPlotter(Column):
             nameEditButtonSizeRatio: float = 0.8,
             buttonRadiusRatio: float = 0.15
     ) -> QWidget:
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         buttonWidth = cardHeight
         colorButtonWidth = int(colorButtonWidthRatio * buttonWidth)
         nameButtonWidth = int(nameEditButtonSizeRatio * buttonWidth)
@@ -521,7 +521,7 @@ class ManusPlotter(Column):
                             iconSizeRatio=QSizeF(0.7, 0.7),
                             size=QSize(nameButtonWidth, nameButtonHeight),
                             fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.edit_note),
+                            icon=RIcon().loadIconPixmap(RIcon.R.edit_note),
                             onClick=lambda a0: Run(
                                 curveLabel.setValue(ActionDialog.getTextInput(
                                     initial=curveLabel.value(), restore=curveName.value(),
@@ -552,7 +552,7 @@ class ManusPlotter(Column):
                             size=QSize(buttonWidth, cardHeight),
                             iconSizeRatio=QSizeF(0.7, 0.7),
                             fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.package_random),
+                            icon=RIcon().loadIconPixmap(RIcon.R.package_random),
                             onClick=lambda: Run(
                                 curveColor.setValue(RColor().randomColor())
                             )
@@ -566,7 +566,7 @@ class ManusPlotter(Column):
                                 RColor.qColorToHexCode(ColorDialog.getColor(
                                     initial=Remember.getValue(curveColor),
                                     parent=a0, offset=QPoint(a0.width(), -1),
-                                    title=SmticToState(language, RString.stCurveColor),
+                                    title=SmticToState(language, RStr.R.stCurveColor),
                                 )),
                             ),
                             triggers=DictData(
@@ -577,7 +577,7 @@ class ManusPlotter(Column):
                             size=QSize(buttonWidth, cardHeight),
                             iconSizeRatio=QSizeF(0.7, 0.7),
                             fixedRadiusRatio=buttonRadiusRatio,
-                            icon=RIcon().loadIconPixmap(RIcon.Src.format_paint),
+                            icon=RIcon().loadIconPixmap(RIcon.R.format_paint),
                             onClick=lambda a0: Execute(ManusPlotter.CurveStyleArgEditor(
                                 parent=a0,
                                 dialogOffset=QPoint(a0.width(), -1),
@@ -596,8 +596,8 @@ class ManusPlotter(Column):
                             fixedRadiusRatio=buttonRadiusRatio,
                             icon=ReferState(
                                 curveVisible, referExp=lambda a0: DataBox(
-                                    RIcon().loadIconPixmap(RIcon.Src.visibility_dark)
-                                    if a0 else RIcon().loadIconPixmap(RIcon.Src.visibility_off_light)
+                                    RIcon().loadIconPixmap(RIcon.R.visibility_dark)
+                                    if a0 else RIcon().loadIconPixmap(RIcon.R.visibility_off_light)
                                 ).data
                             ),
                             onClick=lambda: Run(
@@ -635,7 +635,7 @@ class ManusPlotter(Column):
             sliderWidth: int = int(156),
             borderRadius: int = int(3),
     ) -> QDialog:
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         sliderModuleWidth = sliderWidth + sliderLabelWidth + buttonSpacing
         editableModuleWidth = sliderModuleWidth + styleButtonWidth + buttonSpacing
         entireWidth = editableModuleWidth + leadingLabelSpacing + leadingLabelWidth
@@ -664,13 +664,13 @@ class ManusPlotter(Column):
                                 styleEditor=ButtonStyle(
                                     borderRadius=borderRadius,
                                 ),
-                                icon=RIcon.loadIconPixmap(RIcon.Src.arrow_back),
+                                icon=RIcon.loadIconPixmap(RIcon.R.arrow_back),
                                 onClick=lambda: acceptor.trig(),
                             ),
                             IndicatorLabel(
                                 size=QSize(editableModuleWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SmticToState(language, RString.stCurveStyle),
+                                text=SmticToState(language, RStr.R.stCurveStyle),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,
@@ -688,7 +688,7 @@ class ManusPlotter(Column):
                             IndicatorLabel(
                                 size=QSize(leadingLabelWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SmticToState(language, RString.stLine),
+                                text=SmticToState(language, RStr.R.stLine),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,
@@ -730,7 +730,7 @@ class ManusPlotter(Column):
                                         fixedHeight=editorHeight,
                                         text=ReferState(
                                             lineWidth, referExp=
-                                            lambda a0: RString.frDecimalRound(sliderValueRound).format(a0)
+                                            lambda a0: RStr.frDecimalRound(sliderValueRound).format(a0)
                                         ),
                                         alignment=IndicatorLabel.Align.Center,
                                         indicatorStyle=IndicatorLabelStyle(
@@ -752,7 +752,7 @@ class ManusPlotter(Column):
                             IndicatorLabel(
                                 size=QSize(leadingLabelWidth, editorHeight),
                                 fixedHeight=editorHeight,
-                                text=SmticToState(language, RString.stPinner),
+                                text=SmticToState(language, RStr.R.stPinner),
                                 alignment=IndicatorLabel.Align.Center,
                                 indicatorStyle=IndicatorLabelStyle(
                                     borderRadius=borderRadius,
@@ -793,7 +793,7 @@ class ManusPlotter(Column):
                                         fixedHeight=editorHeight,
                                         text=ReferState(
                                             pinnerSize, referExp=
-                                            lambda a0: RString.frDecimalRound(sliderValueRound).format(a0)
+                                            lambda a0: RStr.frDecimalRound(sliderValueRound).format(a0)
                                         ),
                                         alignment=IndicatorLabel.Align.Center,
                                         indicatorStyle=IndicatorLabelStyle(
@@ -817,16 +817,16 @@ class ManusPlotter(Column):
     MaxPinnerSize = 12.0
     MinPinnerSize = 0.0
     PinnerStyleIconMap = DictData(
-        Key(CurvePlotter.pinnerStar).Val(RIcon.loadIconPath(RIcon.Src.star)),
-        Key(CurvePlotter.pinnerSquare).Val(RIcon.loadIconPath(RIcon.Src.square)),
-        Key(CurvePlotter.pinnerCircle).Val(RIcon.loadIconPath(RIcon.Src.circle)),
-        Key(CurvePlotter.pinnerDiamond).Val(RIcon.loadIconPath(RIcon.Src.diamond)),
-        Key(CurvePlotter.pinnerTriangle).Val(RIcon.loadIconPath(RIcon.Src.triangle)),
-        Key(CurvePlotter.pinnerNone).Val(RIcon.loadIconPath(RIcon.Src.block_small)),
+        Key(CurvePlotter.pinnerStar).Val(RIcon.loadIconPath(RIcon.R.star)),
+        Key(CurvePlotter.pinnerSquare).Val(RIcon.loadIconPath(RIcon.R.square)),
+        Key(CurvePlotter.pinnerCircle).Val(RIcon.loadIconPath(RIcon.R.circle)),
+        Key(CurvePlotter.pinnerDiamond).Val(RIcon.loadIconPath(RIcon.R.diamond)),
+        Key(CurvePlotter.pinnerTriangle).Val(RIcon.loadIconPath(RIcon.R.triangle)),
+        Key(CurvePlotter.pinnerNone).Val(RIcon.loadIconPath(RIcon.R.block_small)),
     ).data
     LineStyleIconMap = DictData(
-        Key(CurvePlotter.lineDash).Val(RIcon.loadIconPath(RIcon.Src.dash_line)),
-        Key(CurvePlotter.lineDot).Val(RIcon.loadIconPath(RIcon.Src.dot_line)),
-        Key(CurvePlotter.lineDashDot).Val(RIcon.loadIconPath(RIcon.Src.dashdot_line)),
-        Key(CurvePlotter.lineSolid).Val(RIcon.loadIconPath(RIcon.Src.solid_line)),
+        Key(CurvePlotter.lineDash).Val(RIcon.loadIconPath(RIcon.R.dash_line)),
+        Key(CurvePlotter.lineDot).Val(RIcon.loadIconPath(RIcon.R.dot_line)),
+        Key(CurvePlotter.lineDashDot).Val(RIcon.loadIconPath(RIcon.R.dashdot_line)),
+        Key(CurvePlotter.lineSolid).Val(RIcon.loadIconPath(RIcon.R.solid_line)),
     ).data

@@ -18,7 +18,7 @@ HtmlElement = str
 
 
 class HtmlGraphic(ABC):
-    DefaultWidth: LutExact = RImage.exDefaultWidth
+    DefaultWidth: LutExact = RImage.defaultWidth
 
     @staticmethod
     def convertImagesToBase64(html: str, imagePaths: List[FilePath], width: int = DefaultWidth):

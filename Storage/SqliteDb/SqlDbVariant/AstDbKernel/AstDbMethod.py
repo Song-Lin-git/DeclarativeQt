@@ -57,7 +57,7 @@ class AstDbMethod(SqlDbMethod):
                         content,
                         IconButton(
                             size=QSize(int(content.width() * confirmButtinWidthRatio), confirmButtonHeight),
-                            icon=RIcon().loadIconPixmap(RIcon.Src.select_check_box),
+                            icon=RIcon().loadIconPixmap(RIcon.R.select_check_box),
                             fixedHeight=confirmButtonHeight,
                             styleEditor=ButtonStyle(borderRadius=confirmButtonRadius),
                             onClick=lambda: Run(

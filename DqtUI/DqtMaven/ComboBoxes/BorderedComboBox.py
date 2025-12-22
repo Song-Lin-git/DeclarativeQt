@@ -156,8 +156,8 @@ class ComboBoxStyle(DqtStyleEditor):
     DefaultOpenColor = RColor().setQStyleAlpha(RColor.hexSteelBlue, 0.22)
     DefaultHoverColor = RColor().setQStyleAlpha(RColor.hexSteelBlue, 0.1)
     DefaultDropListBorderColor = RColor().setQStyleAlpha(RColor.hexDeepStoneBlue, 0.6)
-    DefaultDownArrowIcon = RIcon().loadIconPath(RIcon.Src.arrow_drop_down)
-    DefaultUpArrowIcon = RIcon().loadIconPath(RIcon.Src.arrow_drop_up)
+    DefaultDownArrowIcon = RIcon().loadIconPath(RIcon.R.arrow_drop_down)
+    DefaultUpArrowIcon = RIcon().loadIconPath(RIcon.R.arrow_drop_up)
 
 
 class DropListItemDelegate(QStyledItemDelegate):
@@ -194,10 +194,10 @@ class DropListItemDelegate(QStyledItemDelegate):
         self.previousBackground = Validate(previousBackground, self.DefaultPreviousColor)
         self.itemSpacing = Validate(itemSpacing, self.DefaultItemSpacing)
         self.itemPadding = Validate(itemPadding, self.DefaultItemPadding)
-        self.itemIcon = Validate(itemIcon, RIcon().loadIconPixmap(RIcon.Src.check_box_outline_blank_light))
-        self.hoverIcon = Validate(hoverIcon, RIcon().loadIconPixmap(RIcon.Src.select_check_box_sereneblue))
+        self.itemIcon = Validate(itemIcon, RIcon().loadIconPixmap(RIcon.R.check_box_outline_blank_light))
+        self.hoverIcon = Validate(hoverIcon, RIcon().loadIconPixmap(RIcon.R.select_check_box_sereneblue))
         self.iconSizeRatio = Validate(iconSizeRatio, self.DefaultIconSizeRatio)
-        self.previousIcon = Validate(previousIcon, RIcon().loadIconPixmap(RIcon.Src.check))
+        self.previousIcon = Validate(previousIcon, RIcon().loadIconPixmap(RIcon.R.check))
 
     def sizeHint(self, option, index):
         size = super().sizeHint(option, index)

@@ -12,7 +12,7 @@ from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import GIters, ConditionList, \
     SumNestedList, ReferList, isEmpty, DictData, Key, Validate
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmBase import DataBox
-from DeclarativeQt.Resource.Strings.RString import Symbol, RString
+from DeclarativeQt.Resource.Strings.RStr import Symbol, RStr
 from DeclarativeQt.Storage.RStorage import RStorage
 
 FontName = str
@@ -38,8 +38,8 @@ class RFont:
             Key(self.SongTi).Val(self.SimSun.lower()),
             Key(self.HeiTi).Val(self.SimHei.lower()),
             Key(self.TNR).Val(self.TNR.split()[0].lower()),
-            Key(self.YaHei).Val(RString.pMsyh),
-            Key(self.CambriaMath).Val(RString.pCambria)
+            Key(self.YaHei).Val(RStr.pMsyh),
+            Key(self.CambriaMath).Val(RStr.pCambria)
         ).data
 
     def getQFont(self, family: str, size: int = None, style: FontArgs = None) -> QFont:

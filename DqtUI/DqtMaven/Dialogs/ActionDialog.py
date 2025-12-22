@@ -21,7 +21,7 @@ from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, GList, GStr, DataBox, Key, DictData
 from DeclarativeQt.Resource.Images.RIcon import RIcon
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 
 class ActionDialog:
@@ -46,7 +46,7 @@ class ActionDialog:
             checkMethod: Callable = None,
             borderRadiusRatio: float = 0.08,
     ) -> str:
-        initial = Validate(initial, RString.pEmpty)
+        initial = Validate(initial, RStr.pEmpty)
         editorStyle = Validate(editorStyle, ActionDialog.DefaultEditorStyle)
         editorSize = Validate(editorSize, ActionDialog.DefaultEditorSize)
         confirmButtonWidth = editorSize.width() + editorSpacing + restoreButtonWidth
@@ -82,7 +82,7 @@ class ActionDialog:
                                         size=QSize(restoreButtonWidth, editorSize.height()),
                                         fixedRadiusRatio=borderRadiusRatio,
                                         iconSizeRatio=QSizeF(0.8, 0.8),
-                                        icon=RIcon().loadIconPixmap(RIcon.Src.history),
+                                        icon=RIcon().loadIconPixmap(RIcon.R.history),
                                         onClick=lambda: Run(
                                             text.setValue(restore) if restore else None
                                         )
@@ -93,7 +93,7 @@ class ActionDialog:
                                 size=QSize(confirmButtonWidth, editorSize.height()),
                                 fixedRadiusRatio=borderRadiusRatio,
                                 iconSizeRatio=QSizeF(0.76, 0.76),
-                                icon=RIcon().loadIconPixmap(RIcon.Src.edit_square_darkblue),
+                                icon=RIcon().loadIconPixmap(RIcon.R.edit_square_darkblue),
                                 styleEditor=ButtonStyle(
                                     backgroundColor=RColor.setQStyleAlpha(RColor.hexForestGreen, 0.34),
                                     hoverBackground=RColor.setQStyleAlpha(RColor.hexTealGreen, 0.20),
@@ -137,14 +137,14 @@ class ActionDialog:
             parent: QWidget = None,
     ) -> str:
         defautlTimeVal = DictData(
-            Key(TimeEditor.Date).Val(lambda: RString.dateToStandard(None)),
-            Key(TimeEditor.Time).Val(lambda: RString.timeToStandard(None)),
-            Key(TimeEditor.DateTime).Val(lambda: RString.datetimeToStandard(None)),
+            Key(TimeEditor.Date).Val(lambda: RStr.dateToStandard(None)),
+            Key(TimeEditor.Time).Val(lambda: RStr.timeToStandard(None)),
+            Key(TimeEditor.DateTime).Val(lambda: RStr.datetimeToStandard(None)),
         ).data
         leadingIcon = DictData(
-            Key(TimeEditor.Date).Val(RIcon.loadIconPixmap(RIcon.Src.edit_calendar)),
-            Key(TimeEditor.Time).Val(RIcon.loadIconPixmap(RIcon.Src.timer)),
-            Key(TimeEditor.DateTime).Val(RIcon.loadIconPixmap(RIcon.Src.timer)),
+            Key(TimeEditor.Date).Val(RIcon.loadIconPixmap(RIcon.R.edit_calendar)),
+            Key(TimeEditor.Time).Val(RIcon.loadIconPixmap(RIcon.R.timer)),
+            Key(TimeEditor.DateTime).Val(RIcon.loadIconPixmap(RIcon.R.timer)),
         ).data
         headLabelBackground = Validate(headLabelBackground, RColor.hexWhite)
         editMode = Validate(editMode, TimeEditor.Date)
@@ -156,7 +156,7 @@ class ActionDialog:
         headLabelHeight = timeEditorSize.height()
         headLabelIconSizeRatio = Validate(headLabelIconSizeRatio, QSizeF(0.48, 0.48))
         dividerLength = timeEditorSize.width() + headLabelWidth + headLabelSpacing
-        language = Remember.toValid(language, RString.EnglishIndex)
+        language = Remember.toValid(language, RStr.EN)
         allValid = Remember(True)
         timeVal = ValToState(timeVal)
         timeVal = Remember.toValid(timeVal, defautlTimeVal[editMode]())
@@ -220,7 +220,7 @@ class ActionDialog:
                                     fixedHeight=infoLabelHeight,
                                     indicatorStyle=IndicatorLabelStyle(fontSize=labelFontSize),
                                     text=ReferState(timeVal, referExp=lambda a0: GStr(
-                                        RString.pAt + RString.blankRepeat(int(3)) + GStr(a0)
+                                        RStr.pAt + RStr.blankRepeat(int(3)) + GStr(a0)
                                     )),
                                 ),
                             )
@@ -229,8 +229,8 @@ class ActionDialog:
                         IconButton(
                             fixedHeight=checkButtonHeight,
                             size=QSize(checkButtonWidth, checkButtonHeight),
-                            icon=RIcon.loadIconPixmap(RIcon.Src.check),
-                            text=ReferState(language, referExp=lambda a0: RString.stOkConfirm[a0]),
+                            icon=RIcon.loadIconPixmap(RIcon.R.check),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stOkConfirm[a0]),
                             styleEditor=ButtonStyle(
                                 borderRadius=borderRadius,
                                 fontSize=RFont.fzTinySize,

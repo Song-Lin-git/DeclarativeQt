@@ -24,7 +24,7 @@ from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import DataBox, ReferDict, ReferList, RepeatList, DtReferDict, \
     Validate, GList, GIters, Equal, isEmpty, inRange, StrFrame, GTuple, Inf, ConditionList, EnumList, PureList, isValid
 from DeclarativeQt.Resource.Images.RImage import LutRatio
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 matplotlib.set_loglevel("error")
 
@@ -194,7 +194,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._dragged = False
         self._scaled = False
         self._annotation: Annotation = DataBox(self._ax.annotate(
-            RString.pEmpty, xy=GTuple(0, 0), xytext=self.annotationOffset,
+            RStr.pEmpty, xy=GTuple(0, 0), xytext=self.annotationOffset,
             textcoords=self.annotationOffsetMeasure, bbox=self.annotationBBox(self._annotationAlpha),
             fontproperties=self._fontProp, arrowprops=self.annotationArraw
         )).data
@@ -516,8 +516,8 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._yLabels[idx] = yLabel
         self.updateCurveLegends()
         for circlr, annot in self._annotationMarks[idx]:
-            text = annot.get_text().split(RString.pLinefeed)[1:]
-            annot.set_text(RString.pLinefeed.join(GList(yLabel) + text))
+            text = annot.get_text().split(RStr.pLinefeed)[1:]
+            annot.set_text(RStr.pLinefeed.join(GList(yLabel) + text))
         self._fig.canvas.draw_idle()
         return None
 
@@ -867,7 +867,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
             try:
                 self._KDTrees.append(cKDTree(np.column_stack(GTuple(x_data, y_data))))
             except Exception as e:
-                RString.log(str(e), RString.lgError)
+                RStr.log(str(e), RStr.lgError)
         return None
 
     @private
@@ -1033,7 +1033,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         self._hline.set_zorder(cursor_zorder)
         self._vline.set_zorder(cursor_zorder)
         self._annotation.xy = pos_nearest
-        text = curve_name + RString.pLinefeed + self._annotationFrame(x_nearest, y_nearest)
+        text = curve_name + RStr.pLinefeed + self._annotationFrame(x_nearest, y_nearest)
         self._annotation.set_text(text)
         self._annotation.get_bbox_patch().set_facecolor(color)
         self._annotation.set_visible(True)
@@ -1085,7 +1085,7 @@ class MultiAxisPlotter(FigureCanvasQTAgg):
         )).data
         self._ax.add_patch(circle)
         annotation: Annotation = DataBox(self._ax.annotate(
-            curve_name + RString.pLinefeed + self._annotationFrame(x_nearest, y_nearest),
+            curve_name + RStr.pLinefeed + self._annotationFrame(x_nearest, y_nearest),
             xy=pos_nearest, xytext=self.annotationOffset, textcoords=self.annotationOffsetMeasure,
             arrowprops=self.annotationArraw, bbox=MultiAxisPlotter.annotationBBox(self._annotationAlpha),
             fontproperties=self._fontProp

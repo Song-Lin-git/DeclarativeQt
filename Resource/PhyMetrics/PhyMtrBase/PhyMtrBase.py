@@ -3,7 +3,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from typing import Optional
 
 from DeclarativeQt.Resource.Grammars.RGrammar import GList, Equal, isValid
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 MsrFactor = float
 MsrBias = float
@@ -46,7 +46,7 @@ class MeasureUnit:
     def __truediv__(self, other):
         if not isinstance(other, MeasureUnit) or Equal(other.symbol, self.unit):
             return self
-        rsymbol = RString.bracket(other.symbol) if not other.isBase else other.symbol
+        rsymbol = RStr.bracket(other.symbol) if not other.isBase else other.symbol
         rsymbol += self.pInverse
         return MeasureUnit(self.symbol + self.pMul + rsymbol, self.value / other.value, False)
 
@@ -55,7 +55,7 @@ class MeasureUnit:
             return self
         if Equal(self.symbol, self.unit):
             return other
-        rsymbol = RString.bracket(self.symbol) if not self.isBase else self.symbol
+        rsymbol = RStr.bracket(self.symbol) if not self.isBase else self.symbol
         rsymbol += self.pInverse
         return MeasureUnit(other.symbol + self.pMul + rsymbol, other.value / self.value, False)
 
@@ -64,8 +64,8 @@ class PhyMeasure(ABC):
     PhyMark = "PhyMark"
     QuantityUnits = list()
     ExponentFrame = "1e-{}"
-    DecimalRound = RString.DecimalRound
-    DecimalPrecision = RString.DecimalPrecision
+    DecimalRound = RStr.DecimalRound
+    DecimalPrecision = RStr.DecimalPrecision
 
     def __eq__(self, other):
         if not isinstance(other, PhyMeasure):
@@ -88,7 +88,7 @@ class PhyMeasure(ABC):
         try:
             rounded = decimal_val.quantize(exponent, rounding=ROUND_HALF_UP)
         except Exception as e:
-            RString.log(str(e), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
             return value
         return float(rounded)
 

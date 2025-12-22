@@ -11,7 +11,7 @@ from DeclarativeQt.DqtCore.DqtBase import Remember, Run
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import RState
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, isValid, DataBox
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class RActor(QThread):
@@ -46,7 +46,7 @@ class RActor(QThread):
         try:
             self._result = self._func(*self._args, **self._kwargs)
         except Exception as e:
-            RString.log(str(e), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
             failed = True
             self._result = None
         time.sleep(0.2)

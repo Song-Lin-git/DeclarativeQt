@@ -5,7 +5,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QColorDialog
 
 from DeclarativeQt.Resource.Grammars.RGrammar import StrFrame, GIters, CheckType, isEmpty, GList, Equal, ConditionList
-from DeclarativeQt.Resource.Strings.RString import RString, Phrase
+from DeclarativeQt.Resource.Strings.RStr import RStr, Phrase
 
 HexColor = str
 HexPrefix = str
@@ -28,8 +28,8 @@ class RColor:
     RgbHexUnit: Phrase = "{:02X}"
     HexDigits: str = "0123456789abcdefABCDEF"
     ValidHexCodeNibbles = GList(6, 8)
-    ValidHexPrefix: List[HexPrefix] = GList(RString.pSharp, RString.frHexPrefix0x)
-    DefaultHexCodePrefix: HexPrefix = RString.pSharp
+    ValidHexPrefix: List[HexPrefix] = GList(RStr.pSharp, RStr.frHexPrefix0x)
+    DefaultHexCodePrefix: HexPrefix = RStr.pSharp
 
     @staticmethod
     def qStyleColor(r: ColorValue, g: ColorValue, b: ColorValue, alpha: AlphaValue = AlphaMax):
@@ -78,7 +78,7 @@ class RColor:
     def RGBtoHexCode(r: ColorValue, g: ColorValue, b: ColorValue, prefix: HexPrefix = None):
         if prefix is None:
             prefix = RColor.DefaultHexCodePrefix
-        hexCode = RString.pEmpty
+        hexCode = RStr.pEmpty
         for value in GIters(r, g, b):
             fix_value = RColor.RgbLimit(value)
             hexCode += RColor.RgbHexUnit.format(fix_value)

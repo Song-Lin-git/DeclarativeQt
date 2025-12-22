@@ -17,7 +17,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Spacers.LinearSpacer import HorizontalSpacer, 
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import FixListLength, Validate, ReferList, inRange, JoinLists, GList, \
     Equal
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 
 class MultiCheckBoxGroup(LinearLayout):
@@ -59,10 +59,10 @@ class MultiCheckBoxGroup(LinearLayout):
         if fixedCheckBoxHeight:
             checkBoxSize.setHeight(fixedCheckBoxHeight)
         checkBoxSizes = ReferList(range(total), lambda a0: QSize(checkBoxSize))
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         if selectAll:
             checkBoxSizes.append(QSize(checkBoxSize))
-            checkBoxItems.append(SmticToState(language, RString.stSelectAll))
+            checkBoxItems.append(SmticToState(language, RStr.R.stSelectAll))
         selectAllState = Remember(False)
         maxWidth = checkBoxSize.width()
         if adaptiveCheckBoxWidth:

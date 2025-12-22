@@ -2,7 +2,7 @@ import os
 from abc import ABC
 
 from DeclarativeQt.Resource.Grammars.RGrammar import StrFrame, Equal
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 FileType = str
 FileFilter = str
@@ -24,7 +24,7 @@ class RSpecialFiles(ABC):
 
 class RFileType:
     Spec = RSpecialFiles
-    FileNameDivider = RString.pDot
+    FileNameDivider = RStr.pDot
     FilterDivider = ";;"
     ReadMode: FileOpenMode = "r"
     WriteMode: FileOpenMode = "w"
@@ -35,7 +35,7 @@ class RFileType:
         return RFileType.FilterDivider.join(filters)
 
     @staticmethod
-    def makeFileName(extend: str, body: str = RString.pPlaceholder):
+    def makeFileName(extend: str, body: str = RStr.pPlaceholder):
         return body + RFileType.FileNameDivider + extend
 
     @staticmethod
@@ -43,7 +43,7 @@ class RFileType:
         try:
             ext = os.path.splitext(fileName)[1][1:]
         except Exception as e:
-            RString.log(str(e), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
             return False
         return Equal(ext, fileType)
 

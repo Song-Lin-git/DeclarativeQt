@@ -13,7 +13,7 @@ from DeclarativeQt.Resource.Images.RIcon import RIcon, IconName
 class PixmapLabel(Label):
     DefaultSize: QSize = QSize(200, 160)
     PlaceholderSize: QSize = QSize(40, 40)
-    Placeholder: IconName = RIcon.Src.broken_image
+    Placeholder: IconName = RIcon.R.broken_image
 
     def __init__(
             self,

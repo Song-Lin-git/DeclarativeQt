@@ -90,8 +90,8 @@ class CheckBoxStyle(DqtStyleEditor):
     DefaultIconSizeRatio = QSizeF(0.80, 0.80)
     DefaultHoverColor = RColor().setQStyleAlpha(RColor.hexTealGreen, 0.1)
     DefaultPressedColor = RColor().setQStyleAlpha(RColor.hexSlateGreen, 0.3)
-    DefaultCheckedIcon = RIcon().loadIconPath(RIcon.Src.select_check_box)
-    DefaultUncheckedIcon = RIcon().loadIconPath(RIcon.Src.check_box_outline_blank_light)
+    DefaultCheckedIcon = RIcon().loadIconPath(RIcon.R.select_check_box)
+    DefaultUncheckedIcon = RIcon().loadIconPath(RIcon.R.check_box_outline_blank_light)
 
 
 class IconCheckBox(CheckBox):

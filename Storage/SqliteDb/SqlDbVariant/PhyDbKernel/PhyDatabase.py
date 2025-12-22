@@ -3,14 +3,14 @@ from typing import List, Dict, Any
 
 from DeclarativeQt.Resource.FileTypes.RFileType import FilePath
 from DeclarativeQt.Resource.PhyMetrics.RPhyMetric import MeasureUnit
-from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
+from DeclarativeQt.Resource.Strings.RStr import NLIndex, RStr
 from DeclarativeQt.Storage.SqliteDb.SqlComposer.SqlComposer import SqlComposer
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase, FieldNLMap, \
     DataField, DBNaming, FieldDefine
 
 
 class PhyDatabase(SqlDatabase):
-    physicalUnitSuffix = RString.pForwardSlash
+    physicalUnitSuffix = RStr.pForwardSlash
 
     @property
     @abstractmethod
@@ -59,7 +59,7 @@ class PhyDatabase(SqlDatabase):
 
     @staticmethod
     @abstractmethod
-    def dbFieldNLMap(index: NLIndex = RString.EnglishIndex, **kwargs: Any) -> FieldNLMap:
+    def dbFieldNLMap(index: NLIndex = RStr.EN, **kwargs: Any) -> FieldNLMap:
         pass
 
     @property

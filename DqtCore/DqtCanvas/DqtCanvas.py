@@ -11,7 +11,7 @@ from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import RState
 from DeclarativeQt.Resource.Grammars.RGrammar import RepeatList, ReferList, DataBox, JoinLists, GList, \
     SumNestedList, Validate, LimitVal, isEmpty
 from DeclarativeQt.Resource.Images.RImage import RImage
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class DqtCanvasBase:
@@ -46,7 +46,7 @@ def fontTextMetric(font: QFont, text: RState[str], lineLim: int = None) -> QSize
     metrics = QFontMetrics(font)
     height = metrics.height()
     lines = list()
-    for line in Remember.getValue(text).split(RString.pLinefeed):
+    for line in Remember.getValue(text).split(RStr.pLinefeed):
         if lineLim:
             lines += textwrap.wrap(line, width=lineLim)
         else:
@@ -55,7 +55,7 @@ def fontTextMetric(font: QFont, text: RState[str], lineLim: int = None) -> QSize
         return QSize(int(1), height)
     maxWidth = max(ReferList(lines, lambda a0: metrics.horizontalAdvance(a0)))
     if isinstance(text, Remember):
-        text.setValue(RString.pLinefeed.join(lines))
+        text.setValue(RStr.pLinefeed.join(lines))
     return QSize(maxWidth, height)
 
 

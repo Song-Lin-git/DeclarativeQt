@@ -10,14 +10,14 @@ from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.DqtCore.DqtSyntax.DqtSyntax import ValToState
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 ComboBoxModel = RState[List[str]]
 
 
 class ComboBox(QComboBox):
     DefaultSize: QSize = QSize(180, 30)
-    DefaultPlaceholder: str = RString.pNull + RString.pBlank + RString.bracket(RString.pFalse, RString.EnglishIndex)
+    DefaultPlaceholder: str = RStr.pNull + RStr.pBlank + RStr.bracket(RStr.pFalse, RStr.EN)
     PlaceholdAt: int = int(0)
 
     def __init__(

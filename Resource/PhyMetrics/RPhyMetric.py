@@ -3,7 +3,7 @@ from typing import Dict, Callable
 from DeclarativeQt.Resource.Grammars.RGrammar import DictData, Key, DictToDefault, ReferList, Equal
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase import PhyMtrBase
 from DeclarativeQt.Resource.PhyMetrics.PhyMtrBase.PhyMtrBase import MeasureUnit, PhyMeasure, MsrSymbol
-from DeclarativeQt.Resource.Strings.RString import Symbol
+from DeclarativeQt.Resource.Strings.RStr import Symbol
 
 
 class PhySymbols:

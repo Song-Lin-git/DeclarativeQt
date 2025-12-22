@@ -10,13 +10,13 @@ from DeclarativeQt.DqtCore.DqtCanvas.DqtAlign import DqtAlign
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtStyle.DqtStyle import DqtStyle
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class Label(QLabel):
     Align = DqtAlign
     DefaultSize: QSize = QSize(240, 30)
-    DefaultInfoTitle: UiString = RString.stLabelMessageBoxTitle[RString.EnglishIndex]
+    DefaultInfoTitle: UiString = RStr.R.stLabelInfoTitle[RStr.EN]
 
     def __init__(
             self,
@@ -45,7 +45,7 @@ class Label(QLabel):
             size.setWidth(self._fixedWidth)
         self.setFixedSize(size)
         self.setParent(parent)
-        text = Validate(text, RString.pEmpty)
+        text = Validate(text, RStr.pEmpty)
         style = Validate(style, DqtStyle.emptyStyle(DqtStyle.QLabel))
         alignment = Validate(alignment, self.Align.Left | self.Align.VCenter)
         self.setText(text)
@@ -76,7 +76,7 @@ class Label(QLabel):
 
     def enterEvent(self, a0):
         if Remember.getValue(self._hoverTip):
-            self.setToolTip(RString.pEmpty)
+            self.setToolTip(RStr.pEmpty)
             # noinspection PyUnresolvedReferences
             QToolTip.showText(a0.globalPos(), Remember.getValue(self._tipText), self)
         super().enterEvent(a0)

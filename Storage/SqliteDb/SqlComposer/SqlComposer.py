@@ -5,7 +5,7 @@ from typing import List, Union, Optional
 from DeclarativeQt.Resource.FileTypes.RFileType import FilePath
 from DeclarativeQt.Resource.Grammars.RGrammar import CommandFrame, ReferList, isEmpty, Grammar, ConditionList, \
     DtReferList, GIters, Equal, StrCommand
-from DeclarativeQt.Resource.Strings.RString import Symbol, RString
+from DeclarativeQt.Resource.Strings.RStr import Symbol, RStr
 
 DataType = str
 FieldMark = Union[str, CommandFrame]
@@ -167,13 +167,13 @@ class SqlComposer:
         try:
             self._connection.commit()
             if showLog:
-                RString.log(self._cmd)
+                RStr.log(self._cmd)
             cursor = self._connection.cursor()
             cursor.execute(self._cmd)
             self._connection.commit()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.lgError)
-            RString.log(str(self._cmd), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
+            RStr.log(str(self._cmd), RStr.lgError)
             self._cmd = self.pNone
             return False
         self._cmd = self.pNone
@@ -185,13 +185,13 @@ class SqlComposer:
         try:
             self._connection.commit()
             if showLog:
-                RString.log(self._cmd)
+                RStr.log(self._cmd)
             cursor = self._connection.cursor()
             cursor.execute(self._cmd)
             data = cursor.fetchall()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.lgError)
-            RString.log(str(self._cmd), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
+            RStr.log(str(self._cmd), RStr.lgError)
             self._cmd = self.pNone
             return None
         self._cmd = self.pNone
@@ -203,13 +203,13 @@ class SqlComposer:
         try:
             self._connection.commit()
             if showLog:
-                RString.log(self._cmd)
+                RStr.log(self._cmd)
             cursor = self._connection.cursor()
             cursor.execute(self._cmd)
             self._connection.commit()
         except sqlite3.Error as e:
-            RString.log(str(e), RString.lgError)
-            RString.log(str(self._cmd), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
+            RStr.log(str(self._cmd), RStr.lgError)
             self._cmd = self.pNone
             return None
         self._cmd = self.pNone

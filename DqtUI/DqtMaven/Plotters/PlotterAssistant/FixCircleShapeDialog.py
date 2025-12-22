@@ -9,7 +9,7 @@ from DeclarativeQt.DqtUI.DqtMaven.Plotters.PlotterAssistant.PlotterDialog.Plotte
 from DeclarativeQt.DqtUI.DqtWidgets.Container import Dialog
 from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GTuple, Equal, DataBox, GList
-from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
+from DeclarativeQt.Resource.Strings.RStr import NLIndex, RStr
 
 
 class FixCircleShapeDialog(PlotterDialog):
@@ -25,7 +25,7 @@ class FixCircleShapeDialog(PlotterDialog):
             language: RState[NLIndex] = None,
             circleColor: str = None,
     ):
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         self._ax, self._fig, self._plotter = drivePlotter.plotterCopy(aspectMode=MultiAxisPlotter.aspectEqual)
         self._circleSample: Ellipse = DataBox(patches.Ellipse(
             GTuple(0, 0), float(0), float(0), color=Validate(circleColor, RColor.hexMidnightNavy),
@@ -45,7 +45,7 @@ class FixCircleShapeDialog(PlotterDialog):
             parent=parent,
             offset=dialogOffset,
             figures=GList(self._fig),
-            title=SmticToState(language, RString.stCircleMarker),
+            title=SmticToState(language, RStr.R.stCircleMarker),
             content=self._plotter
         )
         self.buildCanvas()

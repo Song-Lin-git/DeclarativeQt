@@ -25,7 +25,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import GList, Validate, ReferList,
     Key, DictData, Equal, GTuple, inRange, KeywordArgs, AnyArgs, EnumList, isEmpty, ConditionList, LimitVal
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutPixel
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 RowOptCallback = Union[Callable[[RowIndex, KeywordArgs], AnyArgs], Callable]
 
@@ -113,13 +113,13 @@ class ManusTableView(Column):
                     spacing=int(5),
                     content=GList(
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.content_copy_fill_lightblue),
+                            icon=RIcon().loadIconPixmap(RIcon.R.content_copy_fill_lightblue),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: copyCellsTrig.trig()
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.refresh),
+                            icon=RIcon().loadIconPixmap(RIcon.R.refresh),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -127,19 +127,19 @@ class ManusTableView(Column):
                             ) if refreshMethod else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.auto_awesome_mosaic),
+                            icon=RIcon().loadIconPixmap(RIcon.R.auto_awesome_mosaic),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: adjustTableTrig.trig()
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.point_scan),
+                            icon=RIcon().loadIconPixmap(RIcon.R.point_scan),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: locateRows()
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.edit_square_darkblue),
+                            icon=RIcon().loadIconPixmap(RIcon.R.edit_square_darkblue),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -152,7 +152,7 @@ class ManusTableView(Column):
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.add_circle),
+                            icon=RIcon().loadIconPixmap(RIcon.R.add_circle),
                             size=buttonSize,
                             enable=ReferState(
                                 fields, referExp=lambda a0: False if isEmpty(a0) else True
@@ -168,7 +168,7 @@ class ManusTableView(Column):
                             ) is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.add_row_below),
+                            icon=RIcon().loadIconPixmap(RIcon.R.add_row_below),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -183,7 +183,7 @@ class ManusTableView(Column):
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.switch_access_shortcut_add),
+                            icon=RIcon().loadIconPixmap(RIcon.R.switch_access_shortcut_add),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -196,7 +196,7 @@ class ManusTableView(Column):
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.move_up),
+                            icon=RIcon().loadIconPixmap(RIcon.R.move_up),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -209,7 +209,7 @@ class ManusTableView(Column):
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.move_down),
+                            icon=RIcon().loadIconPixmap(RIcon.R.move_down),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -222,7 +222,7 @@ class ManusTableView(Column):
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.backspace),
+                            icon=RIcon().loadIconPixmap(RIcon.R.backspace),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -233,13 +233,13 @@ class ManusTableView(Column):
                                     ), cellSelection.setValue(None), areaSelection.setValue(None)
                                 ) if NoteDialog.warning(
                                     parent=self, title=warningTitle,
-                                    text=Validate(deleteRowWarning, RString.pEmpty),
+                                    text=Validate(deleteRowWarning, RStr.pEmpty),
                                     buttonHint=NoteDialog.StandardRequire
                                 ) in GList(NoteDialog.Yes) else None
                             ) if cellSelection.value() is not None else None
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.delete_forever),
+                            icon=RIcon().loadIconPixmap(RIcon.R.delete_forever),
                             size=buttonSize,
                             fixedRadiusRatio=buttonRadiusRatio,
                             onClick=lambda: Run(
@@ -250,7 +250,7 @@ class ManusTableView(Column):
                                     ), cellSelection.setValue(None), areaSelection.setValue(None)
                                 ) if NoteDialog.warning(
                                     parent=self, title=warningTitle,
-                                    text=Validate(deleteRowsWarning, RString.pEmpty),
+                                    text=Validate(deleteRowsWarning, RStr.pEmpty),
                                     buttonHint=NoteDialog.StandardRequire
                                 ) in GList(NoteDialog.Yes) else None
                             ) if cellSelection.value() is not None else None
@@ -455,7 +455,7 @@ class ManusTableView(Column):
         count = len(fields)
         fieldNames = ColoredTableView.fieldsName(fields, fieldMap)
         defaultInputs = Validate(Remember.getValue(rowData), list())
-        defaultInputs = FixListLength(defaultInputs, count, RString.pEmpty)
+        defaultInputs = FixListLength(defaultInputs, count, RStr.pEmpty)
         acceptor = Trigger()
         itemSpace = int(7)
         data = SeqToState(defaultInputs)
@@ -527,7 +527,7 @@ class ManusTableView(Column):
                             )
                         ),
                         IconButton(
-                            icon=RIcon().loadIconPixmap(RIcon.Src.select_check_box),
+                            icon=RIcon().loadIconPixmap(RIcon.R.select_check_box),
                             fixedWidth=textFieldWidth + labelWidth,
                             fixedHeight=int(40),
                             fixedRadiusRatio=0.15,

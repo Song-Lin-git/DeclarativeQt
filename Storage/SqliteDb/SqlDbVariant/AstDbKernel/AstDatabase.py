@@ -3,7 +3,7 @@ from typing import List, Self, Any, Dict
 
 from DeclarativeQt.Resource.FileTypes.RFileType import FilePath
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate
-from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
+from DeclarativeQt.Resource.Strings.RStr import NLIndex, RStr
 from DeclarativeQt.Storage.RStorage import RStorage
 from DeclarativeQt.Storage.SqliteDb.SqlComposer.SqlComposer import SqlComposer
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase, DBNaming, DataField, \
@@ -80,7 +80,7 @@ class AstDatabase(SqlDatabase):
 
     @staticmethod
     @abstractmethod
-    def dbFieldNLMap(index: NLIndex = RString.EnglishIndex) -> FieldNLMap:
+    def dbFieldNLMap(index: NLIndex = RStr.EN) -> FieldNLMap:
         pass
 
     @property

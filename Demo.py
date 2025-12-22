@@ -19,7 +19,7 @@ from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Fonts.RFont import RFont
 from DeclarativeQt.Resource.Grammars.RGrammar import GList, DictData, Key, GStr
 from DeclarativeQt.Resource.Images.RIcon import RIcon
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 app = QApplication(sys.argv)
 
@@ -31,7 +31,7 @@ span = 20
 npoint = 1000
 smpFreq = npoint / span
 tlist = np.linspace(0, span, npoint)
-RString.log(br)
+RStr.log(br)
 demo_app = MainApplication(
     Window(
         minSize=QSize(1080, 600),
@@ -43,7 +43,7 @@ demo_app = MainApplication(
             content=GList(
                 IconButton(
                     fixedHeight=34,
-                    icon=RIcon.loadIconPixmap(RIcon.Src.check),
+                    icon=RIcon.loadIconPixmap(RIcon.R.check),
                     styleEditor=ButtonStyle(
                         borderRadius=7,
                         fontFamily=RFont.YaHei,

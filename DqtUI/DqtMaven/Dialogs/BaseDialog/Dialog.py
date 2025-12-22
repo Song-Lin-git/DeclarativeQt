@@ -10,7 +10,7 @@ from DeclarativeQt.DqtCore.DqtCanvas import DqtCanvas
 from DeclarativeQt.DqtCore.DqtCanvas.DqtCanvas import DqtCanvasBase
 from DeclarativeQt.DqtCore.DqtMethods.DqtMethods import DqtMethods
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class Dialog(QDialog):
@@ -53,11 +53,11 @@ class Dialog(QDialog):
             self.setFixedWidth(fixedWidth)
         self.setPosition(offset)
         self.setWindowFlag(Qt.Dialog)
-        title = Validate(title, RString.pEmpty)
+        title = Validate(title, RStr.pEmpty)
         self.setWindowTitle(title)
         if isinstance(title, Remember):
             title.connect(lambda value: self.setWindowTitle(value), host=self)
-        style = Validate(style, RString.pEmpty)
+        style = Validate(style, RStr.pEmpty)
         self.setStyleSheet(style)
         if isinstance(style, Remember):
             style.connect(lambda value: self.setStyleSheet(value), host=self)

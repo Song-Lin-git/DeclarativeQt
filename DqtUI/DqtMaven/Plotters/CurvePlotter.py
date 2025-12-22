@@ -16,7 +16,7 @@ from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key, DataBox, isValid, \
     ListData, DictToDefault
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 StyleKey = DqtStyle.StyleKey
 StringSTox = DqtSyntax.StringSTox
@@ -50,7 +50,7 @@ class PlotterStyle:
             annotationAlpha: RState[float] = None,
             annotationFrame: RState[AnnotFrame] = None,
     ):
-        self.style = Remember.toValid(style, RString.pEmpty)
+        self.style = Remember.toValid(style, RStr.pEmpty)
         self.lineColors = Remember.toValid(lineColors, list())
         self.lineWidths = Remember.toValid(lineWidths, list())
         self.lineStyles = Remember.toValid(lineStyles, list())
@@ -251,7 +251,7 @@ class CurvePlotter(MultiAxisPlotter):
             cursorOff.connect(lambda value: self.switchCursor(value), host=self)
         if isinstance(gridOn, Remember):
             gridOn.connect(lambda value: self.setCanvasGrid(value))
-        self._lng = Validate(language, RString.EnglishIndex)
+        self._lang = Validate(language, RStr.EN)
         self._exportOptions = Validate(exportOptions, dict())
         self.setPlotterTrigs(plotterTrigs)
         triggers = Validate(triggers, dict())
@@ -285,7 +285,7 @@ class CurvePlotter(MultiAxisPlotter):
         args.update(options)
         dialog: Dialog = DataBox(ExportFigureDialog(
             parent=self, dialogOffset=None,
-            drivePlotter=self, language=self._lng, **args,
+            drivePlotter=self, language=self._lang, **args,
         )).data
         result = Run(Execute(dialog)).result
         return bool(result[0])
@@ -294,7 +294,7 @@ class CurvePlotter(MultiAxisPlotter):
     def fixCircleMarker(self) -> bool:
         dialog: Dialog = DataBox(FixCircleShapeDialog(
             parent=self, dialogOffset=None,
-            drivePlotter=self, language=self._lng,
+            drivePlotter=self, language=self._lang,
         )).data
         result = Run(Execute(dialog)).result
         return bool(result[0])

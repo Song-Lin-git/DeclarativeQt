@@ -92,7 +92,7 @@ class MatchSubstrDelegate(QStyledItemDelegate):
         self.looseMatchColor = Validate(looseMatchColor, self.DefaultLooseMatchColor)
         self.spacing = Validate(itemSpacing, self.DefaultItemSpacing)
         self.padding = Validate(itemPadding, self.DefaultItemPadding)
-        self.icon = Validate(itemIcon, RIcon().loadIconPixmap(RIcon.Src.edit_square_mistgreen))
+        self.icon = Validate(itemIcon, RIcon().loadIconPixmap(RIcon.R.edit_square_mistgreen))
         self.iconSizeRatio = iconSizeRatio
 
     def sizeHint(self, option, index):

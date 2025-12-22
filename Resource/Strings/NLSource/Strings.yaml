@@ -613,9 +613,9 @@ stCreateFile:
 stOpenFile:
   ch: "打开"
   en: "Open"
-stLabelMessageBoxTitle:
+stLabelInfoTitle:
   ch: "消息"
-  en: "Label Messagebox"
+  en: "Label Info"
 stImageInsertFailed:
   ch: "图像加载失败!"
   en: "Error: image-loading failed!"

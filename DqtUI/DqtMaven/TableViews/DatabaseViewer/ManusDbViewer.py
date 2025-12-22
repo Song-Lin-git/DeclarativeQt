@@ -14,7 +14,7 @@ from DeclarativeQt.DqtUI.DqtMaven.TableViews.ManusTableView import ManusTableVie
     RowOptCallback
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate
 from DeclarativeQt.Resource.Images.RImage import LutPixel
-from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
+from DeclarativeQt.Resource.Strings.RStr import NLIndex, RStr
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDbMethod import SqlDbMethod
 
@@ -56,7 +56,7 @@ class ManusDbViewer(ManusTableView):
             editDataMethod: RowOptCallback = None
     ):
         tableToDataModel = SqliteDbViewer.tableToDataModel
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         dbFieldMap = lambda a0, a1, t0=None: a0.dbFieldNLMap(a1) if a0 else None
         fetchDataMethod = Validate(fetchDataMethod, partial(SqlDbMethod.fetchSqlTable))
         fields = lambda a0, t0=None: a0.dbFields if a0 else list()

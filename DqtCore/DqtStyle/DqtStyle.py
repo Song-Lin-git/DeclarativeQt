@@ -4,7 +4,7 @@ from DeclarativeQt.Resource.Colors.RColor import RColor
 from DeclarativeQt.Resource.Grammars.RGrammar import StrFrame, DtReferList, GList, DictData, Key, isEmpty, \
     Validate, GIters
 from DeclarativeQt.Resource.Images.RImage import RImage
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 Selector = str
 StyleKey = str
@@ -122,7 +122,7 @@ class DqtStyle:
         self._styleBlock: StrFrame = lambda styles: "{ " + f"{styles}" + " }"
         self._styleFrame: StrFrame = lambda apply, styles: f"{apply} " + self._styleBlock(styles)
         self._styleDivide = lambda style: style + self._pDivider if len(style) > 0 else style
-        self._style = RString.pEmpty
+        self._style = RStr.pEmpty
         if fontFamily:
             self._style += self._styleMatch(self.atFontFamily, self.stringFrame(fontFamily)) + self._pEnding
         if fontSize:
@@ -160,11 +160,11 @@ class DqtStyle:
 
     @staticmethod
     def combineSelector(*selectors: Selector):
-        return str(RString.pEngComma + RString.pBlank).join(list(selectors))
+        return str(RStr.pEngComma + RStr.pBlank).join(list(selectors))
 
     @staticmethod
     def hierarchySelector(parent: Selector, *descendant: Selector):
-        return RString.pBlank.join(GList(parent) + list(descendant))
+        return RStr.pBlank.join(GList(parent) + list(descendant))
 
     @staticmethod
     def emptyStyle(selector: str):

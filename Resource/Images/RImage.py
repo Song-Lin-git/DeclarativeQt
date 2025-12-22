@@ -6,8 +6,8 @@ from PyQt5.QtCore import QSize, QSizeF
 from PyQt5.QtGui import QPixmap, QColor
 
 from DeclarativeQt.Resource.Colors.RColor import RColor
-from DeclarativeQt.Resource.Grammars.RGrammar import TupleData, Grammar, Validate
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Grammars.RGrammar import TupleData, Grammar, Validate, GTuple
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 LutCm = float
 LutPoint = int
@@ -21,15 +21,20 @@ CanvasSize = Tuple[Union[int, float], Union[int, float]]
 
 
 class RImage:
-    TupleToQSize: Grammar = staticmethod(lambda size: QSize(size[0], size[1]))
-
-    def __init__(self):
-        self.PlaceholdImage = Image.new(RColor.RGB, self.exDefaultSize, color=RColor.hexWhite)
+    defaultWidth: LutExact = int(300)
+    defaultHeight: LutExact = int(200)
+    defaultSize: ExactSize = GTuple(defaultWidth, defaultHeight)
+    defaultQSize: QSize = QSize(defaultWidth, defaultHeight)
+    cmDefaultWidth: LutCm = 14.0
+    cmDefaultHeight: LutCm = 7.0
+    rtDefaultWidth: LutRatio = 0.4
+    rtDefaultHeight: LutRatio = 0.3
+    rtDefaultSize: QSizeF = QSizeF(rtDefaultWidth, rtDefaultHeight)
 
     @staticmethod
     def createQPixmp(color: str, width: int = None, height: int = None):
-        width = Validate(width, RImage.exDefaultWidth)
-        height = Validate(height, RImage.exDefaultHeight)
+        width = Validate(width, RImage.defaultWidth)
+        height = Validate(height, RImage.defaultHeight)
         pixmap = QPixmap(width, height)
         pixmap.fill(QColor(color))
         return pixmap
@@ -54,16 +59,9 @@ class RImage:
     @staticmethod
     def absolutePathToRelativeUrl(path: str):
         url = os.path.relpath(path)
-        url = url.replace(RString.pBlank, RString.pUrlBlank)
-        url = url.replace(RString.pBackSlash, RString.pForwardSlash)
+        url = url.replace(RStr.pBlank, RStr.pUrlBlank)
+        url = url.replace(RStr.pBackSlash, RStr.pForwardSlash)
         return url
 
-    exDefaultWidth: LutExact = int(300)
-    exDefaultHeight: LutExact = int(200)
-    exDefaultSize: ExactSize = TupleData(exDefaultWidth, exDefaultHeight).data
-    exDefaultQSize: QSize = QSize(exDefaultWidth, exDefaultHeight)
-    cmDefaultWidth: LutCm = 14.0
-    cmDefaultHeight: LutCm = 7.0
-    rtDefaultWidth: LutRatio = 0.4
-    rtDefaultHeight: LutRatio = 0.3
-    rtDefaultSize: QSizeF = QSizeF(rtDefaultWidth, rtDefaultHeight)
+    Placeholder = Image.new(RColor.RGB, defaultSize, color=RColor.hexWhite)
+    PairToQSize: Grammar = staticmethod(lambda size: QSize(size[0], size[1]))

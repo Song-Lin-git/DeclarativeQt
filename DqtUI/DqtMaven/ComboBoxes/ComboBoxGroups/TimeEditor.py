@@ -16,7 +16,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import Validate, DictData, Key, Re
     GInt, Equal, Countable, isValid
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import DataBox, GTuple
 from DeclarativeQt.Resource.Images.RIcon import RIcon
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 EditorMode = str
 
@@ -94,17 +94,17 @@ class TimeEditor(Row):
         canvasModifier = Validate(canvasModifier, TimeEditorCanvas())
         allValidCheck = Validate(allValidCheck, Remember(True))
         onAnyActivated = Validate(onAnyActivated, lambda *az: None)
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         comboBoxStyle = Validate(comboBoxStyle, self.DefaultComboBoxStyle)
         dateLabelBackground = Validate(dateLabelBackground, RColor.setQStyleAlpha(RColor.hexCyanBlue, 0.18))
         timeLabelBackground = Validate(timeLabelBackground, RColor.setQStyleAlpha(RColor.hexSteelBlue, 0.24))
         invalidBackground = Validate(invalidBackground, RColor.setQStyleAlpha(RColor.hexSoftRose, 0.7))
         editorMode = Validate(editorMode, self.DateTime)
-        dtime = RString.datetimeToStandard(Remember.getValue(timeValue))
-        dtime = Validate(dtime, RString.datetimeToStandard(None))
+        dtime = RStr.datetimeToStandard(Remember.getValue(timeValue))
+        dtime = Validate(dtime, RStr.datetimeToStandard(None))
         timeValue = ValToState(timeValue)
         dtime = Remember(dtime)
-        dtimeVal = lambda: RString.toDatetime(dtime.value())
+        dtimeVal = lambda: RStr.toDatetime(dtime.value())
         fixItem = lambda a0: str(0) + a0 if len(a0) < 2 else a0
         boxItems = lambda a0, a1: ReferList(range(a0, int(a1 + 1)), lambda b0: fixItem(str(b0)))
         maxDays = lambda a0, a1: calendar.monthrange(a0, a1)[1] if isAllValid(a0, a1) else self.Base.MaxDay
@@ -117,7 +117,7 @@ class TimeEditor(Row):
             dtimeParts.append(dtimePart)
         yearVal, monthVal, dayVal, hourVal, minuteVal, secondVal = dtimeParts
         combineParts = lambda *az: datetime(*ReferList(az, lambda b0: GInt(Remember.getValue(b0))))
-        updateDTime = lambda *az: dtime.setValue(RString.datetimeToStandard(combineParts(*az)))
+        updateDTime = lambda *az: dtime.setValue(RStr.datetimeToStandard(combineParts(*az)))
         isPartsValid = lambda: isAllValid(*ReferList(dtimeParts, lambda b0: Remember.getValue(b0)))
         onPartActivated = lambda: Run(
             updateDTime(*dtimeParts) if isPartsValid() else None,
@@ -138,7 +138,7 @@ class TimeEditor(Row):
                     options=GList(Column.AutoSizeNoRemain),
                     content=GList(
                         IndicatorLabel(
-                            text=ReferState(language, referExp=lambda a0: RString.stYear[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stYear[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             size=QSize(canvasModifier.yearEditorWidth, canvasModifier.editorHeight),
                             indicatorStyle=IndicatorLabelStyle(
@@ -151,7 +151,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.yearEditorWidth, canvasModifier.editorHeight),
                             styleEditor=comboBoxStyle,
                             wheelEnable=True,
@@ -172,7 +172,7 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, referExp=lambda a0: RString.stMonth[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stMonth[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
@@ -183,7 +183,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             wheelEnable=True,
                             scrollStep=int(8),
@@ -202,7 +202,7 @@ class TimeEditor(Row):
                     content=GList(
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
-                            text=ReferState(language, referExp=lambda a0: RString.stDay[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stDay[a0]),
                             alignment=IndicatorLabel.Align.Center,
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
@@ -214,7 +214,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             styleEditor=comboBoxStyle,
                             selection=dayVal,
@@ -240,7 +240,7 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, referExp=lambda a0: RString.stHour[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stHour[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
@@ -251,7 +251,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             styleEditor=comboBoxStyle,
                             selection=hourVal,
@@ -271,7 +271,7 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, referExp=lambda a0: RString.stMinute[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stMinute[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
@@ -282,7 +282,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             styleEditor=comboBoxStyle,
                             onSelected=lambda: onPartActivated(),
@@ -302,7 +302,7 @@ class TimeEditor(Row):
                         IndicatorLabel(
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             alignment=IndicatorLabel.Align.Center,
-                            text=ReferState(language, referExp=lambda a0: RString.stSecond[a0]),
+                            text=ReferState(language, referExp=lambda a0: RStr.R.stSecond[a0]),
                             indicatorStyle=IndicatorLabelStyle(
                                 borderRadius=labelBorderRadius,
                                 fontSize=labelFontSize,
@@ -313,7 +313,7 @@ class TimeEditor(Row):
                             )
                         ),
                         BorderedComboBox(
-                            placeholder=RString.pOmit,
+                            placeholder=RStr.pOmit,
                             size=QSize(canvasModifier.baseWidth, canvasModifier.editorHeight),
                             wheelEnable=True,
                             styleEditor=comboBoxStyle,
@@ -327,9 +327,9 @@ class TimeEditor(Row):
             )
         )
         dtime.connect(lambda value: timeValue.setValue(self.FixMethodMap[editorMode](value)), host=self)
-        syncMethod = lambda a0, a1: self.updateDateTime(RString.toDatetime(a0), RString.toDatetime(a1), editorMode)
-        isTimeEqual = lambda a0, a1: self.isDateTimeEqual(RString.toDatetime(a0), RString.toDatetime(a1), editorMode)
-        syncDTime = lambda a0: dtime.setValue(RString.datetimeToStandard(syncMethod(dtime.value(), a0)))
+        syncMethod = lambda a0, a1: self.updateDateTime(RStr.toDatetime(a0), RStr.toDatetime(a1), editorMode)
+        isTimeEqual = lambda a0, a1: self.isDateTimeEqual(RStr.toDatetime(a0), RStr.toDatetime(a1), editorMode)
+        syncDTime = lambda a0: dtime.setValue(RStr.datetimeToStandard(syncMethod(dtime.value(), a0)))
         onTimeValueChange = lambda a0: syncDTime(a0) if not isTimeEqual(dtime.value(), a0) else syncParts.trig()
         timeValue.connect(lambda value: onTimeValueChange(value) if isValid(value) else None, host=self)
 
@@ -392,11 +392,11 @@ class TimeEditor(Row):
     DefaultComboBoxStyle = DataBox(ComboBoxStyle(
         borderRadius=int(3),
         borderColor=RColor.hexLightGrey,
-        upArrowIcon=RIcon.loadIconPath(RIcon.Src.arrow_drop_up_light),
-        downArrowIcon=RIcon.loadIconPath(RIcon.Src.arrow_drop_down_light)
+        upArrowIcon=RIcon.loadIconPath(RIcon.R.arrow_drop_up_light),
+        downArrowIcon=RIcon.loadIconPath(RIcon.R.arrow_drop_down_light)
     )).data
     FixMethodMap = DictData(
-        Key(Date).Val(RString.dateToStandard),
-        Key(Time).Val(RString.timeToStandard),
-        Key(DateTime).Val(RString.datetimeToStandard),
+        Key(Date).Val(RStr.dateToStandard),
+        Key(Time).Val(RStr.timeToStandard),
+        Key(DateTime).Val(RStr.datetimeToStandard),
     ).data

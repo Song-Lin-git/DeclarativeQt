@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialog, QMainWindow, QWidget
 
 from DeclarativeQt.DqtCore.DqtBase import Remember, ReferState, RState
 from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, isValid
-from DeclarativeQt.Resource.Strings.RString import Semantics, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import Semantics, NLIndex
 
 
 class MainApplication:
@@ -19,9 +19,9 @@ class MainApplication:
 
 class BaseDqtGrammars:
     @staticmethod
-    def SmticToState(language: RState[NLIndex], semantic: Semantics):
-        exp = lambda a0: semantic[a0] if isValid(semantic) and isValid(a0) else None
-        return ReferState(language, referExp=exp)
+    def SmticToState(lang: RState[NLIndex], smtic: Semantics):
+        exp = lambda a0: smtic[a0] if isValid(smtic) and isValid(a0) else None
+        return ReferState(lang, referExp=exp)
 
     @staticmethod
     def ValToState(value: object):

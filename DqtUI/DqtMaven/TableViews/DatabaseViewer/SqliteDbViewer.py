@@ -10,7 +10,7 @@ from DeclarativeQt.DqtUI.DqtMaven.TableViews.BaseTableView.TableView import Cell
 from DeclarativeQt.DqtUI.DqtMaven.TableViews.ColoredTableView import ColoredTableView, TableViewStyle
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, isEmpty
 from DeclarativeQt.Resource.Images.RImage import LutPixel
-from DeclarativeQt.Resource.Strings.RString import NLIndex, RString
+from DeclarativeQt.Resource.Strings.RStr import NLIndex, RStr
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDatabase import SqlDatabase
 from DeclarativeQt.Storage.SqliteDb.SqlDbKernel.SqlDbMethod import SqlDbMethod, SqlTableData
 
@@ -49,7 +49,7 @@ class SqliteDbViewer(ColoredTableView):
             clearSelectionTrig: Remember = None,
             triggers: Dict[Remember, Callable] = None
     ):
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         dbFieldMap = lambda a0, a1, t0=None: a0.dbFieldNLMap(a1) if a0 else None
         fetchDataMethod = Validate(fetchDataMethod, partial(SqlDbMethod.fetchSqlTable))
         fields = lambda a0, t0=None: a0.dbFields if a0 else list()
@@ -93,6 +93,6 @@ class SqliteDbViewer(ColoredTableView):
             row = list(row)
             for i, item in enumerate(row):
                 if item is None:
-                    row[i] = RString.pEmpty
+                    row[i] = RStr.pEmpty
             dataModel.append(tuple(row))
         return dataModel

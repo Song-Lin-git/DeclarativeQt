@@ -8,7 +8,7 @@ from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import ReferList, DtReferDict, isValid, Validate, GTuple, Equal, \
     GetDictItem
 from DeclarativeQt.Resource.Grammars.RGrmBase import RGrmObject
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 _MT = TypeVar("_MT")
 
@@ -219,7 +219,7 @@ class ReferState(Generic[_MT], Remember[_MT]):
         try:
             result = result()
         except Exception as e:
-            RString.log(str(e), RString.lgError)
+            RStr.log(str(e), RStr.lgError)
             return None
         self.setValue(result)
         return None

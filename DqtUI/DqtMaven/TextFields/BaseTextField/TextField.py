@@ -17,7 +17,7 @@ from DeclarativeQt.Resource.Colors.RColor import HexColor, RColor
 from DeclarativeQt.Resource.Grammars.RDecorator import private
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GTuple, GStr, isValid
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import DataBox
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 CompleterMethod = Union[Callable[[bool], Any], Callable]
 
@@ -56,7 +56,7 @@ class TextField(QLineEdit):
         alignment = Validate(alignment, self.Align.Left)
         self.setStyleSheet(style)
         self.setAlignment(alignment)
-        self._text = ValToState(Validate(text, RString.pEmpty))
+        self._text = ValToState(Validate(text, RStr.pEmpty))
         self.setText(self._text)
         if placehold:
             self.setPlaceholderText(placehold)

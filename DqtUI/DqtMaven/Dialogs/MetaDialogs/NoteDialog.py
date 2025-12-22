@@ -22,7 +22,7 @@ from DeclarativeQt.Resource.Grammars.RGrammar import Validate, Equal, DictData, 
 from DeclarativeQt.Resource.Grammars.RGrmBase.RGrmObject import GList, Run, DataBox
 from DeclarativeQt.Resource.Images.RIcon import RIcon
 from DeclarativeQt.Resource.Images.RImage import LutRatio
-from DeclarativeQt.Resource.Strings.RString import RString, NLIndex
+from DeclarativeQt.Resource.Strings.RStr import RStr, NLIndex
 
 ButtonHint = int
 
@@ -68,24 +68,24 @@ class NoteDialog(Dialog):
             dialogHMargin: int = int(36),
             primaryHexColor: HexColor = None
     ):
-        language = Validate(language, RString.EnglishIndex)
+        language = Validate(language, RStr.EN)
         language = Remember.getValue(language)
         mode = Validate(mode, self.Mode.Info)
         buttonHint = Validate(buttonHint, self.Ok | self.Cancel)
         if not RColor.isHexColor(primaryHexColor):
             primaryHexColor = RColor.hexCyanBlue
-        title = Validate(title, self.ModeSemantics[mode][language])
+        title = Validate(title, self.ModeSmtics[mode][language])
         hints = list()
         for h in self.Positive + self.Negative:
             if Equal(h & buttonHint, h):
                 hints.append(h)
         textFont = Validate(textFont, self.DefaultFont)
-        text = ValToState(Remember.toValid(text, RString.pEmpty))
+        text = ValToState(Remember.toValid(text, RStr.pEmpty))
         perLine = Validate(perLine, self.MaxCharPerLine[language])
         labelSize = DqtCanvas.fontTextMetric(textFont, text, lineLim=perLine)
         labelSize.setHeight(int(labelSize.height() * lineHeightRatio))
         labelSize.setWidth(int(labelSize.width() * self.FixTextWidthRatio))
-        iconHeight = int(labelSize.height() * (text.value().count(RString.pLinefeed) + 1))
+        iconHeight = int(labelSize.height() * (text.value().count(RStr.pLinefeed) + 1))
         iconHeight += itemSpacing + buttonHeight
         buttonAreaWidth = int(buttonWidth + buttonSpacing) * len(hints) - buttonSpacing
         dividerWidth = iconLabelWidth + max(labelSize.width(), buttonAreaWidth) + iconSpacing
@@ -136,7 +136,7 @@ class NoteDialog(Dialog):
                                         options=GList(Column.AutoSizeNoRemain),
                                         content=GList(
                                             *ReferList(
-                                                GStr(text.value()).split(RString.pLinefeed), lambda a0:
+                                                GStr(text.value()).split(RStr.pLinefeed), lambda a0:
                                                 IndicatorLabel(
                                                     text=a0,
                                                     fixedWidth=labelSize.width(),
@@ -158,7 +158,7 @@ class NoteDialog(Dialog):
                                         content=EnumList(
                                             hints, lambda i, a0:
                                             IconButton(
-                                                text=self.ButtonSemantics[a0][language],
+                                                text=self.ButtonSmtics[a0][language],
                                                 fixedWidth=buttonWidth,
                                                 fixedHeight=buttonHeight,
                                                 shortCuts=None if i > 0 else DqtKeyboard().keyEnterReturn,
@@ -257,33 +257,33 @@ class NoteDialog(Dialog):
         return self._activatedHint.value()
 
     MaxCharPerLine = DictData(
-        Key(RString.ChineseIndex).Val(int(30)),
-        Key(RString.EnglishIndex).Val(int(60)),
+        Key(RStr.CH).Val(int(30)),
+        Key(RStr.EN).Val(int(60)),
     ).data
     StandardRequire = Yes | No | Cancel
     DefaultFont = QFont(RFont.YaHei, RFont.fzTinySize)
     Positive = GList(Yes, Ok, Apply)
     Negative = GList(No, Cancel, Close, Escape)
     ModeIcons = DictData(
-        Key(Mode.Warn).Val(RIcon.loadIconPath(RIcon.Src.warning)),
-        Key(Mode.Query).Val(RIcon.loadIconPath(RIcon.Src.notification_important)),
-        Key(Mode.Info).Val(RIcon.loadIconPath(RIcon.Src.notifications)),
-        Key(Mode.Error).Val(RIcon.loadIconPath(RIcon.Src.gpp_bad)),
-        Key(Mode.Succeed).Val(RIcon.loadIconPath(RIcon.Src.check_circle)),
+        Key(Mode.Warn).Val(RIcon.loadIconPath(RIcon.R.warning)),
+        Key(Mode.Query).Val(RIcon.loadIconPath(RIcon.R.notification_important)),
+        Key(Mode.Info).Val(RIcon.loadIconPath(RIcon.R.notifications)),
+        Key(Mode.Error).Val(RIcon.loadIconPath(RIcon.R.gpp_bad)),
+        Key(Mode.Succeed).Val(RIcon.loadIconPath(RIcon.R.check_circle)),
     ).data
-    ModeSemantics = DictData(
-        Key(Mode.Warn).Val(RString.stWarning),
-        Key(Mode.Query).Val(RString.stRequire),
-        Key(Mode.Info).Val(RString.stRemind),
-        Key(Mode.Error).Val(RString.stError),
-        Key(Mode.Succeed).Val(RString.stSucceed),
+    ModeSmtics = DictData(
+        Key(Mode.Warn).Val(RStr.R.stWarning),
+        Key(Mode.Query).Val(RStr.R.stRequire),
+        Key(Mode.Info).Val(RStr.R.stRemind),
+        Key(Mode.Error).Val(RStr.R.stError),
+        Key(Mode.Succeed).Val(RStr.R.stSucceed),
     ).data
-    ButtonSemantics = DictData(
-        Key(Ok).Val(RString.stOkConfirm),
-        Key(Yes).Val(RString.stYes),
-        Key(No).Val(RString.stNo),
-        Key(Cancel).Val(RString.stCancel),
-        Key(Close).Val(RString.stClose),
-        Key(Apply).Val(RString.stContinue),
-        Key(Escape).Val(RString.stReturn),
+    ButtonSmtics = DictData(
+        Key(Ok).Val(RStr.R.stOkConfirm),
+        Key(Yes).Val(RStr.R.stYes),
+        Key(No).Val(RStr.R.stNo),
+        Key(Cancel).Val(RStr.R.stCancel),
+        Key(Close).Val(RStr.R.stClose),
+        Key(Apply).Val(RStr.R.stContinue),
+        Key(Escape).Val(RStr.R.stReturn),
     ).data

@@ -11,7 +11,7 @@ from DeclarativeQt.DqtUI.DqtWidgets.Container import Row
 from DeclarativeQt.Resource.Colors.RColor import RColor, HexColor
 from DeclarativeQt.Resource.Grammars.RGrammar import Validate, GList, DataBox, DictData, Key
 from DeclarativeQt.Resource.Images.RIcon import RIcon
-from DeclarativeQt.Resource.Strings.RString import RString
+from DeclarativeQt.Resource.Strings.RStr import RStr
 
 
 class PasswordTextField(Row):
@@ -38,7 +38,7 @@ class PasswordTextField(Row):
             correction: Remember[bool] = None,
             onValueChange: Callable = None,
     ):
-        text = Validate(text, Remember[str](RString.pEmpty))
+        text = Validate(text, Remember[str](RStr.pEmpty))
         self._size = Validate(size, QSize(self.DefaultSize))
         self._fixedLabelWidth = Validate(fixedLabelWidth, self.DefaultLabelWidth)
         self._fixedHeight = Validate(fixedHeight, self.DefaultHeight)
@@ -85,7 +85,7 @@ class PasswordTextField(Row):
                     placehold=placehold,
                     passwordMode=ReferState(visible, referExp=lambda a0: not visible.value()),
                     onValueChange=lambda: Run(
-                        onValueChange(), text.setValue(RString.eraseBlank(text.value())),
+                        onValueChange(), text.setValue(RStr.eraseBlank(text.value())),
                         validity.setValue(validityCheckMethod(text)) if validityCheck else None,
                     ),
                 ),
@@ -118,8 +118,8 @@ class PasswordTextField(Row):
                     iconSizeRatio=QSizeF(0.7, 0.7),
                     iconPixmap=ReferState(
                         visible, referExp=lambda a0: DataBox(
-                            RIcon().loadIconPixmap(RIcon.Src.visibility_dark) if a0 else
-                            RIcon().loadIconPixmap(RIcon.Src.visibility_off_light)
+                            RIcon().loadIconPixmap(RIcon.R.visibility_dark) if a0 else
+                            RIcon().loadIconPixmap(RIcon.R.visibility_off_light)
                         ).data
                     ),
                     onClick=lambda: Run(visible.setValue(not visible.value())),
@@ -129,10 +129,10 @@ class PasswordTextField(Row):
 
     @staticmethod
     def passwordValidityCheck(password: RState[str]):
-        digits = RString.Digits
-        letters = RString.Letters
+        digits = RStr.Digits
+        letters = RStr.Letters
         min_length = 8
-        special_char = RString.pSpecialChars
+        special_char = RStr.pSpecialChars
         password_value = Remember.getValue(password)
         if len(password_value) < min_length:
             return False
