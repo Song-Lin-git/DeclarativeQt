@@ -6,7 +6,7 @@ from PyQt5.QtCore import QSize, QSizeF
 from PyQt5.QtGui import QPixmap, QColor
 
 from DeclarativeQt.Resource.Colors.RColor import RColor
-from DeclarativeQt.Resource.Grammars.RGrammar import TupleData, Grammar, Validate, GTuple
+from DeclarativeQt.Resource.Grammars.RGrammar import TupleData, Grammar, Validate
 from DeclarativeQt.Resource.Strings.RStr import RStr
 
 LutCm = float
@@ -23,7 +23,7 @@ CanvasSize = Tuple[Union[int, float], Union[int, float]]
 class RImage:
     defaultWidth: LutExact = int(300)
     defaultHeight: LutExact = int(200)
-    defaultSize: ExactSize = GTuple(defaultWidth, defaultHeight)
+    defaultSize: ExactSize = TupleData(defaultWidth, defaultHeight).data
     defaultQSize: QSize = QSize(defaultWidth, defaultHeight)
     cmDefaultWidth: LutCm = 14.0
     cmDefaultHeight: LutCm = 7.0
