@@ -164,7 +164,7 @@ use `Remember.connect` instead of `Remember.changed.connect`.
 <br />
 
 *About UI-Resource:*
-You can write your own string resources into `Resource/Strings/Strings.yaml`, or
+You can write your own string resources into `Resource/Strings/NLSource/Strings.yaml`, or
 place icon resources in the `Resource/Images/IconSource/Icons` folder.
 Then, run `Resource/RGens.py` to register these resources into the code,
 enabling IDE-assisted auto-completion.
